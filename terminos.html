@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">Términos de Servicio - ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --dark-color: #1a1a1a;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #9c27b0);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .language-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: #f8f9fa;
+        }
+
+        .language-option:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .language-option:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: -50px auto 50px;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        p, li {
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-back:hover {
+            background: #9c27b0;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header" style="position: relative;">
+        <div class="language-selector">
+            <button class="language-btn" id="languageBtn">
+                🌐 <span id="currentLang">ES</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+            </div>
+        </div>
+        <h1 data-i18n="header.title">📜 Términos de Servicio</h1>
+        <p data-i18n="header.updated">Última actualización: Enero 2026</p>
+    </div>
+
+    <div class="content" id="mainContent">
+        <!-- El contenido se cargará dinámicamente según el idioma -->
+    </div>
+
+    <footer style="text-align: center; padding: 2rem; color: #666;">
+        <p>© 2026 ZonaPantys LLC. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+    </footer>
+
+    <script>
+        const translations = {
+            es: {
+                title: "Términos de Servicio - ZonaPantys",
+                header: {
+                    title: "📜 Términos de Servicio",
+                    updated: "Última actualización: Enero 2026"
+                },
+                footer: {
+                    rights: "Todos los derechos reservados."
+                },
+                content: `
+                    <p><strong>Bienvenido a ZonaPantys.</strong> Al usar nuestra plataforma, aceptas estos términos en su totalidad.</p>
+
+                    <h2>1. Requisitos de Elegibilidad</h2>
+                    <p>Para usar ZonaPantys debes:</p>
+                    <ul>
+                        <li>Ser mayor de 18 años</li>
+                        <li>Cumplir con las leyes de tu país</li>
+                        <li>Proporcionar información verdadera y precisa</li>
+                    </ul>
+
+                    <h2>2. Para Vendedoras</h2>
+                    <h3>2.1 Registro</h3>
+                    <ul>
+                        <li>Debes verificar tu identidad con ID válida</li>
+                        <li>Solo puedes vender artículos que te pertenezcan</li>
+                        <li>Todas las prendas deben ser auténticas y usadas por ti</li>
+                    </ul>
+
+                    <h3>2.2 Membresía Mensual</h3>
+                    <p>Para vender en ZonaPantys debes mantener una membresía mensual activa de <strong>$10 USD</strong>.</p>
+                    <ul>
+                        <li>La membresía te permite conservar el 100% de tus ganancias de ventas</li>
+                        <li>No cobramos comisiones adicionales por tus ventas</li>
+                        <li>Puedes cancelar tu membresía en cualquier momento sin penalizaciones</li>
+                        <li>La membresía permanece activa hasta el final del período pagado</li>
+                    </ul>
+
+                    <h3>2.3 Pagos</h3>
+                    <ul>
+                        <li>Los pagos se procesan semanalmente</li>
+                        <li>Mínimo de retiro: $50 USD</li>
+                        <li>Métodos: Transferencia bancaria o Criptomonedas</li>
+                        <li>Conservas el 100% del precio de venta de tus productos</li>
+                    </ul>
+
+                    <h3>2.4 Prohibiciones</h3>
+                    <p>Está estrictamente prohibido:</p>
+                    <ul>
+                        <li>Vender prendas de terceros</li>
+                        <li>Compartir información de contacto directa con compradores</li>
+                        <li>Realizar transacciones fuera de la plataforma</li>
+                        <li>Contenido ilegal o que viole derechos de terceros</li>
+                    </ul>
+
+                    <h2>3. Para Compradores</h2>
+                    <h3>3.1 Compras</h3>
+                    <ul>
+                        <li>Todos los pagos se procesan de forma segura</li>
+                        <li>Recibes número de tracking con cada pedido</li>
+                        <li>Garantía de autenticidad en todas las prendas</li>
+                    </ul>
+
+                    <h3>3.2 Devoluciones y Reembolsos</h3>
+                    <ul>
+                        <li>Si el producto no coincide con la descripción: reembolso completo</li>
+                        <li>Si el paquete no llega: reembolso o reenvío gratuito</li>
+                        <li>Reclamos deben hacerse dentro de 48 horas de recepción</li>
+                    </ul>
+
+                    <h3>3.3 Privacidad</h3>
+                    <p>Garantizamos:</p>
+                    <ul>
+                        <li>Empaques discretos sin marcas identificables</li>
+                        <li>Cargos genéricos en tu estado de cuenta</li>
+                        <li>Información personal completamente confidencial</li>
+                    </ul>
+
+                    <h2>4. Contenido y Propiedad</h2>
+                    <ul>
+                        <li>Mantienes la propiedad de tu contenido (fotos, descripciones)</li>
+                        <li>Nos otorgas licencia para usar tu contenido en la plataforma</li>
+                        <li>Eres responsable de que tu contenido no viole derechos de terceros</li>
+                    </ul>
+
+                    <h2>5. Privacidad y Seguridad</h2>
+                    <p>Consulta nuestra <a href="privacidad.html">Política de Privacidad</a> para detalles sobre:</p>
+                    <ul>
+                        <li>Cómo recopilamos y usamos tus datos</li>
+                        <li>Medidas de seguridad implementadas</li>
+                        <li>Tus derechos sobre tu información personal</li>
+                    </ul>
+
+                    <h2>6. Limitación de Responsabilidad</h2>
+                    <p>ZonaPantys es una plataforma que conecta vendedoras y compradores. No somos responsables de:</p>
+                    <ul>
+                        <li>La calidad o autenticidad de las prendas (responsabilidad de la vendedora)</li>
+                        <li>Retrasos o pérdidas en el envío (responsabilidad de la empresa de mensajería)</li>
+                        <li>Disputas entre vendedoras y compradores (actuamos como mediadores)</li>
+                    </ul>
+
+                    <h2>7. Suspensión y Terminación</h2>
+                    <p>Podemos suspender o terminar tu cuenta si:</p>
+                    <ul>
+                        <li>Violas estos términos</li>
+                        <li>Realizas actividades fraudulentas</li>
+                        <li>Recibes múltiples reportes negativos</li>
+                        <li>Incumples con las leyes aplicables</li>
+                    </ul>
+
+                    <h2>8. Modificaciones</h2>
+                    <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos por email o en la plataforma sobre cambios importantes.</p>
+
+                    <h2>9. Ley Aplicable</h2>
+                    <p>Estos términos se rigen por las leyes internacionales de comercio electrónico y las leyes del estado de Delaware, Estados Unidos.</p>
+
+                    <h2>10. Resolución de Disputas</h2>
+                    <p>Cualquier disputa se resolverá primero mediante mediación interna. Si no se resuelve, las partes acuerdan someterse a arbitraje vinculante.</p>
+
+                    <h2>11. Contacto</h2>
+                    <p>Para preguntas sobre estos términos:</p>
+                    <ul>
+                        <li>Email: zonapantys@zonapantys.com</li>
+                        <li>Formulario de contacto en la plataforma</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Al usar ZonaPantys, confirmas que has leído, entendido y aceptado estos términos en su totalidad.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Volver al Inicio</a>
+                `
+            },
+            en: {
+                title: "Terms of Service - ZonaPantys",
+                header: {
+                    title: "📜 Terms of Service",
+                    updated: "Last updated: January 2026"
+                },
+                footer: {
+                    rights: "All rights reserved."
+                },
+                content: `
+                    <p><strong>Welcome to ZonaPantys.</strong> By using our platform, you accept these terms in full.</p>
+
+                    <h2>1. Eligibility Requirements</h2>
+                    <p>To use ZonaPantys you must:</p>
+                    <ul>
+                        <li>Be over 18 years old</li>
+                        <li>Comply with the laws of your country</li>
+                        <li>Provide true and accurate information</li>
+                    </ul>
+
+                    <h2>2. For Sellers</h2>
+                    <h3>2.1 Registration</h3>
+                    <ul>
+                        <li>You must verify your identity with valid ID</li>
+                        <li>You can only sell items that belong to you</li>
+                        <li>All garments must be authentic and worn by you</li>
+                    </ul>
+
+                    <h3>2.2 Monthly Membership</h3>
+                    <p>To sell on ZonaPantys you must maintain an active monthly membership of <strong>$10 USD</strong>.</p>
+                    <ul>
+                        <li>Membership allows you to keep 100% of your sales earnings</li>
+                        <li>We do not charge additional commissions on your sales</li>
+                        <li>You can cancel your membership at any time without penalties</li>
+                        <li>Membership remains active until the end of the paid period</li>
+                    </ul>
+
+                    <h3>2.3 Payments</h3>
+                    <ul>
+                        <li>Payments are processed weekly</li>
+                        <li>Minimum withdrawal: $50 USD</li>
+                        <li>Methods: Bank transfer or Cryptocurrencies</li>
+                        <li>You keep 100% of your products' sale price</li>
+                    </ul>
+
+                    <h3>2.4 Prohibitions</h3>
+                    <p>It is strictly prohibited to:</p>
+                    <ul>
+                        <li>Sell third-party garments</li>
+                        <li>Share direct contact information with buyers</li>
+                        <li>Conduct transactions outside the platform</li>
+                        <li>Illegal content or content that violates third-party rights</li>
+                    </ul>
+
+                    <h2>3. For Buyers</h2>
+                    <h3>3.1 Purchases</h3>
+                    <ul>
+                        <li>All payments are processed securely</li>
+                        <li>You receive a tracking number with each order</li>
+                        <li>Authenticity guarantee on all garments</li>
+                    </ul>
+
+                    <h3>3.2 Returns and Refunds</h3>
+                    <ul>
+                        <li>If the product does not match the description: full refund</li>
+                        <li>If the package does not arrive: refund or free reshipping</li>
+                        <li>Claims must be made within 48 hours of receipt</li>
+                    </ul>
+
+                    <h3>3.3 Privacy</h3>
+                    <p>We guarantee:</p>
+                    <ul>
+                        <li>Discreet packaging without identifiable markings</li>
+                        <li>Generic charges on your statement</li>
+                        <li>Completely confidential personal information</li>
+                    </ul>
+
+                    <h2>4. Content and Ownership</h2>
+                    <ul>
+                        <li>You maintain ownership of your content (photos, descriptions)</li>
+                        <li>You grant us a license to use your content on the platform</li>
+                        <li>You are responsible for ensuring your content does not violate third-party rights</li>
+                    </ul>
+
+                    <h2>5. Privacy and Security</h2>
+                    <p>See our <a href="privacidad.html">Privacy Policy</a> for details on:</p>
+                    <ul>
+                        <li>How we collect and use your data</li>
+                        <li>Security measures implemented</li>
+                        <li>Your rights regarding your personal information</li>
+                    </ul>
+
+                    <h2>6. Limitation of Liability</h2>
+                    <p>ZonaPantys is a platform that connects sellers and buyers. We are not responsible for:</p>
+                    <ul>
+                        <li>The quality or authenticity of garments (seller's responsibility)</li>
+                        <li>Shipping delays or losses (courier company's responsibility)</li>
+                        <li>Disputes between sellers and buyers (we act as mediators)</li>
+                    </ul>
+
+                    <h2>7. Suspension and Termination</h2>
+                    <p>We may suspend or terminate your account if:</p>
+                    <ul>
+                        <li>You violate these terms</li>
+                        <li>You engage in fraudulent activities</li>
+                        <li>You receive multiple negative reports</li>
+                        <li>You fail to comply with applicable laws</li>
+                    </ul>
+
+                    <h2>8. Modifications</h2>
+                    <p>We reserve the right to modify these terms at any time. We will notify you by email or on the platform about important changes.</p>
+
+                    <h2>9. Applicable Law</h2>
+                    <p>These terms are governed by international e-commerce laws and the laws of the state of Delaware, United States.</p>
+
+                    <h2>10. Dispute Resolution</h2>
+                    <p>Any dispute will first be resolved through internal mediation. If not resolved, the parties agree to submit to binding arbitration.</p>
+
+                    <h2>11. Contact</h2>
+                    <p>For questions about these terms:</p>
+                    <ul>
+                        <li>Email: zonapantys@zonapantys.com</li>
+                        <li>Contact form on the platform</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>By using ZonaPantys, you confirm that you have read, understood, and accepted these terms in full.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Back to Home</a>
+                `
+            },
+            pt: {
+                title: "Termos de Serviço - ZonaPantys",
+                header: {
+                    title: "📜 Termos de Serviço",
+                    updated: "Última atualização: Janeiro 2026"
+                },
+                footer: {
+                    rights: "Todos os direitos reservados."
+                },
+                content: `
+                    <p><strong>Bem-vindo ao ZonaPantys.</strong> Ao usar nossa plataforma, você aceita estes termos na íntegra.</p>
+
+                    <h2>1. Requisitos de Elegibilidade</h2>
+                    <p>Para usar o ZonaPantys você deve:</p>
+                    <ul>
+                        <li>Ter mais de 18 anos</li>
+                        <li>Cumprir as leis do seu país</li>
+                        <li>Fornecer informações verdadeiras e precisas</li>
+                    </ul>
+
+                    <h2>2. Para Vendedoras</h2>
+                    <h3>2.1 Registro</h3>
+                    <ul>
+                        <li>Você deve verificar sua identidade com ID válido</li>
+                        <li>Você só pode vender itens que pertencem a você</li>
+                        <li>Todas as peças devem ser autênticas e usadas por você</li>
+                    </ul>
+
+                    <h3>2.2 Assinatura Mensal</h3>
+                    <p>Para vender no ZonaPantys você deve manter uma assinatura mensal ativa de <strong>$10 USD</strong>.</p>
+                    <ul>
+                        <li>A assinatura permite que você mantenha 100% dos seus ganhos de vendas</li>
+                        <li>Não cobramos comissões adicionais sobre suas vendas</li>
+                        <li>Você pode cancelar sua assinatura a qualquer momento sem penalidades</li>
+                        <li>A assinatura permanece ativa até o final do período pago</li>
+                    </ul>
+
+                    <h3>2.3 Pagamentos</h3>
+                    <ul>
+                        <li>Os pagamentos são processados semanalmente</li>
+                        <li>Saque mínimo: $50 USD</li>
+                        <li>Métodos: Transferência bancária ou Criptomoedas</li>
+                        <li>Você mantém 100% do preço de venda dos seus produtos</li>
+                    </ul>
+
+                    <h3>2.4 Proibições</h3>
+                    <p>É estritamente proibido:</p>
+                    <ul>
+                        <li>Vender peças de terceiros</li>
+                        <li>Compartilhar informações de contato diretas com compradores</li>
+                        <li>Realizar transações fora da plataforma</li>
+                        <li>Conteúdo ilegal ou que viole direitos de terceiros</li>
+                    </ul>
+
+                    <h2>3. Para Compradores</h2>
+                    <h3>3.1 Compras</h3>
+                    <ul>
+                        <li>Todos os pagamentos são processados com segurança</li>
+                        <li>Você recebe um número de rastreamento com cada pedido</li>
+                        <li>Garantia de autenticidade em todas as peças</li>
+                    </ul>
+
+                    <h3>3.2 Devoluções e Reembolsos</h3>
+                    <ul>
+                        <li>Se o produto não corresponder à descrição: reembolso total</li>
+                        <li>Se o pacote não chegar: reembolso ou reenvio gratuito</li>
+                        <li>Reclamações devem ser feitas dentro de 48 horas após o recebimento</li>
+                    </ul>
+
+                    <h3>3.3 Privacidade</h3>
+                    <p>Garantimos:</p>
+                    <ul>
+                        <li>Embalagens discretas sem marcas identificáveis</li>
+                        <li>Cobranças genéricas no seu extrato</li>
+                        <li>Informações pessoais completamente confidenciais</li>
+                    </ul>
+
+                    <h2>4. Conteúdo e Propriedade</h2>
+                    <ul>
+                        <li>Você mantém a propriedade do seu conteúdo (fotos, descrições)</li>
+                        <li>Você nos concede uma licença para usar seu conteúdo na plataforma</li>
+                        <li>Você é responsável por garantir que seu conteúdo não viole direitos de terceiros</li>
+                    </ul>
+
+                    <h2>5. Privacidade e Segurança</h2>
+                    <p>Consulte nossa <a href="privacidad.html">Política de Privacidade</a> para detalhes sobre:</p>
+                    <ul>
+                        <li>Como coletamos e usamos seus dados</li>
+                        <li>Medidas de segurança implementadas</li>
+                        <li>Seus direitos sobre suas informações pessoais</li>
+                    </ul>
+
+                    <h2>6. Limitação de Responsabilidade</h2>
+                    <p>ZonaPantys é uma plataforma que conecta vendedoras e compradores. Não somos responsáveis por:</p>
+                    <ul>
+                        <li>A qualidade ou autenticidade das peças (responsabilidade da vendedora)</li>
+                        <li>Atrasos ou perdas no envio (responsabilidade da empresa de courier)</li>
+                        <li>Disputas entre vendedoras e compradores (atuamos como mediadores)</li>
+                    </ul>
+
+                    <h2>7. Suspensão e Término</h2>
+                    <p>Podemos suspender ou encerrar sua conta se:</p>
+                    <ul>
+                        <li>Você violar estes termos</li>
+                        <li>Você realizar atividades fraudulentas</li>
+                        <li>Você receber múltiplos relatórios negativos</li>
+                        <li>Você não cumprir as leis aplicáveis</li>
+                    </ul>
+
+                    <h2>8. Modificações</h2>
+                    <p>Reservamo-nos o direito de modificar estes termos a qualquer momento. Notificaremos você por email ou na plataforma sobre mudanças importantes.</p>
+
+                    <h2>9. Lei Aplicável</h2>
+                    <p>Estes termos são regidos pelas leis internacionais de comércio eletrônico e as leis do estado de Delaware, Estados Unidos.</p>
+
+                    <h2>10. Resolução de Disputas</h2>
+                    <p>Qualquer disputa será resolvida primeiro por mediação interna. Se não for resolvida, as partes concordam em se submeter a arbitragem vinculativa.</p>
+
+                    <h2>11. Contato</h2>
+                    <p>Para perguntas sobre estes termos:</p>
+                    <ul>
+                        <li>Email: zonapantys@zonapantys.com</li>
+                        <li>Formulário de contato na plataforma</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Ao usar o ZonaPantys, você confirma que leu, entendeu e aceitou estes termos na íntegra.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Voltar ao Início</a>
+                `
+            },
+            fr: {
+                title: "Conditions d'Utilisation - ZonaPantys",
+                header: {
+                    title: "📜 Conditions d'Utilisation",
+                    updated: "Dernière mise à jour: Janvier 2026"
+                },
+                footer: {
+                    rights: "Tous droits réservés."
+                },
+                content: `
+                    <p><strong>Bienvenue sur ZonaPantys.</strong> En utilisant notre plateforme, vous acceptez ces conditions dans leur intégralité.</p>
+
+                    <h2>1. Conditions d'Éligibilité</h2>
+                    <p>Pour utiliser ZonaPantys, vous devez:</p>
+                    <ul>
+                        <li>Avoir plus de 18 ans</li>
+                        <li>Respecter les lois de votre pays</li>
+                        <li>Fournir des informations vraies et précises</li>
+                    </ul>
+
+                    <h2>2. Pour les Vendeuses</h2>
+                    <h3>2.1 Inscription</h3>
+                    <ul>
+                        <li>Vous devez vérifier votre identité avec une pièce d'identité valide</li>
+                        <li>Vous ne pouvez vendre que des articles qui vous appartiennent</li>
+                        <li>Tous les vêtements doivent être authentiques et portés par vous</li>
+                    </ul>
+
+                    <h3>2.2 Abonnement Mensuel</h3>
+                    <p>Pour vendre sur ZonaPantys, vous devez maintenir un abonnement mensuel actif de <strong>10 $ USD</strong>.</p>
+                    <ul>
+                        <li>L'abonnement vous permet de conserver 100% de vos revenus de vente</li>
+                        <li>Nous ne facturons pas de commissions supplémentaires sur vos ventes</li>
+                        <li>Vous pouvez annuler votre abonnement à tout moment sans pénalités</li>
+                        <li>L'abonnement reste actif jusqu'à la fin de la période payée</li>
+                    </ul>
+
+                    <h3>2.3 Paiements</h3>
+                    <ul>
+                        <li>Les paiements sont traités hebdomadairement</li>
+                        <li>Retrait minimum: 50 $ USD</li>
+                        <li>Méthodes: Virement bancaire ou Cryptomonnaies</li>
+                        <li>Vous conservez 100% du prix de vente de vos produits</li>
+                    </ul>
+
+                    <h3>2.4 Interdictions</h3>
+                    <p>Il est strictement interdit de:</p>
+                    <ul>
+                        <li>Vendre des vêtements de tiers</li>
+                        <li>Partager des informations de contact directes avec les acheteurs</li>
+                        <li>Effectuer des transactions en dehors de la plateforme</li>
+                        <li>Contenu illégal ou violant les droits de tiers</li>
+                    </ul>
+
+                    <h2>3. Pour les Acheteurs</h2>
+                    <h3>3.1 Achats</h3>
+                    <ul>
+                        <li>Tous les paiements sont traités en toute sécurité</li>
+                        <li>Vous recevez un numéro de suivi avec chaque commande</li>
+                        <li>Garantie d'authenticité sur tous les vêtements</li>
+                    </ul>
+
+                    <h3>3.2 Retours et Remboursements</h3>
+                    <ul>
+                        <li>Si le produit ne correspond pas à la description: remboursement complet</li>
+                        <li>Si le colis n'arrive pas: remboursement ou réexpédition gratuite</li>
+                        <li>Les réclamations doivent être faites dans les 48 heures suivant la réception</li>
+                    </ul>
+
+                    <h3>3.3 Confidentialité</h3>
+                    <p>Nous garantissons:</p>
+                    <ul>
+                        <li>Emballages discrets sans marques identifiables</li>
+                        <li>Charges génériques sur votre relevé</li>
+                        <li>Informations personnelles complètement confidentielles</li>
+                    </ul>
+
+                    <h2>4. Contenu et Propriété</h2>
+                    <ul>
+                        <li>Vous conservez la propriété de votre contenu (photos, descriptions)</li>
+                        <li>Vous nous accordez une licence pour utiliser votre contenu sur la plateforme</li>
+                        <li>Vous êtes responsable de vous assurer que votre contenu ne viole pas les droits de tiers</li>
+                    </ul>
+
+                    <h2>5. Confidentialité et Sécurité</h2>
+                    <p>Consultez notre <a href="privacidad.html">Politique de Confidentialité</a> pour plus de détails sur:</p>
+                    <ul>
+                        <li>Comment nous collectons et utilisons vos données</li>
+                        <li>Mesures de sécurité mises en œuvre</li>
+                        <li>Vos droits concernant vos informations personnelles</li>
+                    </ul>
+
+                    <h2>6. Limitation de Responsabilité</h2>
+                    <p>ZonaPantys est une plateforme qui connecte les vendeuses et les acheteurs. Nous ne sommes pas responsables de:</p>
+                    <ul>
+                        <li>La qualité ou l'authenticité des vêtements (responsabilité de la vendeuse)</li>
+                        <li>Les retards ou pertes d'expédition (responsabilité de l'entreprise de messagerie)</li>
+                        <li>Les litiges entre vendeuses et acheteurs (nous agissons comme médiateurs)</li>
+                    </ul>
+
+                    <h2>7. Suspension et Résiliation</h2>
+                    <p>Nous pouvons suspendre ou résilier votre compte si:</p>
+                    <ul>
+                        <li>Vous violez ces conditions</li>
+                        <li>Vous vous engagez dans des activités frauduleuses</li>
+                        <li>Vous recevez plusieurs rapports négatifs</li>
+                        <li>Vous ne respectez pas les lois applicables</li>
+                    </ul>
+
+                    <h2>8. Modifications</h2>
+                    <p>Nous nous réservons le droit de modifier ces conditions à tout moment. Nous vous informerons par email ou sur la plateforme des changements importants.</p>
+
+                    <h2>9. Loi Applicable</h2>
+                    <p>Ces conditions sont régies par les lois internationales du commerce électronique et les lois de l'état du Delaware, États-Unis.</p>
+
+                    <h2>10. Résolution des Litiges</h2>
+                    <p>Tout litige sera d'abord résolu par médiation interne. S'il n'est pas résolu, les parties conviennent de se soumettre à un arbitrage contraignant.</p>
+
+                    <h2>11. Contact</h2>
+                    <p>Pour toute question concernant ces conditions:</p>
+                    <ul>
+                        <li>Email: zonapantys@zonapantys.com</li>
+                        <li>Formulaire de contact sur la plateforme</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>En utilisant ZonaPantys, vous confirmez avoir lu, compris et accepté ces conditions dans leur intégralité.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Retour à l'Accueil</a>
+                `
+            },
+            de: {
+                title: "Nutzungsbedingungen - ZonaPantys",
+                header: {
+                    title: "📜 Nutzungsbedingungen",
+                    updated: "Letzte Aktualisierung: Januar 2026"
+                },
+                footer: {
+                    rights: "Alle Rechte vorbehalten."
+                },
+                content: `
+                    <p><strong>Willkommen bei ZonaPantys.</strong> Durch die Nutzung unserer Plattform akzeptieren Sie diese Bedingungen vollständig.</p>
+
+                    <h2>1. Teilnahmevoraussetzungen</h2>
+                    <p>Um ZonaPantys zu nutzen, müssen Sie:</p>
+                    <ul>
+                        <li>Über 18 Jahre alt sein</li>
+                        <li>Die Gesetze Ihres Landes einhalten</li>
+                        <li>Wahre und genaue Informationen bereitstellen</li>
+                    </ul>
+
+                    <h2>2. Für Verkäuferinnen</h2>
+                    <h3>2.1 Registrierung</h3>
+                    <ul>
+                        <li>Sie müssen Ihre Identität mit gültigem Ausweis verifizieren</li>
+                        <li>Sie dürfen nur Artikel verkaufen, die Ihnen gehören</li>
+                        <li>Alle Kleidungsstücke müssen authentisch und von Ihnen getragen sein</li>
+                    </ul>
+
+                    <h3>2.2 Monatliche Mitgliedschaft</h3>
+                    <p>Um auf ZonaPantys zu verkaufen, müssen Sie eine aktive monatliche Mitgliedschaft von <strong>10 $ USD</strong> aufrechterhalten.</p>
+                    <ul>
+                        <li>Die Mitgliedschaft ermöglicht es Ihnen, 100% Ihrer Verkaufseinnahmen zu behalten</li>
+                        <li>Wir berechnen keine zusätzlichen Provisionen auf Ihre Verkäufe</li>
+                        <li>Sie können Ihre Mitgliedschaft jederzeit ohne Strafen kündigen</li>
+                        <li>Die Mitgliedschaft bleibt bis zum Ende des bezahlten Zeitraums aktiv</li>
+                    </ul>
+
+                    <h3>2.3 Zahlungen</h3>
+                    <ul>
+                        <li>Zahlungen werden wöchentlich verarbeitet</li>
+                        <li>Mindestauszahlung: 50 $ USD</li>
+                        <li>Methoden: Banküberweisung oder Kryptowährungen</li>
+                        <li>Sie behalten 100% des Verkaufspreises Ihrer Produkte</li>
+                    </ul>
+
+                    <h3>2.4 Verbote</h3>
+                    <p>Es ist streng verboten:</p>
+                    <ul>
+                        <li>Kleidungsstücke Dritter zu verkaufen</li>
+                        <li>Direkte Kontaktinformationen mit Käufern zu teilen</li>
+                        <li>Transaktionen außerhalb der Plattform durchzuführen</li>
+                        <li>Illegale Inhalte oder Inhalte, die Rechte Dritter verletzen</li>
+                    </ul>
+
+                    <h2>3. Für Käufer</h2>
+                    <h3>3.1 Einkäufe</h3>
+                    <ul>
+                        <li>Alle Zahlungen werden sicher verarbeitet</li>
+                        <li>Sie erhalten eine Tracking-Nummer mit jeder Bestellung</li>
+                        <li>Authentizitätsgarantie auf alle Kleidungsstücke</li>
+                    </ul>
+
+                    <h3>3.2 Rücksendungen und Rückerstattungen</h3>
+                    <ul>
+                        <li>Wenn das Produkt nicht der Beschreibung entspricht: vollständige Rückerstattung</li>
+                        <li>Wenn das Paket nicht ankommt: Rückerstattung oder kostenloser erneuter Versand</li>
+                        <li>Reklamationen müssen innerhalb von 48 Stunden nach Erhalt erfolgen</li>
+                    </ul>
+
+                    <h3>3.3 Datenschutz</h3>
+                    <p>Wir garantieren:</p>
+                    <ul>
+                        <li>Diskrete Verpackung ohne identifizierbare Markierungen</li>
+                        <li>Generische Abbuchungen auf Ihrem Kontoauszug</li>
+                        <li>Vollständig vertrauliche persönliche Informationen</li>
+                    </ul>
+
+                    <h2>4. Inhalt und Eigentum</h2>
+                    <ul>
+                        <li>Sie behalten das Eigentum an Ihren Inhalten (Fotos, Beschreibungen)</li>
+                        <li>Sie gewähren uns eine Lizenz zur Nutzung Ihrer Inhalte auf der Plattform</li>
+                        <li>Sie sind dafür verantwortlich, dass Ihre Inhalte keine Rechte Dritter verletzen</li>
+                    </ul>
+
+                    <h2>5. Datenschutz und Sicherheit</h2>
+                    <p>Siehe unsere <a href="privacidad.html">Datenschutzerklärung</a> für Details zu:</p>
+                    <ul>
+                        <li>Wie wir Ihre Daten sammeln und verwenden</li>
+                        <li>Implementierte Sicherheitsmaßnahmen</li>
+                        <li>Ihre Rechte bezüglich Ihrer persönlichen Informationen</li>
+                    </ul>
+
+                    <h2>6. Haftungsbeschränkung</h2>
+                    <p>ZonaPantys ist eine Plattform, die Verkäuferinnen und Käufer verbindet. Wir sind nicht verantwortlich für:</p>
+                    <ul>
+                        <li>Die Qualität oder Authentizität der Kleidungsstücke (Verantwortung der Verkäuferin)</li>
+                        <li>Versandverzögerungen oder -verluste (Verantwortung des Kurierunternehmens)</li>
+                        <li>Streitigkeiten zwischen Verkäuferinnen und Käufern (wir fungieren als Vermittler)</li>
+                    </ul>
+
+                    <h2>7. Aussetzung und Kündigung</h2>
+                    <p>Wir können Ihr Konto aussetzen oder kündigen, wenn:</p>
+                    <ul>
+                        <li>Sie diese Bedingungen verletzen</li>
+                        <li>Sie betrügerische Aktivitäten durchführen</li>
+                        <li>Sie mehrere negative Berichte erhalten</li>
+                        <li>Sie gegen geltende Gesetze verstoßen</li>
+                    </ul>
+
+                    <h2>8. Änderungen</h2>
+                    <p>Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Wir werden Sie per E-Mail oder auf der Plattform über wichtige Änderungen informieren.</p>
+
+                    <h2>9. Anwendbares Recht</h2>
+                    <p>Diese Bedingungen unterliegen den internationalen E-Commerce-Gesetzen und den Gesetzen des Bundesstaates Delaware, Vereinigte Staaten.</p>
+
+                    <h2>10. Streitbeilegung</h2>
+                    <p>Jeder Streit wird zunächst durch interne Mediation gelöst. Wenn er nicht gelöst wird, vereinbaren die Parteien, sich einem bindenden Schiedsverfahren zu unterwerfen.</p>
+
+                    <h2>11. Kontakt</h2>
+                    <p>Für Fragen zu diesen Bedingungen:</p>
+                    <ul>
+                        <li>E-Mail: zonapantys@zonapantys.com</li>
+                        <li>Kontaktformular auf der Plattform</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Durch die Nutzung von ZonaPantys bestätigen Sie, dass Sie diese Bedingungen vollständig gelesen, verstanden und akzeptiert haben.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Zurück zur Startseite</a>
+                `
+            },
+            it: {
+                title: "Termini di Servizio - ZonaPantys",
+                header: {
+                    title: "📜 Termini di Servizio",
+                    updated: "Ultimo aggiornamento: Gennaio 2026"
+                },
+                footer: {
+                    rights: "Tutti i diritti riservati."
+                },
+                content: `
+                    <p><strong>Benvenuto su ZonaPantys.</strong> Utilizzando la nostra piattaforma, accetti questi termini nella loro interezza.</p>
+
+                    <h2>1. Requisiti di Idoneità</h2>
+                    <p>Per utilizzare ZonaPantys devi:</p>
+                    <ul>
+                        <li>Avere più di 18 anni</li>
+                        <li>Rispettare le leggi del tuo paese</li>
+                        <li>Fornire informazioni vere e accurate</li>
+                    </ul>
+
+                    <h2>2. Per le Venditrici</h2>
+                    <h3>2.1 Registrazione</h3>
+                    <ul>
+                        <li>Devi verificare la tua identità con un documento valido</li>
+                        <li>Puoi vendere solo articoli che ti appartengono</li>
+                        <li>Tutti i capi devono essere autentici e indossati da te</li>
+                    </ul>
+
+                    <h3>2.2 Abbonamento Mensile</h3>
+                    <p>Per vendere su ZonaPantys devi mantenere un abbonamento mensile attivo di <strong>$10 USD</strong>.</p>
+                    <ul>
+                        <li>L'abbonamento ti permette di mantenere il 100% dei tuoi guadagni dalle vendite</li>
+                        <li>Non addebitiamo commissioni aggiuntive sulle tue vendite</li>
+                        <li>Puoi cancellare il tuo abbonamento in qualsiasi momento senza penalità</li>
+                        <li>L'abbonamento rimane attivo fino alla fine del periodo pagato</li>
+                    </ul>
+
+                    <h3>2.3 Pagamenti</h3>
+                    <ul>
+                        <li>I pagamenti vengono elaborati settimanalmente</li>
+                        <li>Prelievo minimo: $50 USD</li>
+                        <li>Metodi: Bonifico bancario o Criptovalute</li>
+                        <li>Mantieni il 100% del prezzo di vendita dei tuoi prodotti</li>
+                    </ul>
+
+                    <h3>2.4 Divieti</h3>
+                    <p>È severamente vietato:</p>
+                    <ul>
+                        <li>Vendere capi di terzi</li>
+                        <li>Condividere informazioni di contatto dirette con gli acquirenti</li>
+                        <li>Effettuare transazioni al di fuori della piattaforma</li>
+                        <li>Contenuti illegali o che violino i diritti di terzi</li>
+                    </ul>
+
+                    <h2>3. Per gli Acquirenti</h2>
+                    <h3>3.1 Acquisti</h3>
+                    <ul>
+                        <li>Tutti i pagamenti vengono elaborati in modo sicuro</li>
+                        <li>Ricevi un numero di tracking con ogni ordine</li>
+                        <li>Garanzia di autenticità su tutti i capi</li>
+                    </ul>
+
+                    <h3>3.2 Resi e Rimborsi</h3>
+                    <ul>
+                        <li>Se il prodotto non corrisponde alla descrizione: rimborso completo</li>
+                        <li>Se il pacco non arriva: rimborso o rispedizione gratuita</li>
+                        <li>I reclami devono essere fatti entro 48 ore dal ricevimento</li>
+                    </ul>
+
+                    <h3>3.3 Privacy</h3>
+                    <p>Garantiamo:</p>
+                    <ul>
+                        <li>Imballaggi discreti senza marchi identificabili</li>
+                        <li>Addebiti generici sul tuo estratto conto</li>
+                        <li>Informazioni personali completamente confidenziali</li>
+                    </ul>
+
+                    <h2>4. Contenuto e Proprietà</h2>
+                    <ul>
+                        <li>Mantieni la proprietà dei tuoi contenuti (foto, descrizioni)</li>
+                        <li>Ci concedi una licenza per utilizzare i tuoi contenuti sulla piattaforma</li>
+                        <li>Sei responsabile di garantire che i tuoi contenuti non violino i diritti di terzi</li>
+                    </ul>
+
+                    <h2>5. Privacy e Sicurezza</h2>
+                    <p>Consulta la nostra <a href="privacidad.html">Informativa sulla Privacy</a> per dettagli su:</p>
+                    <ul>
+                        <li>Come raccogliamo e utilizziamo i tuoi dati</li>
+                        <li>Misure di sicurezza implementate</li>
+                        <li>I tuoi diritti riguardo alle tue informazioni personali</li>
+                    </ul>
+
+                    <h2>6. Limitazione di Responsabilità</h2>
+                    <p>ZonaPantys è una piattaforma che connette venditrici e acquirenti. Non siamo responsabili di:</p>
+                    <ul>
+                        <li>La qualità o autenticità dei capi (responsabilità della venditrice)</li>
+                        <li>Ritardi o perdite nella spedizione (responsabilità della compagnia di corriere)</li>
+                        <li>Controversie tra venditrici e acquirenti (agiamo come mediatori)</li>
+                    </ul>
+
+                    <h2>7. Sospensione e Termine</h2>
+                    <p>Possiamo sospendere o terminare il tuo account se:</p>
+                    <ul>
+                        <li>Violi questi termini</li>
+                        <li>Compi attività fraudolente</li>
+                        <li>Ricevi molteplici segnalazioni negative</li>
+                        <li>Non rispetti le leggi applicabili</li>
+                    </ul>
+
+                    <h2>8. Modifiche</h2>
+                    <p>Ci riserviamo il diritto di modificare questi termini in qualsiasi momento. Ti informeremo via email o sulla piattaforma riguardo cambiamenti importanti.</p>
+
+                    <h2>9. Legge Applicabile</h2>
+                    <p>Questi termini sono regolati dalle leggi internazionali del commercio elettronico e le leggi dello stato del Delaware, Stati Uniti.</p>
+
+                    <h2>10. Risoluzione delle Controversie</h2>
+                    <p>Qualsiasi controversia sarà risolta prima tramite mediazione interna. Se non risolta, le parti accettano di sottoporsi ad arbitrato vincolante.</p>
+
+                    <h2>11. Contatto</h2>
+                    <p>Per domande su questi termini:</p>
+                    <ul>
+                        <li>Email: zonapantys@zonapantys.com</li>
+                        <li>Modulo di contatto sulla piattaforma</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Utilizzando ZonaPantys, confermi di aver letto, compreso e accettato questi termini nella loro interezza.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Torna alla Home</a>
+                `
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            
+            document.title = t.title;
+            document.querySelector('[data-i18n="header.title"]').textContent = t.header.title;
+            document.querySelector('[data-i18n="header.updated"]').textContent = t.header.updated;
+            document.querySelector('[data-i18n="footer.rights"]').textContent = t.footer.rights;
+            document.getElementById('mainContent').innerHTML = t.content;
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', function() {
+            document.getElementById('languageDropdown').classList.remove('active');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+        });
+    </script>
+</body>
+</html>
