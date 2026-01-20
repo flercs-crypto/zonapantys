@@ -1,39 +1,65 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="title">Términos de Servicio - ZonaPantys</title>
+    <title>ZonaPantys - Lencería Premium con Esencia Latina</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
             --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
+            overflow-x: hidden;
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary-color), #9c27b0);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 1rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
         }
 
         .language-selector {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+            position: relative;
         }
 
         .language-btn {
-            background: rgba(255,255,255,0.2);
+            background: var(--primary-color);
             color: white;
-            border: 2px solid white;
+            border: none;
             padding: 0.5rem 1rem;
             border-radius: 25px;
             cursor: pointer;
@@ -42,8 +68,8 @@
         }
 
         .language-btn:hover {
-            background: white;
-            color: var(--primary-color);
+            background: var(--secondary-color);
+            transform: translateY(-2px);
         }
 
         .language-dropdown {
@@ -74,7 +100,7 @@
         }
 
         .language-option:hover {
-            background: #f8f9fa;
+            background: var(--light-color);
         }
 
         .language-option:first-child {
@@ -84,886 +110,1904 @@
         .language-option:last-child {
             border-radius: 0 0 10px 10px;
         }
-        
-        .content {
-            max-width: 900px;
-            margin: -50px auto 50px;
-            background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.1);
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-        
-        h3 {
-            color: var(--dark-color);
-            margin-top: 1.5rem;
-            font-size: 1.3rem;
-        }
-        
-        p, li {
-            line-height: 1.8;
-            color: #333;
-        }
-        
-        .btn-back {
-            display: inline-block;
-            background: var(--primary-color);
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            margin-top: 2rem;
-            transition: all 0.3s;
+            position: relative;
+            background-image: url('https://t3.ftcdn.net/jpg/06/29/69/42/360_F_629694222_iybFWVEjxuGYGYCXhDRh62jmjlJsFhFF.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
-        
-        .btn-back:hover {
-            background: #9c27b0;
-            transform: translateY(-2px);
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(233, 30, 99, 0.85) 0%, rgba(156, 39, 176, 0.85) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary-custom {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 0.5rem;
+        }
+
+        .btn-secondary-custom:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--light-color);
+        }
+
+        .feature-card {
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Sellers Section */
+        .sellers {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .seller-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .seller-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .seller-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
             color: white;
         }
 
+        .seller-info {
+            padding: 1.5rem;
+        }
+
+        .seller-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .seller-location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .seller-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .btn-visit {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-visit:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* How it works */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: var(--light-color);
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* FAQ Section con TABS */
+        .faq {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .faq-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .faq-tab {
+            padding: 1rem 2rem;
+            background: var(--light-color);
+            border: 2px solid transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: var(--dark-color);
+        }
+
+        .faq-tab:hover {
+            background: #e0e0e0;
+        }
+
+        .faq-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .faq-content {
+            display: none;
+        }
+
+        .faq-content.active {
+            display: block;
+        }
+
+        .faq-item {
+            background: var(--light-color);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #e0e0e0;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-section {
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-link {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+
         @media (max-width: 768px) {
-            .language-selector {
-                position: relative;
-                top: auto;
-                right: auto;
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .navbar-nav {
+                background: rgba(26, 26, 26, 0.98);
+                padding: 1rem;
+                border-radius: 10px;
                 margin-top: 1rem;
+            }
+
+            .faq-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .faq-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header" style="position: relative;">
-        <div class="language-selector">
-            <button class="language-btn" id="languageBtn">
-                🌐 <span id="currentLang">ES</span>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#inicio" style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 24px;">🔥</span>
+                <span style="font-family: 'Arial Black', sans-serif; font-size: 16px; font-weight: 900; background: linear-gradient(135deg, #ff0080, #ff66b2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">ZONAPANTYS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="language-dropdown" id="languageDropdown">
-                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
-                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
-                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
-                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
-                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
-                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#inicio" data-i18n="nav.home">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vendedoras" data-i18n="nav.sellers">Vendedoras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#como-funciona" data-i18n="nav.howItWorks">Cómo Funciona</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq" data-i18n="nav.faq">FAQ</a></li>
+                    <li class="nav-item">
+                        <div class="language-selector">
+                            <button class="language-btn" id="languageBtn">
+                                🌐 <span id="currentLang">ES</span>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <h1 data-i18n="header.title">📜 Términos de Servicio</h1>
-        <p data-i18n="header.updated">Última actualización: Enero 2026</p>
-    </div>
+    </nav>
 
-    <div class="content" id="mainContent">
-        <!-- El contenido se cargará dinámicamente según el idioma -->
-    </div>
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 data-i18n="hero.title">Lencería Premium con Esencia Latina</h1>
+            <p data-i18n="hero.subtitle">Experiencias auténticas, belleza natural, discreción garantizada</p>
+            <button class="btn-primary-custom" data-i18n="hero.btnPrimary">Explorar Vendedoras</button>
+            <button class="btn-secondary-custom" data-i18n="hero.btnSecondary">Saber Más</button>
+        </div>
+    </section>
 
-    <footer style="text-align: center; padding: 2rem; color: #666;">
-        <p>© 2026 ZonaPantys LLC. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+    <!-- Features -->
+    <section class="features" id="caracteristicas">
+        <div class="container">
+            <h2 class="section-title" data-i18n="features.title">¿Por Qué ZonaPantys?</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-certificate"></i></div>
+                        <h3 data-i18n="features.authentic.title">100% Auténtico</h3>
+                        <p data-i18n="features.authentic.desc">Cada prenda viene con garantía de autenticidad. Olores naturales y genuinos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                        <h3 data-i18n="features.beauty.title">Belleza Latina</h3>
+                        <p data-i18n="features.beauty.desc">Las mujeres más hermosas de Latinoamérica al alcance de tu mano.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                        <h3 data-i18n="features.discreet.title">Envío Discreto</h3>
+                        <p data-i18n="features.discreet.desc">Paquetes sin marcas, totalmente discretos. Tu privacidad es nuestra prioridad.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <h3 data-i18n="features.international.title">Envíos Internacionales</h3>
+                        <p data-i18n="features.international.desc">Enviamos a USA, Europa y todo el mundo con tracking completo.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                        <h3 data-i18n="features.chat.title">Chat Directo</h3>
+                        <p data-i18n="features.chat.desc">Comunícate directamente con las vendedoras para solicitudes especiales.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-star"></i></div>
+                        <h3 data-i18n="features.custom.title">Pedidos Personalizados</h3>
+                        <p data-i18n="features.custom.desc">Solicita estilos específicos, colores, y experiencias únicas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sellers -->
+    <section class="sellers" id="vendedoras">
+        <div class="container">
+            <h2 class="section-title" data-i18n="sellers.title">Vendedoras Destacadas</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">👸</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Isabella <span>🇨🇴</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.colombia">Colombia</span>, 24 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">47</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">4.9★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">156</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">💃</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Valentina <span>🇦🇷</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.argentina">Argentina</span>, 27 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">82</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5.0★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">243</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">🌺</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Camila <span>🇲🇽</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.mexico">México</span>, 22 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">35</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">4.8★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">98</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">🦋</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Sofia <span>🇧🇷</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.brazil">Brasil</span>, 25 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">64</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">4.9★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">187</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">🌸</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Luna <span>🇨🇱</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.chile">Chile</span>, 26 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">51</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">4.7★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">134</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="seller-card">
+                        <div class="seller-image">💋</div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                Martina <span>🇺🇾</span>
+                            </div>
+                            <div class="seller-location"><span data-i18n="sellers.uruguay">Uruguay</span>, 23 <span data-i18n="sellers.years">años</span></div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">39</div>
+                                    <div class="stat-label" data-i18n="sellers.items">Items</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5.0★</div>
+                                    <div class="stat-label" data-i18n="sellers.rating">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">112</div>
+                                    <div class="stat-label" data-i18n="sellers.reviews">Reviews</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit" data-i18n="sellers.visit">Visitar Tienda</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <h2 class="section-title" data-i18n="howItWorks.title">¿Cómo Funciona?</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3 data-i18n="howItWorks.step1.title">Explora Perfiles</h3>
+                        <p data-i18n="howItWorks.step1.desc">Navega por nuestras vendedoras verificadas y encuentra tu favorita.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3 data-i18n="howItWorks.step2.title">Elige y Personaliza</h3>
+                        <p data-i18n="howItWorks.step2.desc">Selecciona el producto y solicita personalizaciones si lo deseas.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3 data-i18n="howItWorks.step3.title">Pago Seguro</h3>
+                        <p data-i18n="howItWorks.step3.desc">Realiza tu pago de forma segura con tarjeta de crédito o débito.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3 data-i18n="howItWorks.step4.title">Recibe Discretamente</h3>
+                        <p data-i18n="howItWorks.step4.desc">Tu pedido llega en empaque discreto con tracking completo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title" data-i18n="faq.title">Preguntas Frecuentes</h2>
+            
+            <div class="faq-tabs">
+                <div class="faq-tab active" onclick="showFaqTab('general')">
+                    <span data-i18n="faq.tabs.general">❓ Generales</span>
+                </div>
+                <div class="faq-tab" onclick="showFaqTab('sellers')">
+                    <span data-i18n="faq.tabs.sellers">👩 Para Vendedoras</span>
+                </div>
+                <div class="faq-tab" onclick="showFaqTab('buyers')">
+                    <span data-i18n="faq.tabs.buyers">🛒 Para Compradores</span>
+                </div>
+            </div>
+
+            <div id="general-faq" class="faq-content active"></div>
+            <div id="sellers-faq" class="faq-content"></div>
+            <div id="buyers-faq" class="faq-content"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 footer-section">
+                    <h4>ZonaPantys</h4>
+                    <p data-i18n="footer.description">La plataforma líder de lencería premium usada con las mujeres más hermosas de Latinoamérica.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 footer-section">
+                    <h4 data-i18n="footer.buyers.title">Para Compradores</h4>
+                    <a href="#" class="footer-link" data-i18n="footer.buyers.explore">Explorar Vendedoras</a>
+                    <a href="#" class="footer-link" data-i18n="footer.buyers.howItWorks">Cómo Funciona</a>
+                    <a href="#" class="footer-link" data-i18n="footer.buyers.faq">FAQ</a>
+                    <a href="#" class="footer-link" data-i18n="footer.buyers.support">Soporte</a>
+                </div>
+                <div class="col-md-4 footer-section">
+                    <h4 data-i18n="footer.sellers.title">Para Vendedoras</h4>
+                    <a href="#" class="footer-link" data-i18n="footer.sellers.become">Conviértete en Vendedora</a>
+                    <a href="#" class="footer-link" data-i18n="footer.sellers.guidelines">Guías y Normas</a>
+                    <a href="#" class="footer-link" data-i18n="footer.sellers.earnings">Ganancias</a>
+                    <a href="#" class="footer-link" data-i18n="footer.sellers.security">Seguridad</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="copyright">
+                        <p>© 2026 ZonaPantys LLC. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+                        <a href="privacidad.html" class="footer-link" data-i18n="footer.privacy">Política de Privacidad</a> | 
+                        <a href="terminos.html" class="footer-link" data-i18n="footer.terms">Términos de Servicio</a> | 
+                        <a href="#" class="footer-link" data-i18n="footer.contact">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Traducciones
         const translations = {
             es: {
-                title: "Términos de Servicio - ZonaPantys",
-                header: {
-                    title: "📜 Términos de Servicio",
-                    updated: "Última actualización: Enero 2026"
+                nav: {
+                    home: "Inicio",
+                    sellers: "Vendedoras",
+                    howItWorks: "Cómo Funciona",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Lencería Premium con Esencia Latina",
+                    subtitle: "Experiencias auténticas, belleza natural, discreción garantizada",
+                    btnPrimary: "Explorar Vendedoras",
+                    btnSecondary: "Saber Más"
+                },
+                features: {
+                    title: "¿Por Qué ZonaPantys?",
+                    authentic: {
+                        title: "100% Auténtico",
+                        desc: "Cada prenda viene con garantía de autenticidad. Olores naturales y genuinos."
+                    },
+                    beauty: {
+                        title: "Belleza Latina",
+                        desc: "Las mujeres más hermosas de Latinoamérica al alcance de tu mano."
+                    },
+                    discreet: {
+                        title: "Envío Discreto",
+                        desc: "Paquetes sin marcas, totalmente discretos. Tu privacidad es nuestra prioridad."
+                    },
+                    international: {
+                        title: "Envíos Internacionales",
+                        desc: "Enviamos a USA, Europa y todo el mundo con tracking completo."
+                    },
+                    chat: {
+                        title: "Chat Directo",
+                        desc: "Comunícate directamente con las vendedoras para solicitudes especiales."
+                    },
+                    custom: {
+                        title: "Pedidos Personalizados",
+                        desc: "Solicita estilos específicos, colores, y experiencias únicas."
+                    }
+                },
+                sellers: {
+                    title: "Vendedoras Destacadas",
+                    colombia: "Colombia",
+                    argentina: "Argentina",
+                    mexico: "México",
+                    brazil: "Brasil",
+                    chile: "Chile",
+                    uruguay: "Uruguay",
+                    years: "años",
+                    items: "Items",
+                    rating: "Rating",
+                    reviews: "Reviews",
+                    visit: "Visitar Tienda"
+                },
+                howItWorks: {
+                    title: "¿Cómo Funciona?",
+                    step1: {
+                        title: "Explora Perfiles",
+                        desc: "Navega por nuestras vendedoras verificadas y encuentra tu favorita."
+                    },
+                    step2: {
+                        title: "Elige y Personaliza",
+                        desc: "Selecciona el producto y solicita personalizaciones si lo deseas."
+                    },
+                    step3: {
+                        title: "Pago Seguro",
+                        desc: "Realiza tu pago de forma segura con tarjeta de crédito o débito."
+                    },
+                    step4: {
+                        title: "Recibe Discretamente",
+                        desc: "Tu pedido llega en empaque discreto con tracking completo."
+                    }
+                },
+                faq: {
+                    title: "Preguntas Frecuentes",
+                    tabs: {
+                        general: "❓ Generales",
+                        sellers: "👩 Para Vendedoras",
+                        buyers: "🛒 Para Compradores"
+                    },
+                    general: [
+                        {
+                            q: "¿Son realmente usadas y auténticas?",
+                            a: "Sí, todas las prendas son 100% auténticas y usadas por nuestras vendedoras verificadas. Cada vendedora es real y cada prenda ha sido usada según las especificaciones del comprador."
+                        },
+                        {
+                            q: "¿El envío es realmente discreto?",
+                            a: "Absolutamente. Todos los paquetes se envían en sobres o cajas sin marcas, sin ninguna indicación del contenido. La privacidad es nuestra máxima prioridad."
+                        },
+                        {
+                            q: "¿Puedo hacer solicitudes especiales?",
+                            a: "Sí, puedes comunicarte directamente con las vendedoras para solicitudes personalizadas como tiempo de uso, actividades específicas, fotos adicionales, etc."
+                        },
+                        {
+                            q: "¿Envían a mi país?",
+                            a: "Enviamos a USA, Canadá, Europa y la mayoría de países del mundo. Contáctanos si tienes dudas sobre tu ubicación específica."
+                        },
+                        {
+                            q: "¿Qué métodos de pago aceptan?",
+                            a: "Aceptamos tarjetas de crédito y débito. Todos los pagos se procesan de forma segura a través de nuestro sistema encriptado."
+                        },
+                        {
+                            q: "¿Por qué enfoque en vendedoras latinas?",
+                            a: "Las mujeres latinoamericanas son reconocidas mundialmente por su belleza natural, curvas sensuales y pasión. Ofrecemos una experiencia auténtica con las mujeres más hermosas de la región."
+                        },
+                        {
+                            q: "¿Qué pasa si no estoy satisfecho?",
+                            a: "Tu satisfacción es importante. Si hay algún problema con tu pedido, contáctanos dentro de las 48 horas y trabajaremos contigo para resolverlo."
+                        },
+                        {
+                            q: "¿Es legal esto?",
+                            a: "Sí, la venta de ropa usada es completamente legal en la mayoría de países. Todas nuestras vendedoras son mayores de edad y participan voluntariamente."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "¿Cómo me registro como vendedora?",
+                            a: "El proceso es simple: crea tu cuenta, completa tu perfil con fotos y descripción, y espera la verificación de nuestro equipo (24-48 horas). Necesitas ser mayor de 18 años y tener identificación válida."
+                        },
+                        {
+                            q: "¿Cuánto cuesta vender en ZonaPantys?",
+                            a: "Solo cobramos una membresía mensual de $10 USD para vender en nuestra plataforma. ¡Sin comisiones ocultas! Conservas el 100% de tus ganancias de cada venta."
+                        },
+                        {
+                            q: "¿Qué incluye la membresía mensual?",
+                            a: "Tu membresía de $10 USD incluye: perfil personalizado verificado, publicación ilimitada de productos, sistema de chat directo con compradores, estadísticas de ventas, soporte prioritario 24/7, y acceso a herramientas de marketing. No cobramos comisión por tus ventas."
+                        },
+                        {
+                            q: "¿Cuánto puedo ganar como vendedora?",
+                            a: "Conservas el 100% de tus ganancias. El ingreso promedio varía entre $300-$1500 USD mensuales dependiendo de tu actividad y demanda. Solo pagas la membresía mensual de $10 USD, sin comisiones adicionales."
+                        },
+                        {
+                            q: "¿Mis datos personales están seguros?",
+                            a: "100%. Tu información personal, dirección y datos bancarios están encriptados. Los compradores nunca ven tu información real, solo tu perfil público y nombre artístico."
+                        },
+                        {
+                            q: "¿Cómo recibo mis pagos?",
+                            a: "Los pagos se realizan semanalmente mediante transferencia directa a tu cuenta bancaria. Una vez que el comprador confirma la recepción, tu pago se procesa en 3-5 días hábiles. Conservas el 100% del precio de venta."
+                        },
+                        {
+                            q: "¿Puedo cancelar mi membresía en cualquier momento?",
+                            a: "Sí, puedes cancelar tu membresía en cualquier momento sin penalizaciones. Tu membresía permanecerá activa hasta el final del periodo pagado. No hay contratos ni compromisos a largo plazo."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "¿Cómo sé que las prendas son auténticas?",
+                            a: "Todas las vendedoras están verificadas con ID. Puedes solicitar fotos de verificación con la prenda usada, y ofrecemos garantía de devolución si la prenda no cumple con lo prometido."
+                        },
+                        {
+                            q: "¿Cuánto tarda el envío?",
+                            a: "Envíos nacionales: 3-7 días. Envíos internacionales: 10-21 días dependiendo del país. Todos los envíos incluyen número de tracking para seguimiento en tiempo real."
+                        },
+                        {
+                            q: "¿Qué pasa si no recibo mi pedido?",
+                            a: "Si tu paquete se pierde o no llega en el tiempo estimado, contáctanos inmediatamente. Ofrecemos reembolso completo o reenvío gratuito en caso de problemas con el envío."
+                        },
+                        {
+                            q: "¿Puedo comunicarme directamente con la vendedora?",
+                            a: "Sí, nuestro sistema de chat interno te permite hablar directamente con las vendedoras para solicitudes personalizadas, preguntas sobre el producto o negociar pedidos especiales."
+                        },
+                        {
+                            q: "¿Mis compras son 100% privadas?",
+                            a: "Absolutamente. Los paquetes llegan sin marcas o nombres de la empresa, el cargo en tu tarjeta aparece como genérico, y tu historial de compras es completamente confidencial."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "Todos los derechos reservados."
-                },
-                content: `
-                    <p><strong>Bienvenido a ZonaPantys.</strong> Al usar nuestra plataforma, aceptas estos términos en su totalidad.</p>
-
-                    <h2>1. Requisitos de Elegibilidad</h2>
-                    <p>Para usar ZonaPantys debes:</p>
-                    <ul>
-                        <li>Ser mayor de 18 años</li>
-                        <li>Cumplir con las leyes de tu país</li>
-                        <li>Proporcionar información verdadera y precisa</li>
-                    </ul>
-
-                    <h2>2. Para Vendedoras</h2>
-                    <h3>2.1 Registro</h3>
-                    <ul>
-                        <li>Debes verificar tu identidad con ID válida</li>
-                        <li>Solo puedes vender artículos que te pertenezcan</li>
-                        <li>Todas las prendas deben ser auténticas y usadas por ti</li>
-                    </ul>
-
-                    <h3>2.2 Membresía Mensual</h3>
-                    <p>Para vender en ZonaPantys debes mantener una membresía mensual activa de <strong>$10 USD</strong>.</p>
-                    <ul>
-                        <li>La membresía te permite conservar el 100% de tus ganancias de ventas</li>
-                        <li>No cobramos comisiones adicionales por tus ventas</li>
-                        <li>Puedes cancelar tu membresía en cualquier momento sin penalizaciones</li>
-                        <li>La membresía permanece activa hasta el final del período pagado</li>
-                    </ul>
-
-                    <h3>2.3 Pagos</h3>
-                    <ul>
-                        <li>Los pagos se procesan semanalmente</li>
-                        <li>Mínimo de retiro: $50 USD</li>
-                        <li>Métodos: Transferencia bancaria o Criptomonedas</li>
-                        <li>Conservas el 100% del precio de venta de tus productos</li>
-                    </ul>
-
-                    <h3>2.4 Prohibiciones</h3>
-                    <p>Está estrictamente prohibido:</p>
-                    <ul>
-                        <li>Vender prendas de terceros</li>
-                        <li>Compartir información de contacto directa con compradores</li>
-                        <li>Realizar transacciones fuera de la plataforma</li>
-                        <li>Contenido ilegal o que viole derechos de terceros</li>
-                    </ul>
-
-                    <h2>3. Para Compradores</h2>
-                    <h3>3.1 Compras</h3>
-                    <ul>
-                        <li>Todos los pagos se procesan de forma segura</li>
-                        <li>Recibes número de tracking con cada pedido</li>
-                        <li>Garantía de autenticidad en todas las prendas</li>
-                    </ul>
-
-                    <h3>3.2 Devoluciones y Reembolsos</h3>
-                    <ul>
-                        <li>Si el producto no coincide con la descripción: reembolso completo</li>
-                        <li>Si el paquete no llega: reembolso o reenvío gratuito</li>
-                        <li>Reclamos deben hacerse dentro de 48 horas de recepción</li>
-                    </ul>
-
-                    <h3>3.3 Privacidad</h3>
-                    <p>Garantizamos:</p>
-                    <ul>
-                        <li>Empaques discretos sin marcas identificables</li>
-                        <li>Cargos genéricos en tu estado de cuenta</li>
-                        <li>Información personal completamente confidencial</li>
-                    </ul>
-
-                    <h2>4. Contenido y Propiedad</h2>
-                    <ul>
-                        <li>Mantienes la propiedad de tu contenido (fotos, descripciones)</li>
-                        <li>Nos otorgas licencia para usar tu contenido en la plataforma</li>
-                        <li>Eres responsable de que tu contenido no viole derechos de terceros</li>
-                    </ul>
-
-                    <h2>5. Privacidad y Seguridad</h2>
-                    <p>Consulta nuestra <a href="privacidad.html">Política de Privacidad</a> para detalles sobre:</p>
-                    <ul>
-                        <li>Cómo recopilamos y usamos tus datos</li>
-                        <li>Medidas de seguridad implementadas</li>
-                        <li>Tus derechos sobre tu información personal</li>
-                    </ul>
-
-                    <h2>6. Limitación de Responsabilidad</h2>
-                    <p>ZonaPantys es una plataforma que conecta vendedoras y compradores. No somos responsables de:</p>
-                    <ul>
-                        <li>La calidad o autenticidad de las prendas (responsabilidad de la vendedora)</li>
-                        <li>Retrasos o pérdidas en el envío (responsabilidad de la empresa de mensajería)</li>
-                        <li>Disputas entre vendedoras y compradores (actuamos como mediadores)</li>
-                    </ul>
-
-                    <h2>7. Suspensión y Terminación</h2>
-                    <p>Podemos suspender o terminar tu cuenta si:</p>
-                    <ul>
-                        <li>Violas estos términos</li>
-                        <li>Realizas actividades fraudulentas</li>
-                        <li>Recibes múltiples reportes negativos</li>
-                        <li>Incumples con las leyes aplicables</li>
-                    </ul>
-
-                    <h2>8. Modificaciones</h2>
-                    <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Te notificaremos por email o en la plataforma sobre cambios importantes.</p>
-
-                    <h2>9. Ley Aplicable</h2>
-                    <p>Estos términos se rigen por las leyes internacionales de comercio electrónico y las leyes del estado de Delaware, Estados Unidos.</p>
-
-                    <h2>10. Resolución de Disputas</h2>
-                    <p>Cualquier disputa se resolverá primero mediante mediación interna. Si no se resuelve, las partes acuerdan someterse a arbitraje vinculante.</p>
-
-                    <h2>11. Contacto</h2>
-                    <p>Para preguntas sobre estos términos:</p>
-                    <ul>
-                        <li>Email: zonapantys@zonapantys.com</li>
-                        <li>Formulario de contacto en la plataforma</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>Al usar ZonaPantys, confirmas que has leído, entendido y aceptado estos términos en su totalidad.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Volver al Inicio</a>
-                `
+                    description: "La plataforma líder de lencería premium usada con las mujeres más hermosas de Latinoamérica.",
+                    buyers: {
+                        title: "Para Compradores",
+                        explore: "Explorar Vendedoras",
+                        howItWorks: "Cómo Funciona",
+                        faq: "FAQ",
+                        support: "Soporte"
+                    },
+                    sellers: {
+                        title: "Para Vendedoras",
+                        become: "Conviértete en Vendedora",
+                        guidelines: "Guías y Normas",
+                        earnings: "Ganancias",
+                        security: "Seguridad"
+                    },
+                    rights: "Todos los derechos reservados.",
+                    privacy: "Política de Privacidad",
+                    terms: "Términos de Servicio",
+                    contact: "Contacto"
+                }
             },
             en: {
-                title: "Terms of Service - ZonaPantys",
-                header: {
-                    title: "📜 Terms of Service",
-                    updated: "Last updated: January 2026"
+                nav: {
+                    home: "Home",
+                    sellers: "Sellers",
+                    howItWorks: "How It Works",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Premium Lingerie with Latina Essence",
+                    subtitle: "Authentic experiences, natural beauty, guaranteed discretion",
+                    btnPrimary: "Explore Sellers",
+                    btnSecondary: "Learn More"
+                },
+                features: {
+                    title: "Why ZonaPantys?",
+                    authentic: {
+                        title: "100% Authentic",
+                        desc: "Each item comes with authenticity guarantee. Natural and genuine scents."
+                    },
+                    beauty: {
+                        title: "Latina Beauty",
+                        desc: "The most beautiful women from Latin America at your fingertips."
+                    },
+                    discreet: {
+                        title: "Discreet Shipping",
+                        desc: "Unmarked packages, completely discreet. Your privacy is our priority."
+                    },
+                    international: {
+                        title: "International Shipping",
+                        desc: "We ship to USA, Europe and worldwide with full tracking."
+                    },
+                    chat: {
+                        title: "Direct Chat",
+                        desc: "Communicate directly with sellers for special requests."
+                    },
+                    custom: {
+                        title: "Custom Orders",
+                        desc: "Request specific styles, colors, and unique experiences."
+                    }
+                },
+                sellers: {
+                    title: "Featured Sellers",
+                    colombia: "Colombia",
+                    argentina: "Argentina",
+                    mexico: "Mexico",
+                    brazil: "Brazil",
+                    chile: "Chile",
+                    uruguay: "Uruguay",
+                    years: "years old",
+                    items: "Items",
+                    rating: "Rating",
+                    reviews: "Reviews",
+                    visit: "Visit Store"
+                },
+                howItWorks: {
+                    title: "How It Works?",
+                    step1: {
+                        title: "Browse Profiles",
+                        desc: "Browse our verified sellers and find your favorite."
+                    },
+                    step2: {
+                        title: "Choose & Customize",
+                        desc: "Select the product and request customizations if desired."
+                    },
+                    step3: {
+                        title: "Secure Payment",
+                        desc: "Pay securely with credit or debit card."
+                    },
+                    step4: {
+                        title: "Discreet Delivery",
+                        desc: "Your order arrives in discreet packaging with full tracking."
+                    }
+                },
+                faq: {
+                    title: "Frequently Asked Questions",
+                    tabs: {
+                        general: "❓ General",
+                        sellers: "👩 For Sellers",
+                        buyers: "🛒 For Buyers"
+                    },
+                    general: [
+                        {
+                            q: "Are they really used and authentic?",
+                            a: "Yes, all items are 100% authentic and worn by our verified sellers. Each seller is real and each item has been worn according to buyer specifications."
+                        },
+                        {
+                            q: "Is shipping really discreet?",
+                            a: "Absolutely. All packages are shipped in unmarked envelopes or boxes with no indication of contents. Privacy is our top priority."
+                        },
+                        {
+                            q: "Can I make special requests?",
+                            a: "Yes, you can communicate directly with sellers for custom requests like wear time, specific activities, additional photos, etc."
+                        },
+                        {
+                            q: "Do you ship to my country?",
+                            a: "We ship to USA, Canada, Europe and most countries worldwide. Contact us if you have questions about your specific location."
+                        },
+                        {
+                            q: "What payment methods do you accept?",
+                            a: "We accept credit and debit cards. All payments are processed securely through our encrypted system."
+                        },
+                        {
+                            q: "Why focus on Latina sellers?",
+                            a: "Latin American women are recognized worldwide for their natural beauty, sensual curves and passion. We offer an authentic experience with the most beautiful women from the region."
+                        },
+                        {
+                            q: "What if I'm not satisfied?",
+                            a: "Your satisfaction is important. If there's any problem with your order, contact us within 48 hours and we'll work with you to resolve it."
+                        },
+                        {
+                            q: "Is this legal?",
+                            a: "Yes, selling used clothing is completely legal in most countries. All our sellers are of legal age and participate voluntarily."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "How do I register as a seller?",
+                            a: "The process is simple: create your account, complete your profile with photos and description, and wait for verification from our team (24-48 hours). You must be over 18 years old and have valid ID."
+                        },
+                        {
+                            q: "How much does it cost to sell on ZonaPantys?",
+                            a: "We only charge a monthly membership of $10 USD to sell on our platform. No hidden fees! You keep 100% of your sales earnings."
+                        },
+                        {
+                            q: "What does the monthly membership include?",
+                            a: "Your $10 USD membership includes: verified custom profile, unlimited product listings, direct chat system with buyers, sales statistics, 24/7 priority support, and access to marketing tools. We don't charge commission on your sales."
+                        },
+                        {
+                            q: "How much can I earn as a seller?",
+                            a: "You keep 100% of your earnings. Average income ranges from $300-$1500 USD monthly depending on your activity and demand. You only pay the monthly membership of $10 USD, no additional commissions."
+                        },
+                        {
+                            q: "Is my personal data safe?",
+                            a: "100%. Your personal information, address and banking details are encrypted. Buyers never see your real information, only your public profile and stage name."
+                        },
+                        {
+                            q: "How do I receive my payments?",
+                            a: "Payments are made weekly by direct transfer to your bank account. Once the buyer confirms receipt, your payment is processed in 3-5 business days. You keep 100% of the sale price."
+                        },
+                        {
+                            q: "Can I cancel my membership at any time?",
+                            a: "Yes, you can cancel your membership at any time without penalties. Your membership will remain active until the end of the paid period. No contracts or long-term commitments."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "How do I know the items are authentic?",
+                            a: "All sellers are verified with ID. You can request verification photos with the worn item, and we offer a return guarantee if the item doesn't meet what was promised."
+                        },
+                        {
+                            q: "How long does shipping take?",
+                            a: "Domestic shipping: 3-7 days. International shipping: 10-21 days depending on country. All shipments include tracking number for real-time tracking."
+                        },
+                        {
+                            q: "What if I don't receive my order?",
+                            a: "If your package is lost or doesn't arrive in the estimated time, contact us immediately. We offer full refund or free reshipping in case of shipping problems."
+                        },
+                        {
+                            q: "Can I communicate directly with the seller?",
+                            a: "Yes, our internal chat system allows you to talk directly with sellers for custom requests, product questions or to negotiate special orders."
+                        },
+                        {
+                            q: "Are my purchases 100% private?",
+                            a: "Absolutely. Packages arrive without marks or company name, the charge on your card appears generic, and your purchase history is completely confidential."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "All rights reserved."
-                },
-                content: `
-                    <p><strong>Welcome to ZonaPantys.</strong> By using our platform, you accept these terms in full.</p>
-
-                    <h2>1. Eligibility Requirements</h2>
-                    <p>To use ZonaPantys you must:</p>
-                    <ul>
-                        <li>Be over 18 years old</li>
-                        <li>Comply with the laws of your country</li>
-                        <li>Provide true and accurate information</li>
-                    </ul>
-
-                    <h2>2. For Sellers</h2>
-                    <h3>2.1 Registration</h3>
-                    <ul>
-                        <li>You must verify your identity with valid ID</li>
-                        <li>You can only sell items that belong to you</li>
-                        <li>All garments must be authentic and worn by you</li>
-                    </ul>
-
-                    <h3>2.2 Monthly Membership</h3>
-                    <p>To sell on ZonaPantys you must maintain an active monthly membership of <strong>$10 USD</strong>.</p>
-                    <ul>
-                        <li>Membership allows you to keep 100% of your sales earnings</li>
-                        <li>We do not charge additional commissions on your sales</li>
-                        <li>You can cancel your membership at any time without penalties</li>
-                        <li>Membership remains active until the end of the paid period</li>
-                    </ul>
-
-                    <h3>2.3 Payments</h3>
-                    <ul>
-                        <li>Payments are processed weekly</li>
-                        <li>Minimum withdrawal: $50 USD</li>
-                        <li>Methods: Bank transfer or Cryptocurrencies</li>
-                        <li>You keep 100% of your products' sale price</li>
-                    </ul>
-
-                    <h3>2.4 Prohibitions</h3>
-                    <p>It is strictly prohibited to:</p>
-                    <ul>
-                        <li>Sell third-party garments</li>
-                        <li>Share direct contact information with buyers</li>
-                        <li>Conduct transactions outside the platform</li>
-                        <li>Illegal content or content that violates third-party rights</li>
-                    </ul>
-
-                    <h2>3. For Buyers</h2>
-                    <h3>3.1 Purchases</h3>
-                    <ul>
-                        <li>All payments are processed securely</li>
-                        <li>You receive a tracking number with each order</li>
-                        <li>Authenticity guarantee on all garments</li>
-                    </ul>
-
-                    <h3>3.2 Returns and Refunds</h3>
-                    <ul>
-                        <li>If the product does not match the description: full refund</li>
-                        <li>If the package does not arrive: refund or free reshipping</li>
-                        <li>Claims must be made within 48 hours of receipt</li>
-                    </ul>
-
-                    <h3>3.3 Privacy</h3>
-                    <p>We guarantee:</p>
-                    <ul>
-                        <li>Discreet packaging without identifiable markings</li>
-                        <li>Generic charges on your statement</li>
-                        <li>Completely confidential personal information</li>
-                    </ul>
-
-                    <h2>4. Content and Ownership</h2>
-                    <ul>
-                        <li>You maintain ownership of your content (photos, descriptions)</li>
-                        <li>You grant us a license to use your content on the platform</li>
-                        <li>You are responsible for ensuring your content does not violate third-party rights</li>
-                    </ul>
-
-                    <h2>5. Privacy and Security</h2>
-                    <p>See our <a href="privacidad.html">Privacy Policy</a> for details on:</p>
-                    <ul>
-                        <li>How we collect and use your data</li>
-                        <li>Security measures implemented</li>
-                        <li>Your rights regarding your personal information</li>
-                    </ul>
-
-                    <h2>6. Limitation of Liability</h2>
-                    <p>ZonaPantys is a platform that connects sellers and buyers. We are not responsible for:</p>
-                    <ul>
-                        <li>The quality or authenticity of garments (seller's responsibility)</li>
-                        <li>Shipping delays or losses (courier company's responsibility)</li>
-                        <li>Disputes between sellers and buyers (we act as mediators)</li>
-                    </ul>
-
-                    <h2>7. Suspension and Termination</h2>
-                    <p>We may suspend or terminate your account if:</p>
-                    <ul>
-                        <li>You violate these terms</li>
-                        <li>You engage in fraudulent activities</li>
-                        <li>You receive multiple negative reports</li>
-                        <li>You fail to comply with applicable laws</li>
-                    </ul>
-
-                    <h2>8. Modifications</h2>
-                    <p>We reserve the right to modify these terms at any time. We will notify you by email or on the platform about important changes.</p>
-
-                    <h2>9. Applicable Law</h2>
-                    <p>These terms are governed by international e-commerce laws and the laws of the state of Delaware, United States.</p>
-
-                    <h2>10. Dispute Resolution</h2>
-                    <p>Any dispute will first be resolved through internal mediation. If not resolved, the parties agree to submit to binding arbitration.</p>
-
-                    <h2>11. Contact</h2>
-                    <p>For questions about these terms:</p>
-                    <ul>
-                        <li>Email: zonapantys@zonapantys.com</li>
-                        <li>Contact form on the platform</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>By using ZonaPantys, you confirm that you have read, understood, and accepted these terms in full.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Back to Home</a>
-                `
+                    description: "The leading platform for premium used lingerie with the most beautiful women from Latin America.",
+                    buyers: {
+                        title: "For Buyers",
+                        explore: "Explore Sellers",
+                        howItWorks: "How It Works",
+                        faq: "FAQ",
+                        support: "Support"
+                    },
+                    sellers: {
+                        title: "For Sellers",
+                        become: "Become a Seller",
+                        guidelines: "Guidelines",
+                        earnings: "Earnings",
+                        security: "Security"
+                    },
+                    rights: "All rights reserved.",
+                    privacy: "Privacy Policy",
+                    terms: "Terms of Service",
+                    contact: "Contact"
+                }
             },
             pt: {
-                title: "Termos de Serviço - ZonaPantys",
-                header: {
-                    title: "📜 Termos de Serviço",
-                    updated: "Última atualização: Janeiro 2026"
+                nav: {
+                    home: "Início",
+                    sellers: "Vendedoras",
+                    howItWorks: "Como Funciona",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Lingerie Premium com Essência Latina",
+                    subtitle: "Experiências autênticas, beleza natural, discrição garantida",
+                    btnPrimary: "Explorar Vendedoras",
+                    btnSecondary: "Saber Mais"
+                },
+                features: {
+                    title: "Por Que ZonaPantys?",
+                    authentic: {
+                        title: "100% Autêntico",
+                        desc: "Cada peça vem com garantia de autenticidade. Aromas naturais e genuínos."
+                    },
+                    beauty: {
+                        title: "Beleza Latina",
+                        desc: "As mulheres mais lindas da América Latina ao seu alcance."
+                    },
+                    discreet: {
+                        title: "Envio Discreto",
+                        desc: "Pacotes sem marcas, totalmente discretos. Sua privacidade é nossa prioridade."
+                    },
+                    international: {
+                        title: "Envios Internacionais",
+                        desc: "Enviamos para USA, Europa e todo o mundo com rastreamento completo."
+                    },
+                    chat: {
+                        title: "Chat Direto",
+                        desc: "Comunique-se diretamente com as vendedoras para pedidos especiais."
+                    },
+                    custom: {
+                        title: "Pedidos Personalizados",
+                        desc: "Solicite estilos específicos, cores e experiências únicas."
+                    }
+                },
+                sellers: {
+                    title: "Vendedoras Destacadas",
+                    colombia: "Colômbia",
+                    argentina: "Argentina",
+                    mexico: "México",
+                    brazil: "Brasil",
+                    chile: "Chile",
+                    uruguay: "Uruguai",
+                    years: "anos",
+                    items: "Itens",
+                    rating: "Avaliação",
+                    reviews: "Comentários",
+                    visit: "Visitar Loja"
+                },
+                howItWorks: {
+                    title: "Como Funciona?",
+                    step1: {
+                        title: "Explore Perfis",
+                        desc: "Navegue por nossas vendedoras verificadas e encontre sua favorita."
+                    },
+                    step2: {
+                        title: "Escolha e Personalize",
+                        desc: "Selecione o produto e solicite personalizações se desejar."
+                    },
+                    step3: {
+                        title: "Pagamento Seguro",
+                        desc: "Pague com segurança com cartão de crédito ou débito."
+                    },
+                    step4: {
+                        title: "Receba Discretamente",
+                        desc: "Seu pedido chega em embalagem discreta com rastreamento completo."
+                    }
+                },
+                faq: {
+                    title: "Perguntas Frequentes",
+                    tabs: {
+                        general: "❓ Gerais",
+                        sellers: "👩 Para Vendedoras",
+                        buyers: "🛒 Para Compradores"
+                    },
+                    general: [
+                        {
+                            q: "São realmente usadas e autênticas?",
+                            a: "Sim, todas as peças são 100% autênticas e usadas por nossas vendedoras verificadas. Cada vendedora é real e cada peça foi usada conforme as especificações do comprador."
+                        },
+                        {
+                            q: "O envio é realmente discreto?",
+                            a: "Absolutamente. Todos os pacotes são enviados em envelopes ou caixas sem marcas, sem nenhuma indicação do conteúdo. A privacidade é nossa máxima prioridade."
+                        },
+                        {
+                            q: "Posso fazer pedidos especiais?",
+                            a: "Sim, você pode se comunicar diretamente com as vendedoras para pedidos personalizados como tempo de uso, atividades específicas, fotos adicionais, etc."
+                        },
+                        {
+                            q: "Enviam para meu país?",
+                            a: "Enviamos para USA, Canadá, Europa e a maioria dos países do mundo. Entre em contato se tiver dúvidas sobre sua localização específica."
+                        },
+                        {
+                            q: "Quais métodos de pagamento aceitam?",
+                            a: "Aceitamos cartões de crédito e débito. Todos os pagamentos são processados de forma segura através do nosso sistema criptografado."
+                        },
+                        {
+                            q: "Por que foco em vendedoras latinas?",
+                            a: "As mulheres latino-americanas são reconhecidas mundialmente por sua beleza natural, curvas sensuais e paixão. Oferecemos uma experiência autêntica com as mulheres mais lindas da região."
+                        },
+                        {
+                            q: "O que acontece se eu não estiver satisfeito?",
+                            a: "Sua satisfação é importante. Se houver algum problema com seu pedido, entre em contato conosco dentro de 48 horas e trabalharemos com você para resolver."
+                        },
+                        {
+                            q: "Isso é legal?",
+                            a: "Sim, a venda de roupas usadas é completamente legal na maioria dos países. Todas as nossas vendedoras são maiores de idade e participam voluntariamente."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "Como me registro como vendedora?",
+                            a: "O processo é simples: crie sua conta, complete seu perfil com fotos e descrição, e aguarde a verificação de nossa equipe (24-48 horas). Você precisa ter mais de 18 anos e ter identificação válida."
+                        },
+                        {
+                            q: "Quanto custa vender na ZonaPantys?",
+                            a: "Cobramos apenas uma mensalidade de $10 USD para vender em nossa plataforma. Sem taxas ocultas! Você mantém 100% dos seus ganhos de vendas."
+                        },
+                        {
+                            q: "O que inclui a mensalidade?",
+                            a: "Sua mensalidade de $10 USD inclui: perfil personalizado verificado, publicação ilimitada de produtos, sistema de chat direto com compradores, estatísticas de vendas, suporte prioritário 24/7, e acesso a ferramentas de marketing. Não cobramos comissão sobre suas vendas."
+                        },
+                        {
+                            q: "Quanto posso ganhar como vendedora?",
+                            a: "Você mantém 100% dos seus ganhos. A renda média varia entre $300-$1500 USD mensais dependendo da sua atividade e demanda. Você paga apenas a mensalidade de $10 USD, sem comissões adicionais."
+                        },
+                        {
+                            q: "Meus dados pessoais estão seguros?",
+                            a: "100%. Suas informações pessoais, endereço e dados bancários estão criptografados. Os compradores nunca veem suas informações reais, apenas seu perfil público e nome artístico."
+                        },
+                        {
+                            q: "Como recebo meus pagamentos?",
+                            a: "Os pagamentos são feitos semanalmente por transferência direta para sua conta bancária. Uma vez que o comprador confirma o recebimento, seu pagamento é processado em 3-5 dias úteis. Você mantém 100% do preço de venda."
+                        },
+                        {
+                            q: "Posso cancelar minha mensalidade a qualquer momento?",
+                            a: "Sim, você pode cancelar sua mensalidade a qualquer momento sem penalidades. Sua mensalidade permanecerá ativa até o final do período pago. Sem contratos ou compromissos de longo prazo."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "Como sei que as peças são autênticas?",
+                            a: "Todas as vendedoras são verificadas com ID. Você pode solicitar fotos de verificação com a peça usada, e oferecemos garantia de devolução se a peça não cumprir o prometido."
+                        },
+                        {
+                            q: "Quanto tempo demora o envio?",
+                            a: "Envios nacionais: 3-7 dias. Envios internacionais: 10-21 dias dependendo do país. Todos os envios incluem número de rastreamento para acompanhamento em tempo real."
+                        },
+                        {
+                            q: "O que acontece se eu não receber meu pedido?",
+                            a: "Se seu pacote se perder ou não chegar no tempo estimado, entre em contato imediatamente. Oferecemos reembolso completo ou reenvio gratuito em caso de problemas com o envio."
+                        },
+                        {
+                            q: "Posso me comunicar diretamente com a vendedora?",
+                            a: "Sim, nosso sistema de chat interno permite que você converse diretamente com as vendedoras para pedidos personalizados, perguntas sobre o produto ou negociar pedidos especiais."
+                        },
+                        {
+                            q: "Minhas compras são 100% privadas?",
+                            a: "Absolutamente. Os pacotes chegam sem marcas ou nome da empresa, a cobrança no seu cartão aparece genérica, e seu histórico de compras é completamente confidencial."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "Todos os direitos reservados."
-                },
-                content: `
-                    <p><strong>Bem-vindo ao ZonaPantys.</strong> Ao usar nossa plataforma, você aceita estes termos na íntegra.</p>
-
-                    <h2>1. Requisitos de Elegibilidade</h2>
-                    <p>Para usar o ZonaPantys você deve:</p>
-                    <ul>
-                        <li>Ter mais de 18 anos</li>
-                        <li>Cumprir as leis do seu país</li>
-                        <li>Fornecer informações verdadeiras e precisas</li>
-                    </ul>
-
-                    <h2>2. Para Vendedoras</h2>
-                    <h3>2.1 Registro</h3>
-                    <ul>
-                        <li>Você deve verificar sua identidade com ID válido</li>
-                        <li>Você só pode vender itens que pertencem a você</li>
-                        <li>Todas as peças devem ser autênticas e usadas por você</li>
-                    </ul>
-
-                    <h3>2.2 Assinatura Mensal</h3>
-                    <p>Para vender no ZonaPantys você deve manter uma assinatura mensal ativa de <strong>$10 USD</strong>.</p>
-                    <ul>
-                        <li>A assinatura permite que você mantenha 100% dos seus ganhos de vendas</li>
-                        <li>Não cobramos comissões adicionais sobre suas vendas</li>
-                        <li>Você pode cancelar sua assinatura a qualquer momento sem penalidades</li>
-                        <li>A assinatura permanece ativa até o final do período pago</li>
-                    </ul>
-
-                    <h3>2.3 Pagamentos</h3>
-                    <ul>
-                        <li>Os pagamentos são processados semanalmente</li>
-                        <li>Saque mínimo: $50 USD</li>
-                        <li>Métodos: Transferência bancária ou Criptomoedas</li>
-                        <li>Você mantém 100% do preço de venda dos seus produtos</li>
-                    </ul>
-
-                    <h3>2.4 Proibições</h3>
-                    <p>É estritamente proibido:</p>
-                    <ul>
-                        <li>Vender peças de terceiros</li>
-                        <li>Compartilhar informações de contato diretas com compradores</li>
-                        <li>Realizar transações fora da plataforma</li>
-                        <li>Conteúdo ilegal ou que viole direitos de terceiros</li>
-                    </ul>
-
-                    <h2>3. Para Compradores</h2>
-                    <h3>3.1 Compras</h3>
-                    <ul>
-                        <li>Todos os pagamentos são processados com segurança</li>
-                        <li>Você recebe um número de rastreamento com cada pedido</li>
-                        <li>Garantia de autenticidade em todas as peças</li>
-                    </ul>
-
-                    <h3>3.2 Devoluções e Reembolsos</h3>
-                    <ul>
-                        <li>Se o produto não corresponder à descrição: reembolso total</li>
-                        <li>Se o pacote não chegar: reembolso ou reenvio gratuito</li>
-                        <li>Reclamações devem ser feitas dentro de 48 horas após o recebimento</li>
-                    </ul>
-
-                    <h3>3.3 Privacidade</h3>
-                    <p>Garantimos:</p>
-                    <ul>
-                        <li>Embalagens discretas sem marcas identificáveis</li>
-                        <li>Cobranças genéricas no seu extrato</li>
-                        <li>Informações pessoais completamente confidenciais</li>
-                    </ul>
-
-                    <h2>4. Conteúdo e Propriedade</h2>
-                    <ul>
-                        <li>Você mantém a propriedade do seu conteúdo (fotos, descrições)</li>
-                        <li>Você nos concede uma licença para usar seu conteúdo na plataforma</li>
-                        <li>Você é responsável por garantir que seu conteúdo não viole direitos de terceiros</li>
-                    </ul>
-
-                    <h2>5. Privacidade e Segurança</h2>
-                    <p>Consulte nossa <a href="privacidad.html">Política de Privacidade</a> para detalhes sobre:</p>
-                    <ul>
-                        <li>Como coletamos e usamos seus dados</li>
-                        <li>Medidas de segurança implementadas</li>
-                        <li>Seus direitos sobre suas informações pessoais</li>
-                    </ul>
-
-                    <h2>6. Limitação de Responsabilidade</h2>
-                    <p>ZonaPantys é uma plataforma que conecta vendedoras e compradores. Não somos responsáveis por:</p>
-                    <ul>
-                        <li>A qualidade ou autenticidade das peças (responsabilidade da vendedora)</li>
-                        <li>Atrasos ou perdas no envio (responsabilidade da empresa de courier)</li>
-                        <li>Disputas entre vendedoras e compradores (atuamos como mediadores)</li>
-                    </ul>
-
-                    <h2>7. Suspensão e Término</h2>
-                    <p>Podemos suspender ou encerrar sua conta se:</p>
-                    <ul>
-                        <li>Você violar estes termos</li>
-                        <li>Você realizar atividades fraudulentas</li>
-                        <li>Você receber múltiplos relatórios negativos</li>
-                        <li>Você não cumprir as leis aplicáveis</li>
-                    </ul>
-
-                    <h2>8. Modificações</h2>
-                    <p>Reservamo-nos o direito de modificar estes termos a qualquer momento. Notificaremos você por email ou na plataforma sobre mudanças importantes.</p>
-
-                    <h2>9. Lei Aplicável</h2>
-                    <p>Estes termos são regidos pelas leis internacionais de comércio eletrônico e as leis do estado de Delaware, Estados Unidos.</p>
-
-                    <h2>10. Resolução de Disputas</h2>
-                    <p>Qualquer disputa será resolvida primeiro por mediação interna. Se não for resolvida, as partes concordam em se submeter a arbitragem vinculativa.</p>
-
-                    <h2>11. Contato</h2>
-                    <p>Para perguntas sobre estes termos:</p>
-                    <ul>
-                        <li>Email: zonapantys@zonapantys.com</li>
-                        <li>Formulário de contato na plataforma</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>Ao usar o ZonaPantys, você confirma que leu, entendeu e aceitou estes termos na íntegra.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Voltar ao Início</a>
-                `
+                    description: "A plataforma líder de lingerie premium usada com as mulheres mais lindas da América Latina.",
+                    buyers: {
+                        title: "Para Compradores",
+                        explore: "Explorar Vendedoras",
+                        howItWorks: "Como Funciona",
+                        faq: "FAQ",
+                        support: "Suporte"
+                    },
+                    sellers: {
+                        title: "Para Vendedoras",
+                        become: "Torne-se Vendedora",
+                        guidelines: "Diretrizes",
+                        earnings: "Ganhos",
+                        security: "Segurança"
+                    },
+                    rights: "Todos os direitos reservados.",
+                    privacy: "Política de Privacidade",
+                    terms: "Termos de Serviço",
+                    contact: "Contato"
+                }
             },
             fr: {
-                title: "Conditions d'Utilisation - ZonaPantys",
-                header: {
-                    title: "📜 Conditions d'Utilisation",
-                    updated: "Dernière mise à jour: Janvier 2026"
+                nav: {
+                    home: "Accueil",
+                    sellers: "Vendeuses",
+                    howItWorks: "Comment Ça Marche",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Lingerie Premium avec Essence Latina",
+                    subtitle: "Expériences authentiques, beauté naturelle, discrétion garantie",
+                    btnPrimary: "Explorer les Vendeuses",
+                    btnSecondary: "En Savoir Plus"
+                },
+                features: {
+                    title: "Pourquoi ZonaPantys?",
+                    authentic: {
+                        title: "100% Authentique",
+                        desc: "Chaque article est garanti authentique. Odeurs naturelles et genuines."
+                    },
+                    beauty: {
+                        title: "Beauté Latina",
+                        desc: "Les plus belles femmes d'Amérique Latine à portée de main."
+                    },
+                    discreet: {
+                        title: "Envoi Discret",
+                        desc: "Colis sans marque, totalement discret. Votre vie privée est notre priorité."
+                    },
+                    international: {
+                        title: "Envois Internationaux",
+                        desc: "Nous expédions aux USA, en Europe et dans le monde entier avec suivi complet."
+                    },
+                    chat: {
+                        title: "Chat Direct",
+                        desc: "Communiquez directement avec les vendeuses pour des demandes spéciales."
+                    },
+                    custom: {
+                        title: "Commandes Personnalisées",
+                        desc: "Demandez des styles spécifiques, des couleurs et des expériences uniques."
+                    }
+                },
+                sellers: {
+                    title: "Vendeuses en Vedette",
+                    colombia: "Colombie",
+                    argentina: "Argentine",
+                    mexico: "Mexique",
+                    brazil: "Brésil",
+                    chile: "Chili",
+                    uruguay: "Uruguay",
+                    years: "ans",
+                    items: "Articles",
+                    rating: "Note",
+                    reviews: "Avis",
+                    visit: "Visiter la Boutique"
+                },
+                howItWorks: {
+                    title: "Comment Ça Marche?",
+                    step1: {
+                        title: "Explorez les Profils",
+                        desc: "Parcourez nos vendeuses vérifiées et trouvez votre favorite."
+                    },
+                    step2: {
+                        title: "Choisissez et Personnalisez",
+                        desc: "Sélectionnez le produit et demandez des personnalisations si vous le souhaitez."
+                    },
+                    step3: {
+                        title: "Paiement Sécurisé",
+                        desc: "Payez en toute sécurité par carte de crédit ou de débit."
+                    },
+                    step4: {
+                        title: "Recevez Discrètement",
+                        desc: "Votre commande arrive dans un emballage discret avec suivi complet."
+                    }
+                },
+                faq: {
+                    title: "Questions Fréquentes",
+                    tabs: {
+                        general: "❓ Générales",
+                        sellers: "👩 Pour les Vendeuses",
+                        buyers: "🛒 Pour les Acheteurs"
+                    },
+                    general: [
+                        {
+                            q: "Sont-ils vraiment utilisés et authentiques?",
+                            a: "Oui, tous les articles sont 100% authentiques et portés par nos vendeuses vérifiées. Chaque vendeuse est réelle et chaque article a été porté selon les spécifications de l'acheteur."
+                        },
+                        {
+                            q: "L'expédition est-elle vraiment discrète?",
+                            a: "Absolument. Tous les colis sont expédiés dans des enveloppes ou boîtes sans marque, sans indication du contenu. La vie privée est notre priorité absolue."
+                        },
+                        {
+                            q: "Puis-je faire des demandes spéciales?",
+                            a: "Oui, vous pouvez communiquer directement avec les vendeuses pour des demandes personnalisées comme le temps de port, des activités spécifiques, des photos supplémentaires, etc."
+                        },
+                        {
+                            q: "Expédiez-vous dans mon pays?",
+                            a: "Nous expédions aux USA, au Canada, en Europe et dans la plupart des pays du monde. Contactez-nous si vous avez des questions sur votre emplacement spécifique."
+                        },
+                        {
+                            q: "Quels modes de paiement acceptez-vous?",
+                            a: "Nous acceptons les cartes de crédit et de débit. Tous les paiements sont traités en toute sécurité via notre système crypté."
+                        },
+                        {
+                            q: "Pourquoi se concentrer sur les vendeuses latinas?",
+                            a: "Les femmes latino-américaines sont reconnues dans le monde entier pour leur beauté naturelle, leurs courbes sensuelles et leur passion. Nous offrons une expérience authentique avec les plus belles femmes de la région."
+                        },
+                        {
+                            q: "Que se passe-t-il si je ne suis pas satisfait?",
+                            a: "Votre satisfaction est importante. S'il y a un problème avec votre commande, contactez-nous dans les 48 heures et nous travaillerons avec vous pour le résoudre."
+                        },
+                        {
+                            q: "Est-ce légal?",
+                            a: "Oui, la vente de vêtements d'occasion est tout à fait légale dans la plupart des pays. Toutes nos vendeuses sont majeures et participent volontairement."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "Comment m'inscrire en tant que vendeuse?",
+                            a: "Le processus est simple: créez votre compte, complétez votre profil avec photos et description, et attendez la vérification de notre équipe (24-48 heures). Vous devez avoir plus de 18 ans et avoir une pièce d'identité valide."
+                        },
+                        {
+                            q: "Combien coûte la vente sur ZonaPantys?",
+                            a: "Nous facturons uniquement un abonnement mensuel de 10 $ USD pour vendre sur notre plateforme. Pas de frais cachés! Vous conservez 100% de vos gains de vente."
+                        },
+                        {
+                            q: "Que comprend l'abonnement mensuel?",
+                            a: "Votre abonnement de 10 $ USD comprend: profil personnalisé vérifié, publication illimitée de produits, système de chat direct avec les acheteurs, statistiques de ventes, support prioritaire 24/7, et accès aux outils marketing. Nous ne facturons pas de commission sur vos ventes."
+                        },
+                        {
+                            q: "Combien puis-je gagner en tant que vendeuse?",
+                            a: "Vous conservez 100% de vos gains. Le revenu moyen varie entre 300 $ et 1500 $ USD par mois selon votre activité et la demande. Vous ne payez que l'abonnement mensuel de 10 $ USD, sans commissions supplémentaires."
+                        },
+                        {
+                            q: "Mes données personnelles sont-elles sécurisées?",
+                            a: "100%. Vos informations personnelles, adresse et coordonnées bancaires sont cryptées. Les acheteurs ne voient jamais vos vraies informations, seulement votre profil public et votre nom de scène."
+                        },
+                        {
+                            q: "Comment je reçois mes paiements?",
+                            a: "Les paiements sont effectués hebdomadairement par virement direct sur votre compte bancaire. Une fois que l'acheteur confirme la réception, votre paiement est traité en 3-5 jours ouvrables. Vous conservez 100% du prix de vente."
+                        },
+                        {
+                            q: "Puis-je annuler mon abonnement à tout moment?",
+                            a: "Oui, vous pouvez annuler votre abonnement à tout moment sans pénalités. Votre abonnement restera actif jusqu'à la fin de la période payée. Pas de contrats ni d'engagements à long terme."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "Comment savoir si les articles sont authentiques?",
+                            a: "Toutes les vendeuses sont vérifiées avec une pièce d'identité. Vous pouvez demander des photos de vérification avec l'article porté, et nous offrons une garantie de retour si l'article ne correspond pas à ce qui a été promis."
+                        },
+                        {
+                            q: "Combien de temps prend l'expédition?",
+                            a: "Expédition nationale: 3-7 jours. Expédition internationale: 10-21 jours selon le pays. Toutes les expéditions incluent un numéro de suivi pour un suivi en temps réel."
+                        },
+                        {
+                            q: "Que se passe-t-il si je ne reçois pas ma commande?",
+                            a: "Si votre colis est perdu ou n'arrive pas dans le temps estimé, contactez-nous immédiatement. Nous offrons un remboursement complet ou un réenvoi gratuit en cas de problèmes d'expédition."
+                        },
+                        {
+                            q: "Puis-je communiquer directement avec la vendeuse?",
+                            a: "Oui, notre système de chat interne vous permet de parler directement avec les vendeuses pour des demandes personnalisées, des questions sur le produit ou pour négocier des commandes spéciales."
+                        },
+                        {
+                            q: "Mes achats sont-ils 100% privés?",
+                            a: "Absolument. Les colis arrivent sans marques ou nom de l'entreprise, le débit sur votre carte apparaît générique, et votre historique d'achats est complètement confidentiel."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "Tous droits réservés."
-                },
-                content: `
-                    <p><strong>Bienvenue sur ZonaPantys.</strong> En utilisant notre plateforme, vous acceptez ces conditions dans leur intégralité.</p>
-
-                    <h2>1. Conditions d'Éligibilité</h2>
-                    <p>Pour utiliser ZonaPantys, vous devez:</p>
-                    <ul>
-                        <li>Avoir plus de 18 ans</li>
-                        <li>Respecter les lois de votre pays</li>
-                        <li>Fournir des informations vraies et précises</li>
-                    </ul>
-
-                    <h2>2. Pour les Vendeuses</h2>
-                    <h3>2.1 Inscription</h3>
-                    <ul>
-                        <li>Vous devez vérifier votre identité avec une pièce d'identité valide</li>
-                        <li>Vous ne pouvez vendre que des articles qui vous appartiennent</li>
-                        <li>Tous les vêtements doivent être authentiques et portés par vous</li>
-                    </ul>
-
-                    <h3>2.2 Abonnement Mensuel</h3>
-                    <p>Pour vendre sur ZonaPantys, vous devez maintenir un abonnement mensuel actif de <strong>10 $ USD</strong>.</p>
-                    <ul>
-                        <li>L'abonnement vous permet de conserver 100% de vos revenus de vente</li>
-                        <li>Nous ne facturons pas de commissions supplémentaires sur vos ventes</li>
-                        <li>Vous pouvez annuler votre abonnement à tout moment sans pénalités</li>
-                        <li>L'abonnement reste actif jusqu'à la fin de la période payée</li>
-                    </ul>
-
-                    <h3>2.3 Paiements</h3>
-                    <ul>
-                        <li>Les paiements sont traités hebdomadairement</li>
-                        <li>Retrait minimum: 50 $ USD</li>
-                        <li>Méthodes: Virement bancaire ou Cryptomonnaies</li>
-                        <li>Vous conservez 100% du prix de vente de vos produits</li>
-                    </ul>
-
-                    <h3>2.4 Interdictions</h3>
-                    <p>Il est strictement interdit de:</p>
-                    <ul>
-                        <li>Vendre des vêtements de tiers</li>
-                        <li>Partager des informations de contact directes avec les acheteurs</li>
-                        <li>Effectuer des transactions en dehors de la plateforme</li>
-                        <li>Contenu illégal ou violant les droits de tiers</li>
-                    </ul>
-
-                    <h2>3. Pour les Acheteurs</h2>
-                    <h3>3.1 Achats</h3>
-                    <ul>
-                        <li>Tous les paiements sont traités en toute sécurité</li>
-                        <li>Vous recevez un numéro de suivi avec chaque commande</li>
-                        <li>Garantie d'authenticité sur tous les vêtements</li>
-                    </ul>
-
-                    <h3>3.2 Retours et Remboursements</h3>
-                    <ul>
-                        <li>Si le produit ne correspond pas à la description: remboursement complet</li>
-                        <li>Si le colis n'arrive pas: remboursement ou réexpédition gratuite</li>
-                        <li>Les réclamations doivent être faites dans les 48 heures suivant la réception</li>
-                    </ul>
-
-                    <h3>3.3 Confidentialité</h3>
-                    <p>Nous garantissons:</p>
-                    <ul>
-                        <li>Emballages discrets sans marques identifiables</li>
-                        <li>Charges génériques sur votre relevé</li>
-                        <li>Informations personnelles complètement confidentielles</li>
-                    </ul>
-
-                    <h2>4. Contenu et Propriété</h2>
-                    <ul>
-                        <li>Vous conservez la propriété de votre contenu (photos, descriptions)</li>
-                        <li>Vous nous accordez une licence pour utiliser votre contenu sur la plateforme</li>
-                        <li>Vous êtes responsable de vous assurer que votre contenu ne viole pas les droits de tiers</li>
-                    </ul>
-
-                    <h2>5. Confidentialité et Sécurité</h2>
-                    <p>Consultez notre <a href="privacidad.html">Politique de Confidentialité</a> pour plus de détails sur:</p>
-                    <ul>
-                        <li>Comment nous collectons et utilisons vos données</li>
-                        <li>Mesures de sécurité mises en œuvre</li>
-                        <li>Vos droits concernant vos informations personnelles</li>
-                    </ul>
-
-                    <h2>6. Limitation de Responsabilité</h2>
-                    <p>ZonaPantys est une plateforme qui connecte les vendeuses et les acheteurs. Nous ne sommes pas responsables de:</p>
-                    <ul>
-                        <li>La qualité ou l'authenticité des vêtements (responsabilité de la vendeuse)</li>
-                        <li>Les retards ou pertes d'expédition (responsabilité de l'entreprise de messagerie)</li>
-                        <li>Les litiges entre vendeuses et acheteurs (nous agissons comme médiateurs)</li>
-                    </ul>
-
-                    <h2>7. Suspension et Résiliation</h2>
-                    <p>Nous pouvons suspendre ou résilier votre compte si:</p>
-                    <ul>
-                        <li>Vous violez ces conditions</li>
-                        <li>Vous vous engagez dans des activités frauduleuses</li>
-                        <li>Vous recevez plusieurs rapports négatifs</li>
-                        <li>Vous ne respectez pas les lois applicables</li>
-                    </ul>
-
-                    <h2>8. Modifications</h2>
-                    <p>Nous nous réservons le droit de modifier ces conditions à tout moment. Nous vous informerons par email ou sur la plateforme des changements importants.</p>
-
-                    <h2>9. Loi Applicable</h2>
-                    <p>Ces conditions sont régies par les lois internationales du commerce électronique et les lois de l'état du Delaware, États-Unis.</p>
-
-                    <h2>10. Résolution des Litiges</h2>
-                    <p>Tout litige sera d'abord résolu par médiation interne. S'il n'est pas résolu, les parties conviennent de se soumettre à un arbitrage contraignant.</p>
-
-                    <h2>11. Contact</h2>
-                    <p>Pour toute question concernant ces conditions:</p>
-                    <ul>
-                        <li>Email: zonapantys@zonapantys.com</li>
-                        <li>Formulaire de contact sur la plateforme</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>En utilisant ZonaPantys, vous confirmez avoir lu, compris et accepté ces conditions dans leur intégralité.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Retour à l'Accueil</a>
-                `
+                    description: "La plateforme leader de lingerie premium d'occasion avec les plus belles femmes d'Amérique Latine.",
+                    buyers: {
+                        title: "Pour les Acheteurs",
+                        explore: "Explorer les Vendeuses",
+                        howItWorks: "Comment Ça Marche",
+                        faq: "FAQ",
+                        support: "Support"
+                    },
+                    sellers: {
+                        title: "Pour les Vendeuses",
+                        become: "Devenir Vendeuse",
+                        guidelines: "Directives",
+                        earnings: "Gains",
+                        security: "Sécurité"
+                    },
+                    rights: "Tous droits réservés.",
+                    privacy: "Politique de Confidentialité",
+                    terms: "Conditions d'Utilisation",
+                    contact: "Contact"
+                }
             },
             de: {
-                title: "Nutzungsbedingungen - ZonaPantys",
-                header: {
-                    title: "📜 Nutzungsbedingungen",
-                    updated: "Letzte Aktualisierung: Januar 2026"
+                nav: {
+                    home: "Startseite",
+                    sellers: "Verkäuferinnen",
+                    howItWorks: "Wie es Funktioniert",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Premium Dessous mit Latina Essenz",
+                    subtitle: "Authentische Erfahrungen, natürliche Schönheit, garantierte Diskretion",
+                    btnPrimary: "Verkäuferinnen Erkunden",
+                    btnSecondary: "Mehr Erfahren"
+                },
+                features: {
+                    title: "Warum ZonaPantys?",
+                    authentic: {
+                        title: "100% Authentisch",
+                        desc: "Jeder Artikel kommt mit Authentizitätsgarantie. Natürliche und echte Düfte."
+                    },
+                    beauty: {
+                        title: "Latina Schönheit",
+                        desc: "Die schönsten Frauen aus Lateinamerika in Reichweite."
+                    },
+                    discreet: {
+                        title: "Diskreter Versand",
+                        desc: "Unmarkierte Pakete, völlig diskret. Ihre Privatsphäre ist unsere Priorität."
+                    },
+                    international: {
+                        title: "Internationaler Versand",
+                        desc: "Wir versenden in die USA, Europa und weltweit mit vollständiger Sendungsverfolgung."
+                    },
+                    chat: {
+                        title: "Direkter Chat",
+                        desc: "Kommunizieren Sie direkt mit Verkäuferinnen für spezielle Anfragen."
+                    },
+                    custom: {
+                        title: "Individuelle Bestellungen",
+                        desc: "Fordern Sie spezifische Stile, Farben und einzigartige Erfahrungen an."
+                    }
+                },
+                sellers: {
+                    title: "Empfohlene Verkäuferinnen",
+                    colombia: "Kolumbien",
+                    argentina: "Argentinien",
+                    mexico: "Mexiko",
+                    brazil: "Brasilien",
+                    chile: "Chile",
+                    uruguay: "Uruguay",
+                    years: "Jahre alt",
+                    items: "Artikel",
+                    rating: "Bewertung",
+                    reviews: "Rezensionen",
+                    visit: "Shop Besuchen"
+                },
+                howItWorks: {
+                    title: "Wie es Funktioniert?",
+                    step1: {
+                        title: "Profile Durchsuchen",
+                        desc: "Durchsuchen Sie unsere verifizierten Verkäuferinnen und finden Sie Ihre Favoritin."
+                    },
+                    step2: {
+                        title: "Wählen & Anpassen",
+                        desc: "Wählen Sie das Produkt aus und fordern Sie Anpassungen an, wenn gewünscht."
+                    },
+                    step3: {
+                        title: "Sichere Zahlung",
+                        desc: "Zahlen Sie sicher mit Kredit- oder Debitkarte."
+                    },
+                    step4: {
+                        title: "Diskret Empfangen",
+                        desc: "Ihre Bestellung kommt in diskreter Verpackung mit vollständiger Sendungsverfolgung."
+                    }
+                },
+                faq: {
+                    title: "Häufig Gestellte Fragen",
+                    tabs: {
+                        general: "❓ Allgemein",
+                        sellers: "👩 Für Verkäuferinnen",
+                        buyers: "🛒 Für Käufer"
+                    },
+                    general: [
+                        {
+                            q: "Sind sie wirklich getragen und authentisch?",
+                            a: "Ja, alle Artikel sind 100% authentisch und von unseren verifizierten Verkäuferinnen getragen. Jede Verkäuferin ist echt und jeder Artikel wurde gemäß den Käuferspezifikationen getragen."
+                        },
+                        {
+                            q: "Ist der Versand wirklich diskret?",
+                            a: "Absolut. Alle Pakete werden in unmarkierten Umschlägen oder Boxen ohne Hinweise auf den Inhalt verschickt. Privatsphäre ist unsere oberste Priorität."
+                        },
+                        {
+                            q: "Kann ich spezielle Anfragen stellen?",
+                            a: "Ja, Sie können direkt mit Verkäuferinnen für individuelle Anfragen wie Tragezeit, spezifische Aktivitäten, zusätzliche Fotos usw. kommunizieren."
+                        },
+                        {
+                            q: "Versenden Sie in mein Land?",
+                            a: "Wir versenden in die USA, Kanada, Europa und die meisten Länder weltweit. Kontaktieren Sie uns, wenn Sie Fragen zu Ihrem spezifischen Standort haben."
+                        },
+                        {
+                            q: "Welche Zahlungsmethoden akzeptieren Sie?",
+                            a: "Wir akzeptieren Kredit- und Debitkarten. Alle Zahlungen werden sicher über unser verschlüsseltes System verarbeitet."
+                        },
+                        {
+                            q: "Warum der Fokus auf Latina Verkäuferinnen?",
+                            a: "Lateinamerikanische Frauen sind weltweit für ihre natürliche Schönheit, sinnliche Kurven und Leidenschaft anerkannt. Wir bieten eine authentische Erfahrung mit den schönsten Frauen der Region."
+                        },
+                        {
+                            q: "Was passiert, wenn ich nicht zufrieden bin?",
+                            a: "Ihre Zufriedenheit ist wichtig. Wenn es ein Problem mit Ihrer Bestellung gibt, kontaktieren Sie uns innerhalb von 48 Stunden und wir werden mit Ihnen zusammenarbeiten, um es zu lösen."
+                        },
+                        {
+                            q: "Ist das legal?",
+                            a: "Ja, der Verkauf von getragener Kleidung ist in den meisten Ländern völlig legal. Alle unsere Verkäuferinnen sind volljährig und nehmen freiwillig teil."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "Wie registriere ich mich als Verkäuferin?",
+                            a: "Der Prozess ist einfach: Erstellen Sie Ihr Konto, vervollständigen Sie Ihr Profil mit Fotos und Beschreibung, und warten Sie auf die Verifizierung durch unser Team (24-48 Stunden). Sie müssen über 18 Jahre alt sein und einen gültigen Ausweis haben."
+                        },
+                        {
+                            q: "Was kostet der Verkauf auf ZonaPantys?",
+                            a: "Wir berechnen nur eine monatliche Mitgliedschaft von 10 $ USD für den Verkauf auf unserer Plattform. Keine versteckten Gebühren! Sie behalten 100% Ihrer Verkaufseinnahmen."
+                        },
+                        {
+                            q: "Was beinhaltet die monatliche Mitgliedschaft?",
+                            a: "Ihre 10 $ USD Mitgliedschaft beinhaltet: verifiziertes individuelles Profil, unbegrenzte Produktlistings, direktes Chat-System mit Käufern, Verkaufsstatistiken, 24/7 Priority-Support und Zugang zu Marketing-Tools. Wir berechnen keine Provision auf Ihre Verkäufe."
+                        },
+                        {
+                            q: "Wie viel kann ich als Verkäuferin verdienen?",
+                            a: "Sie behalten 100% Ihrer Einnahmen. Das durchschnittliche Einkommen liegt zwischen 300-1500 $ USD monatlich, abhängig von Ihrer Aktivität und Nachfrage. Sie zahlen nur die monatliche Mitgliedschaft von 10 $ USD, keine zusätzlichen Provisionen."
+                        },
+                        {
+                            q: "Sind meine persönlichen Daten sicher?",
+                            a: "100%. Ihre persönlichen Informationen, Adresse und Bankdaten sind verschlüsselt. Käufer sehen nie Ihre echten Informationen, nur Ihr öffentliches Profil und Ihren Künstlernamen."
+                        },
+                        {
+                            q: "Wie erhalte ich meine Zahlungen?",
+                            a: "Zahlungen erfolgen wöchentlich per Direktüberweisung auf Ihr Bankkonto. Sobald der Käufer den Erhalt bestätigt, wird Ihre Zahlung in 3-5 Werktagen verarbeitet. Sie behalten 100% des Verkaufspreises."
+                        },
+                        {
+                            q: "Kann ich meine Mitgliedschaft jederzeit kündigen?",
+                            a: "Ja, Sie können Ihre Mitgliedschaft jederzeit ohne Strafen kündigen. Ihre Mitgliedschaft bleibt bis zum Ende des bezahlten Zeitraums aktiv. Keine Verträge oder langfristigen Verpflichtungen."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "Wie weiß ich, dass die Artikel authentisch sind?",
+                            a: "Alle Verkäuferinnen sind mit Ausweis verifiziert. Sie können Verifizierungsfotos mit dem getragenen Artikel anfordern, und wir bieten eine Rückgabegarantie, wenn der Artikel nicht dem Versprochenen entspricht."
+                        },
+                        {
+                            q: "Wie lange dauert der Versand?",
+                            a: "Inlandsversand: 3-7 Tage. Internationaler Versand: 10-21 Tage je nach Land. Alle Sendungen beinhalten eine Tracking-Nummer für Echtzeitverfolgung."
+                        },
+                        {
+                            q: "Was passiert, wenn ich meine Bestellung nicht erhalte?",
+                            a: "Wenn Ihr Paket verloren geht oder nicht in der geschätzten Zeit ankommt, kontaktieren Sie uns sofort. Wir bieten volle Rückerstattung oder kostenlosen erneuten Versand bei Versandproblemen."
+                        },
+                        {
+                            q: "Kann ich direkt mit der Verkäuferin kommunizieren?",
+                            a: "Ja, unser internes Chat-System ermöglicht es Ihnen, direkt mit Verkäuferinnen für individuelle Anfragen, Produktfragen oder zum Verhandeln spezieller Bestellungen zu sprechen."
+                        },
+                        {
+                            q: "Sind meine Käufe 100% privat?",
+                            a: "Absolut. Pakete kommen ohne Markierungen oder Firmennamen an, die Belastung auf Ihrer Karte erscheint generisch, und Ihre Kaufhistorie ist vollständig vertraulich."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "Alle Rechte vorbehalten."
-                },
-                content: `
-                    <p><strong>Willkommen bei ZonaPantys.</strong> Durch die Nutzung unserer Plattform akzeptieren Sie diese Bedingungen vollständig.</p>
-
-                    <h2>1. Teilnahmevoraussetzungen</h2>
-                    <p>Um ZonaPantys zu nutzen, müssen Sie:</p>
-                    <ul>
-                        <li>Über 18 Jahre alt sein</li>
-                        <li>Die Gesetze Ihres Landes einhalten</li>
-                        <li>Wahre und genaue Informationen bereitstellen</li>
-                    </ul>
-
-                    <h2>2. Für Verkäuferinnen</h2>
-                    <h3>2.1 Registrierung</h3>
-                    <ul>
-                        <li>Sie müssen Ihre Identität mit gültigem Ausweis verifizieren</li>
-                        <li>Sie dürfen nur Artikel verkaufen, die Ihnen gehören</li>
-                        <li>Alle Kleidungsstücke müssen authentisch und von Ihnen getragen sein</li>
-                    </ul>
-
-                    <h3>2.2 Monatliche Mitgliedschaft</h3>
-                    <p>Um auf ZonaPantys zu verkaufen, müssen Sie eine aktive monatliche Mitgliedschaft von <strong>10 $ USD</strong> aufrechterhalten.</p>
-                    <ul>
-                        <li>Die Mitgliedschaft ermöglicht es Ihnen, 100% Ihrer Verkaufseinnahmen zu behalten</li>
-                        <li>Wir berechnen keine zusätzlichen Provisionen auf Ihre Verkäufe</li>
-                        <li>Sie können Ihre Mitgliedschaft jederzeit ohne Strafen kündigen</li>
-                        <li>Die Mitgliedschaft bleibt bis zum Ende des bezahlten Zeitraums aktiv</li>
-                    </ul>
-
-                    <h3>2.3 Zahlungen</h3>
-                    <ul>
-                        <li>Zahlungen werden wöchentlich verarbeitet</li>
-                        <li>Mindestauszahlung: 50 $ USD</li>
-                        <li>Methoden: Banküberweisung oder Kryptowährungen</li>
-                        <li>Sie behalten 100% des Verkaufspreises Ihrer Produkte</li>
-                    </ul>
-
-                    <h3>2.4 Verbote</h3>
-                    <p>Es ist streng verboten:</p>
-                    <ul>
-                        <li>Kleidungsstücke Dritter zu verkaufen</li>
-                        <li>Direkte Kontaktinformationen mit Käufern zu teilen</li>
-                        <li>Transaktionen außerhalb der Plattform durchzuführen</li>
-                        <li>Illegale Inhalte oder Inhalte, die Rechte Dritter verletzen</li>
-                    </ul>
-
-                    <h2>3. Für Käufer</h2>
-                    <h3>3.1 Einkäufe</h3>
-                    <ul>
-                        <li>Alle Zahlungen werden sicher verarbeitet</li>
-                        <li>Sie erhalten eine Tracking-Nummer mit jeder Bestellung</li>
-                        <li>Authentizitätsgarantie auf alle Kleidungsstücke</li>
-                    </ul>
-
-                    <h3>3.2 Rücksendungen und Rückerstattungen</h3>
-                    <ul>
-                        <li>Wenn das Produkt nicht der Beschreibung entspricht: vollständige Rückerstattung</li>
-                        <li>Wenn das Paket nicht ankommt: Rückerstattung oder kostenloser erneuter Versand</li>
-                        <li>Reklamationen müssen innerhalb von 48 Stunden nach Erhalt erfolgen</li>
-                    </ul>
-
-                    <h3>3.3 Datenschutz</h3>
-                    <p>Wir garantieren:</p>
-                    <ul>
-                        <li>Diskrete Verpackung ohne identifizierbare Markierungen</li>
-                        <li>Generische Abbuchungen auf Ihrem Kontoauszug</li>
-                        <li>Vollständig vertrauliche persönliche Informationen</li>
-                    </ul>
-
-                    <h2>4. Inhalt und Eigentum</h2>
-                    <ul>
-                        <li>Sie behalten das Eigentum an Ihren Inhalten (Fotos, Beschreibungen)</li>
-                        <li>Sie gewähren uns eine Lizenz zur Nutzung Ihrer Inhalte auf der Plattform</li>
-                        <li>Sie sind dafür verantwortlich, dass Ihre Inhalte keine Rechte Dritter verletzen</li>
-                    </ul>
-
-                    <h2>5. Datenschutz und Sicherheit</h2>
-                    <p>Siehe unsere <a href="privacidad.html">Datenschutzerklärung</a> für Details zu:</p>
-                    <ul>
-                        <li>Wie wir Ihre Daten sammeln und verwenden</li>
-                        <li>Implementierte Sicherheitsmaßnahmen</li>
-                        <li>Ihre Rechte bezüglich Ihrer persönlichen Informationen</li>
-                    </ul>
-
-                    <h2>6. Haftungsbeschränkung</h2>
-                    <p>ZonaPantys ist eine Plattform, die Verkäuferinnen und Käufer verbindet. Wir sind nicht verantwortlich für:</p>
-                    <ul>
-                        <li>Die Qualität oder Authentizität der Kleidungsstücke (Verantwortung der Verkäuferin)</li>
-                        <li>Versandverzögerungen oder -verluste (Verantwortung des Kurierunternehmens)</li>
-                        <li>Streitigkeiten zwischen Verkäuferinnen und Käufern (wir fungieren als Vermittler)</li>
-                    </ul>
-
-                    <h2>7. Aussetzung und Kündigung</h2>
-                    <p>Wir können Ihr Konto aussetzen oder kündigen, wenn:</p>
-                    <ul>
-                        <li>Sie diese Bedingungen verletzen</li>
-                        <li>Sie betrügerische Aktivitäten durchführen</li>
-                        <li>Sie mehrere negative Berichte erhalten</li>
-                        <li>Sie gegen geltende Gesetze verstoßen</li>
-                    </ul>
-
-                    <h2>8. Änderungen</h2>
-                    <p>Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Wir werden Sie per E-Mail oder auf der Plattform über wichtige Änderungen informieren.</p>
-
-                    <h2>9. Anwendbares Recht</h2>
-                    <p>Diese Bedingungen unterliegen den internationalen E-Commerce-Gesetzen und den Gesetzen des Bundesstaates Delaware, Vereinigte Staaten.</p>
-
-                    <h2>10. Streitbeilegung</h2>
-                    <p>Jeder Streit wird zunächst durch interne Mediation gelöst. Wenn er nicht gelöst wird, vereinbaren die Parteien, sich einem bindenden Schiedsverfahren zu unterwerfen.</p>
-
-                    <h2>11. Kontakt</h2>
-                    <p>Für Fragen zu diesen Bedingungen:</p>
-                    <ul>
-                        <li>E-Mail: zonapantys@zonapantys.com</li>
-                        <li>Kontaktformular auf der Plattform</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>Durch die Nutzung von ZonaPantys bestätigen Sie, dass Sie diese Bedingungen vollständig gelesen, verstanden und akzeptiert haben.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Zurück zur Startseite</a>
-                `
+                    description: "Die führende Plattform für premium getragene Dessous mit den schönsten Frauen aus Lateinamerika.",
+                    buyers: {
+                        title: "Für Käufer",
+                        explore: "Verkäuferinnen Erkunden",
+                        howItWorks: "Wie es Funktioniert",
+                        faq: "FAQ",
+                        support: "Support"
+                    },
+                    sellers: {
+                        title: "Für Verkäuferinnen",
+                        become: "Verkäuferin Werden",
+                        guidelines: "Richtlinien",
+                        earnings: "Einnahmen",
+                        security: "Sicherheit"
+                    },
+                    rights: "Alle Rechte vorbehalten.",
+                    privacy: "Datenschutzerklärung",
+                    terms: "Nutzungsbedingungen",
+                    contact: "Kontakt"
+                }
             },
             it: {
-                title: "Termini di Servizio - ZonaPantys",
-                header: {
-                    title: "📜 Termini di Servizio",
-                    updated: "Ultimo aggiornamento: Gennaio 2026"
+                nav: {
+                    home: "Home",
+                    sellers: "Venditrici",
+                    howItWorks: "Come Funziona",
+                    faq: "FAQ"
+                },
+                hero: {
+                    title: "Lingerie Premium con Essenza Latina",
+                    subtitle: "Esperienze autentiche, bellezza naturale, discrezione garantita",
+                    btnPrimary: "Esplora Venditrici",
+                    btnSecondary: "Scopri di Più"
+                },
+                features: {
+                    title: "Perché ZonaPantys?",
+                    authentic: {
+                        title: "100% Autentico",
+                        desc: "Ogni articolo viene con garanzia di autenticità. Profumi naturali e genuini."
+                    },
+                    beauty: {
+                        title: "Bellezza Latina",
+                        desc: "Le donne più belle dell'America Latina a portata di mano."
+                    },
+                    discreet: {
+                        title: "Spedizione Discreta",
+                        desc: "Pacchi senza marchio, completamente discreti. La tua privacy è la nostra priorità."
+                    },
+                    international: {
+                        title: "Spedizioni Internazionali",
+                        desc: "Spediamo in USA, Europa e in tutto il mondo con tracciamento completo."
+                    },
+                    chat: {
+                        title: "Chat Diretta",
+                        desc: "Comunica direttamente con le venditrici per richieste speciali."
+                    },
+                    custom: {
+                        title: "Ordini Personalizzati",
+                        desc: "Richiedi stili specifici, colori ed esperienze uniche."
+                    }
+                },
+                sellers: {
+                    title: "Venditrici in Evidenza",
+                    colombia: "Colombia",
+                    argentina: "Argentina",
+                    mexico: "Messico",
+                    brazil: "Brasile",
+                    chile: "Cile",
+                    uruguay: "Uruguay",
+                    years: "anni",
+                    items: "Articoli",
+                    rating: "Valutazione",
+                    reviews: "Recensioni",
+                    visit: "Visita Negozio"
+                },
+                howItWorks: {
+                    title: "Come Funziona?",
+                    step1: {
+                        title: "Esplora Profili",
+                        desc: "Naviga tra le nostre venditrici verificate e trova la tua preferita."
+                    },
+                    step2: {
+                        title: "Scegli e Personalizza",
+                        desc: "Seleziona il prodotto e richiedi personalizzazioni se desiderato."
+                    },
+                    step3: {
+                        title: "Pagamento Sicuro",
+                        desc: "Paga in modo sicuro con carta di credito o debito."
+                    },
+                    step4: {
+                        title: "Ricevi Discretamente",
+                        desc: "Il tuo ordine arriva in imballaggio discreto con tracciamento completo."
+                    }
+                },
+                faq: {
+                    title: "Domande Frequenti",
+                    tabs: {
+                        general: "❓ Generali",
+                        sellers: "👩 Per Venditrici",
+                        buyers: "🛒 Per Acquirenti"
+                    },
+                    general: [
+                        {
+                            q: "Sono davvero usati e autentici?",
+                            a: "Sì, tutti gli articoli sono 100% autentici e indossati dalle nostre venditrici verificate. Ogni venditrice è reale e ogni articolo è stato indossato secondo le specifiche dell'acquirente."
+                        },
+                        {
+                            q: "La spedizione è davvero discreta?",
+                            a: "Assolutamente. Tutti i pacchi vengono spediti in buste o scatole senza marchio, senza alcuna indicazione del contenuto. La privacy è la nostra massima priorità."
+                        },
+                        {
+                            q: "Posso fare richieste speciali?",
+                            a: "Sì, puoi comunicare direttamente con le venditrici per richieste personalizzate come tempo di utilizzo, attività specifiche, foto aggiuntive, ecc."
+                        },
+                        {
+                            q: "Spedite nel mio paese?",
+                            a: "Spediamo in USA, Canada, Europa e nella maggior parte dei paesi del mondo. Contattaci se hai domande sulla tua posizione specifica."
+                        },
+                        {
+                            q: "Quali metodi di pagamento accettate?",
+                            a: "Accettiamo carte di credito e debito. Tutti i pagamenti sono elaborati in modo sicuro tramite il nostro sistema crittografato."
+                        },
+                        {
+                            q: "Perché il focus sulle venditrici latine?",
+                            a: "Le donne latinoamericane sono riconosciute in tutto il mondo per la loro bellezza naturale, curve sensuali e passione. Offriamo un'esperienza autentica con le donne più belle della regione."
+                        },
+                        {
+                            q: "Cosa succede se non sono soddisfatto?",
+                            a: "La tua soddisfazione è importante. Se c'è un problema con il tuo ordine, contattaci entro 48 ore e lavoreremo con te per risolverlo."
+                        },
+                        {
+                            q: "È legale?",
+                            a: "Sì, la vendita di abbigliamento usato è completamente legale nella maggior parte dei paesi. Tutte le nostre venditrici sono maggiorenni e partecipano volontariamente."
+                        }
+                    ],
+                    sellers: [
+                        {
+                            q: "Come mi registro come venditrice?",
+                            a: "Il processo è semplice: crea il tuo account, completa il tuo profilo con foto e descrizione, e attendi la verifica dal nostro team (24-48 ore). Devi avere più di 18 anni e avere un documento d'identità valido."
+                        },
+                        {
+                            q: "Quanto costa vendere su ZonaPantys?",
+                            a: "Addebitiamo solo un abbonamento mensile di $10 USD per vendere sulla nostra piattaforma. Nessun costo nascosto! Mantieni il 100% dei tuoi guadagni di vendita."
+                        },
+                        {
+                            q: "Cosa include l'abbonamento mensile?",
+                            a: "Il tuo abbonamento di $10 USD include: profilo personalizzato verificato, pubblicazioni illimitate di prodotti, sistema di chat diretto con gli acquirenti, statistiche di vendita, supporto prioritario 24/7 e accesso agli strumenti di marketing. Non addebitiamo commissioni sulle tue vendite."
+                        },
+                        {
+                            q: "Quanto posso guadagnare come venditrice?",
+                            a: "Mantieni il 100% dei tuoi guadagni. Il reddito medio varia tra $300-$1500 USD mensili a seconda della tua attività e domanda. Paghi solo l'abbonamento mensile di $10 USD, senza commissioni aggiuntive."
+                        },
+                        {
+                            q: "I miei dati personali sono al sicuro?",
+                            a: "100%. Le tue informazioni personali, indirizzo e dati bancari sono crittografati. Gli acquirenti non vedono mai le tue vere informazioni, solo il tuo profilo pubblico e nome d'arte."
+                        },
+                        {
+                            q: "Come ricevo i miei pagamenti?",
+                            a: "I pagamenti vengono effettuati settimanalmente tramite bonifico diretto sul tuo conto bancario. Una volta che l'acquirente conferma la ricezione, il tuo pagamento viene elaborato in 3-5 giorni lavorativi. Mantieni il 100% del prezzo di vendita."
+                        },
+                        {
+                            q: "Posso cancellare il mio abbonamento in qualsiasi momento?",
+                            a: "Sì, puoi cancellare il tuo abbonamento in qualsiasi momento senza penalità. Il tuo abbonamento rimarrà attivo fino alla fine del periodo pagato. Nessun contratto o impegno a lungo termine."
+                        }
+                    ],
+                    buyers: [
+                        {
+                            q: "Come so che gli articoli sono autentici?",
+                            a: "Tutte le venditrici sono verificate con documento d'identità. Puoi richiedere foto di verifica con l'articolo indossato, e offriamo garanzia di reso se l'articolo non corrisponde a quanto promesso."
+                        },
+                        {
+                            q: "Quanto tempo richiede la spedizione?",
+                            a: "Spedizione nazionale: 3-7 giorni. Spedizione internazionale: 10-21 giorni a seconda del paese. Tutte le spedizioni includono numero di tracciamento per monitoraggio in tempo reale."
+                        },
+                        {
+                            q: "Cosa succede se non ricevo il mio ordine?",
+                            a: "Se il tuo pacco si perde o non arriva nel tempo stimato, contattaci immediatamente. Offriamo rimborso completo o rispedizione gratuita in caso di problemi con la spedizione."
+                        },
+                        {
+                            q: "Posso comunicare direttamente con la venditrice?",
+                            a: "Sì, il nostro sistema di chat interno ti permette di parlare direttamente con le venditrici per richieste personalizzate, domande sul prodotto o per negoziare ordini speciali."
+                        },
+                        {
+                            q: "I miei acquisti sono 100% privati?",
+                            a: "Assolutamente. I pacchi arrivano senza marchi o nome dell'azienda, l'addebito sulla tua carta appare generico, e la tua cronologia degli acquisti è completamente confidenziale."
+                        }
+                    ]
                 },
                 footer: {
-                    rights: "Tutti i diritti riservati."
-                },
-                content: `
-                    <p><strong>Benvenuto su ZonaPantys.</strong> Utilizzando la nostra piattaforma, accetti questi termini nella loro interezza.</p>
-
-                    <h2>1. Requisiti di Idoneità</h2>
-                    <p>Per utilizzare ZonaPantys devi:</p>
-                    <ul>
-                        <li>Avere più di 18 anni</li>
-                        <li>Rispettare le leggi del tuo paese</li>
-                        <li>Fornire informazioni vere e accurate</li>
-                    </ul>
-
-                    <h2>2. Per le Venditrici</h2>
-                    <h3>2.1 Registrazione</h3>
-                    <ul>
-                        <li>Devi verificare la tua identità con un documento valido</li>
-                        <li>Puoi vendere solo articoli che ti appartengono</li>
-                        <li>Tutti i capi devono essere autentici e indossati da te</li>
-                    </ul>
-
-                    <h3>2.2 Abbonamento Mensile</h3>
-                    <p>Per vendere su ZonaPantys devi mantenere un abbonamento mensile attivo di <strong>$10 USD</strong>.</p>
-                    <ul>
-                        <li>L'abbonamento ti permette di mantenere il 100% dei tuoi guadagni dalle vendite</li>
-                        <li>Non addebitiamo commissioni aggiuntive sulle tue vendite</li>
-                        <li>Puoi cancellare il tuo abbonamento in qualsiasi momento senza penalità</li>
-                        <li>L'abbonamento rimane attivo fino alla fine del periodo pagato</li>
-                    </ul>
-
-                    <h3>2.3 Pagamenti</h3>
-                    <ul>
-                        <li>I pagamenti vengono elaborati settimanalmente</li>
-                        <li>Prelievo minimo: $50 USD</li>
-                        <li>Metodi: Bonifico bancario o Criptovalute</li>
-                        <li>Mantieni il 100% del prezzo di vendita dei tuoi prodotti</li>
-                    </ul>
-
-                    <h3>2.4 Divieti</h3>
-                    <p>È severamente vietato:</p>
-                    <ul>
-                        <li>Vendere capi di terzi</li>
-                        <li>Condividere informazioni di contatto dirette con gli acquirenti</li>
-                        <li>Effettuare transazioni al di fuori della piattaforma</li>
-                        <li>Contenuti illegali o che violino i diritti di terzi</li>
-                    </ul>
-
-                    <h2>3. Per gli Acquirenti</h2>
-                    <h3>3.1 Acquisti</h3>
-                    <ul>
-                        <li>Tutti i pagamenti vengono elaborati in modo sicuro</li>
-                        <li>Ricevi un numero di tracking con ogni ordine</li>
-                        <li>Garanzia di autenticità su tutti i capi</li>
-                    </ul>
-
-                    <h3>3.2 Resi e Rimborsi</h3>
-                    <ul>
-                        <li>Se il prodotto non corrisponde alla descrizione: rimborso completo</li>
-                        <li>Se il pacco non arriva: rimborso o rispedizione gratuita</li>
-                        <li>I reclami devono essere fatti entro 48 ore dal ricevimento</li>
-                    </ul>
-
-                    <h3>3.3 Privacy</h3>
-                    <p>Garantiamo:</p>
-                    <ul>
-                        <li>Imballaggi discreti senza marchi identificabili</li>
-                        <li>Addebiti generici sul tuo estratto conto</li>
-                        <li>Informazioni personali completamente confidenziali</li>
-                    </ul>
-
-                    <h2>4. Contenuto e Proprietà</h2>
-                    <ul>
-                        <li>Mantieni la proprietà dei tuoi contenuti (foto, descrizioni)</li>
-                        <li>Ci concedi una licenza per utilizzare i tuoi contenuti sulla piattaforma</li>
-                        <li>Sei responsabile di garantire che i tuoi contenuti non violino i diritti di terzi</li>
-                    </ul>
-
-                    <h2>5. Privacy e Sicurezza</h2>
-                    <p>Consulta la nostra <a href="privacidad.html">Informativa sulla Privacy</a> per dettagli su:</p>
-                    <ul>
-                        <li>Come raccogliamo e utilizziamo i tuoi dati</li>
-                        <li>Misure di sicurezza implementate</li>
-                        <li>I tuoi diritti riguardo alle tue informazioni personali</li>
-                    </ul>
-
-                    <h2>6. Limitazione di Responsabilità</h2>
-                    <p>ZonaPantys è una piattaforma che connette venditrici e acquirenti. Non siamo responsabili di:</p>
-                    <ul>
-                        <li>La qualità o autenticità dei capi (responsabilità della venditrice)</li>
-                        <li>Ritardi o perdite nella spedizione (responsabilità della compagnia di corriere)</li>
-                        <li>Controversie tra venditrici e acquirenti (agiamo come mediatori)</li>
-                    </ul>
-
-                    <h2>7. Sospensione e Termine</h2>
-                    <p>Possiamo sospendere o terminare il tuo account se:</p>
-                    <ul>
-                        <li>Violi questi termini</li>
-                        <li>Compi attività fraudolente</li>
-                        <li>Ricevi molteplici segnalazioni negative</li>
-                        <li>Non rispetti le leggi applicabili</li>
-                    </ul>
-
-                    <h2>8. Modifiche</h2>
-                    <p>Ci riserviamo il diritto di modificare questi termini in qualsiasi momento. Ti informeremo via email o sulla piattaforma riguardo cambiamenti importanti.</p>
-
-                    <h2>9. Legge Applicabile</h2>
-                    <p>Questi termini sono regolati dalle leggi internazionali del commercio elettronico e le leggi dello stato del Delaware, Stati Uniti.</p>
-
-                    <h2>10. Risoluzione delle Controversie</h2>
-                    <p>Qualsiasi controversia sarà risolta prima tramite mediazione interna. Se non risolta, le parti accettano di sottoporsi ad arbitrato vincolante.</p>
-
-                    <h2>11. Contatto</h2>
-                    <p>Per domande su questi termini:</p>
-                    <ul>
-                        <li>Email: zonapantys@zonapantys.com</li>
-                        <li>Modulo di contatto sulla piattaforma</li>
-                    </ul>
-
-                    <hr style="margin: 2rem 0;">
-
-                    <p><strong>Utilizzando ZonaPantys, confermi di aver letto, compreso e accettato questi termini nella loro interezza.</strong></p>
-
-                    <a href="index.html" class="btn-back">← Torna alla Home</a>
-                `
+                    description: "La piattaforma leader di lingerie premium usata con le donne più belle dell'America Latina.",
+                    buyers: {
+                        title: "Per Acquirenti",
+                        explore: "Esplora Venditrici",
+                        howItWorks: "Come Funziona",
+                        faq: "FAQ",
+                        support: "Supporto"
+                    },
+                    sellers: {
+                        title: "Per Venditrici",
+                        become: "Diventa Venditrice",
+                        guidelines: "Linee Guida",
+                        earnings: "Guadagni",
+                        security: "Sicurezza"
+                    },
+                    rights: "Tutti i diritti riservati.",
+                    privacy: "Informativa sulla Privacy",
+                    terms: "Termini di Servizio",
+                    contact: "Contatto"
+                }
             }
         };
 
+        // Current language
         let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
 
+        // Change language function
         function changeLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('zonapantys_lang', lang);
@@ -972,16 +2016,71 @@
             document.getElementById('languageDropdown').classList.remove('active');
         }
 
+        // Update content function
         function updateContent() {
             const t = translations[currentLang];
             
-            document.title = t.title;
-            document.querySelector('[data-i18n="header.title"]').textContent = t.header.title;
-            document.querySelector('[data-i18n="header.updated"]').textContent = t.header.updated;
-            document.querySelector('[data-i18n="footer.rights"]').textContent = t.footer.rights;
-            document.getElementById('mainContent').innerHTML = t.content;
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = t;
+                
+                for (let k of keys) {
+                    value = value[k];
+                }
+                
+                if (value) {
+                    element.textContent = value;
+                }
+            });
+
+            // Update FAQ content
+            updateFAQ();
         }
 
+        // Update FAQ function
+        function updateFAQ() {
+            const t = translations[currentLang].faq;
+            
+            // Update General FAQ
+            const generalFaq = document.getElementById('general-faq');
+            generalFaq.innerHTML = t.general.map(item => `
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>${item.q}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">${item.a}</div>
+                </div>
+            `).join('');
+
+            // Update Sellers FAQ
+            const sellersFaq = document.getElementById('sellers-faq');
+            sellersFaq.innerHTML = t.sellers.map(item => `
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>${item.q}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">${item.a}</div>
+                </div>
+            `).join('');
+
+            // Update Buyers FAQ
+            const buyersFaq = document.getElementById('buyers-faq');
+            buyersFaq.innerHTML = t.buyers.map(item => `
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>${item.q}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">${item.a}</div>
+                </div>
+            `).join('');
+        }
+
+        // Language selector toggle
         document.getElementById('languageBtn').addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById('languageDropdown').classList.toggle('active');
@@ -991,6 +2090,66 @@
             document.getElementById('languageDropdown').classList.remove('active');
         });
 
+        // FAQ toggle
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            answer.classList.toggle('active');
+            icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0)';
+        }
+
+        // FAQ tabs
+        function showFaqTab(tabName) {
+            document.querySelectorAll('.faq-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.faq-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-faq').classList.add('active');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .seller-card, .step-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Initialize language on page load
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
