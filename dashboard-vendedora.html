@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda - Vendedora - ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .dashboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-card h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .membership-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-home {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+            color: white;
+        }
+
+        .badge-active {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .badge-pending {
+            background: #ffc107;
+            color: #333;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="welcome-card">
+            <h1>👩 Bienvenida, <span id="userName">Vendedora</span>!</h1>
+            <p>Panel de Control de Tu Tienda</p>
+            <div class="membership-badge">
+                💳 Membresía Activa - $10 USD/mes
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <h2><i class="fas fa-store me-2"></i> Mi Tienda</h2>
+            
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-shopping-bag me-2"></i> Nombre de tienda:</span>
+                <span class="info-value" id="displayShopName">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-star me-2"></i> Nombre artístico:</span>
+                <span class="info-value" id="displayStageName">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-user me-2"></i> Usuario:</span>
+                <span class="info-value" id="displayUsername">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-envelope me-2"></i> Email:</span>
+                <span class="info-value" id="displayEmail">-</span>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <h2><i class="fas fa-id-card me-2"></i> Información Personal</h2>
+            
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-id-badge me-2"></i> Nombre completo:</span>
+                <span class="info-value" id="displayFullName">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-globe me-2"></i> País:</span>
+                <span class="info-value" id="displayCountry">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-check-circle me-2"></i> Verificación:</span>
+                <span class="badge-pending" id="verificationBadge">Pendiente</span>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <h2><i class="fas fa-credit-card me-2"></i> Membresía</h2>
+            
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-calendar-check me-2"></i> Tipo:</span>
+                <span class="info-value" id="membershipType">Mensual</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-dollar-sign me-2"></i> Precio:</span>
+                <span class="info-value">$10.00 USD/mes</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-calendar me-2"></i> Inicio:</span>
+                <span class="info-value" id="membershipStart">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-calendar-times me-2"></i> Vencimiento:</span>
+                <span class="info-value" id="membershipEnd">-</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label"><i class="fas fa-check-circle me-2"></i> Estado:</span>
+                <span class="badge-active">Activa</span>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <a href="index.html" class="btn-home">
+                <i class="fas fa-home me-2"></i> Volver al Inicio
+            </a>
+            <button class="btn-logout" id="logoutBtn">
+                <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+        
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Verificar sesión
+        async function checkSession() {
+            const session = localStorage.getItem('zonapantys_session') || sessionStorage.getItem('zonapantys_session');
+            
+            if (!session) {
+                // No hay sesión, redirigir a login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const sessionData = JSON.parse(session);
+            
+            // Verificar que sea una vendedora
+            if (sessionData.userType !== 'seller') {
+                // Es comprador, redirigir a su dashboard
+                window.location.href = 'dashboard-comprador.html';
+                return;
+            }
+
+            // Cargar datos de la vendedora
+            try {
+                const { data: seller, error } = await supabaseClient
+                    .from('sellers')
+                    .select('*')
+                    .eq('seller_id', sessionData.userId)
+                    .single();
+
+                if (error || !seller) {
+                    console.error('Error al cargar datos:', error);
+                    // Sesión inválida, cerrar sesión
+                    logout();
+                    return;
+                }
+
+                // Mostrar datos
+                document.getElementById('userName').textContent = seller.stage_name || seller.username;
+                document.getElementById('displayShopName').textContent = seller.shop_name || '-';
+                document.getElementById('displayStageName').textContent = seller.stage_name || '-';
+                document.getElementById('displayUsername').textContent = seller.username;
+                document.getElementById('displayFullName').textContent = seller.full_name || '-';
+                document.getElementById('displayEmail').textContent = seller.email;
+                document.getElementById('displayCountry').textContent = seller.country || '-';
+                
+                // Estado de verificación
+                const verificationBadge = document.getElementById('verificationBadge');
+                if (seller.id_verification_status === 'approved') {
+                    verificationBadge.textContent = 'Verificada';
+                    verificationBadge.className = 'badge-active';
+                } else if (seller.id_verification_status === 'rejected') {
+                    verificationBadge.textContent = 'Rechazada';
+                    verificationBadge.style.background = '#dc3545';
+                    verificationBadge.style.color = 'white';
+                } else {
+                    verificationBadge.textContent = 'Pendiente';
+                    verificationBadge.className = 'badge-pending';
+                }
+
+                // Tipo de membresía
+                const membershipTypeText = {
+                    'monthly': 'Mensual',
+                    'quarterly': 'Trimestral (3 meses)',
+                    'biannual': 'Semestral (6 meses)'
+                };
+                document.getElementById('membershipType').textContent = membershipTypeText[seller.membership_type] || 'Mensual';
+
+                // Fechas de membresía
+                if (seller.membership_start_date) {
+                    const startDate = new Date(seller.membership_start_date);
+                    document.getElementById('membershipStart').textContent = startDate.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+
+                if (seller.membership_end_date) {
+                    const endDate = new Date(seller.membership_end_date);
+                    document.getElementById('membershipEnd').textContent = endDate.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                }
+
+            } catch (err) {
+                console.error('Error:', err);
+                logout();
+            }
+        }
+
+        // Cerrar sesión
+        function logout() {
+            localStorage.removeItem('zonapantys_session');
+            sessionStorage.removeItem('zonapantys_session');
+            window.location.href = 'login.html';
+        }
+
+        // Event listener para botón de logout
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', checkSession);
+    </script>
+</body>
+</html>
