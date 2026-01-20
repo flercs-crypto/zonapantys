@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .login-body {
+            padding: 2.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
+        }
+
+        .input-group-text {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 2rem 0;
+            color: #666;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .register-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-register-link {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-register-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-home a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .back-home a:hover {
+            color: var(--primary-color);
+        }
+
+        .alert {
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .login-body {
+                padding: 1.5rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .register-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Iniciar Sesión</h1>
+            <p>Bienvenido de vuelta a ZonaPantys</p>
+        </div>
+
+        <div class="login-body">
+            <div class="alert alert-success d-none" id="successAlert"></div>
+            <div class="alert alert-danger d-none" id="errorAlert"></div>
+
+            <form id="loginForm">
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        Email o nombre de usuario
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="text" class="form-control" id="email" required 
+                               placeholder="tu@email.com o tu_usuario">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        Contraseña
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="password" required 
+                               placeholder="Tu contraseña">
+                    </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                        Recordarme
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-login" id="submitBtn">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    <span>Iniciar Sesión</span>
+                </button>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="divider">
+                <span>¿No tienes cuenta?</span>
+            </div>
+
+            <div class="register-links">
+                <a href="registro-comprador.html" class="btn-register-link">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    <span>Comprador</span>
+                </a>
+                <a href="registro-vendedora.html" class="btn-register-link">
+                    <i class="fas fa-store me-2"></i>
+                    <span>Vendedora</span>
+                </a>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    <span>Volver al inicio</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        console.log('Script cargado');
+        
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+        
+        // Inicializar Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        console.log('Supabase inicializado');
+
+        // Hash de contraseña
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // Manejo del formulario de login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Formulario enviado');
+            
+            const errorAlert = document.getElementById('errorAlert');
+            const successAlert = document.getElementById('successAlert');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Limpiar alertas
+            errorAlert.classList.add('d-none');
+            successAlert.classList.add('d-none');
+            
+            // Obtener valores
+            const emailOrUsername = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            console.log('Email/Username:', emailOrUsername);
+            
+            if (!emailOrUsername || !password) {
+                errorAlert.textContent = 'Por favor completa todos los campos';
+                errorAlert.classList.remove('d-none');
+                return;
+            }
+            
+            // Deshabilitar botón
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verificando...';
+            
+            try {
+                console.log('Iniciando búsqueda de usuario...');
+                
+                // Hash de contraseña
+                const passwordHash = await hashPassword(password);
+                console.log('Password hash generado');
+                
+                let userFound = null;
+                let userType = null;
+                
+                // Buscar en buyers
+                console.log('Buscando en buyers...');
+                const { data: buyer, error: buyerError } = await supabaseClient
+                    .from('buyers')
+                    .select('*')
+                    .or(`email.eq.${emailOrUsername},username.eq.${emailOrUsername}`)
+                    .eq('password_hash', passwordHash)
+                    .eq('is_active', true)
+                    .maybeSingle();
+                
+                console.log('Resultado buyers:', buyer, buyerError);
+                
+                if (buyer) {
+                    userFound = buyer;
+                    userType = 'buyer';
+                    console.log('Usuario encontrado en buyers');
+                }
+                
+                // Si no se encontró en buyers, buscar en sellers
+                if (!userFound) {
+                    console.log('Buscando en sellers...');
+                    const { data: seller, error: sellerError } = await supabaseClient
+                        .from('sellers')
+                        .select('*')
+                        .or(`email.eq.${emailOrUsername},username.eq.${emailOrUsername}`)
+                        .eq('password_hash', passwordHash)
+                        .eq('is_active', true)
+                        .maybeSingle();
+                    
+                    console.log('Resultado sellers:', seller, sellerError);
+                    
+                    if (seller) {
+                        userFound = seller;
+                        userType = 'seller';
+                        console.log('Usuario encontrado en sellers');
+                    }
+                }
+                
+                if (!userFound) {
+                    console.log('Usuario no encontrado');
+                    errorAlert.textContent = 'Email/usuario o contraseña incorrectos';
+                    errorAlert.classList.remove('d-none');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión';
+                    return;
+                }
+                
+                console.log('Usuario encontrado, tipo:', userType);
+                
+                // Actualizar last_login
+                const tableName = userType === 'buyer' ? 'buyers' : 'sellers';
+                const idField = userType === 'buyer' ? 'buyer_id' : 'seller_id';
+                
+                await supabaseClient
+                    .from(tableName)
+                    .update({ last_login: new Date().toISOString() })
+                    .eq(idField, userFound[idField]);
+                
+                console.log('Last login actualizado');
+                
+                // Guardar sesión
+                const sessionData = {
+                    userId: userFound[idField],
+                    userType: userType,
+                    username: userFound.username,
+                    email: userFound.email,
+                    loginTime: new Date().toISOString()
+                };
+                
+                if (rememberMe) {
+                    localStorage.setItem('zonapantys_session', JSON.stringify(sessionData));
+                    console.log('Sesión guardada en localStorage');
+                } else {
+                    sessionStorage.setItem('zonapantys_session', JSON.stringify(sessionData));
+                    console.log('Sesión guardada en sessionStorage');
+                }
+                
+                // Éxito
+                successAlert.textContent = '¡Inicio de sesión exitoso! Redirigiendo...';
+                successAlert.classList.remove('d-none');
+                
+                console.log('Login exitoso, redirigiendo...');
+                
+                // Redirigir según tipo de usuario
+                setTimeout(() => {
+                    if (userType === 'buyer') {
+                        window.location.href = 'dashboard-comprador.html';
+                    } else {
+                        window.location.href = 'dashboard-vendedora.html';
+                    }
+                }, 1500);
+                
+            } catch (err) {
+                console.error('Error completo:', err);
+                errorAlert.textContent = 'Error al iniciar sesión: ' + err.message;
+                errorAlert.classList.remove('d-none');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión';
+            }
+        });
+
+        // Verificar si ya hay sesión activa
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado');
+            
+            // Verificar sesión existente
+            const session = localStorage.getItem('zonapantys_session') || sessionStorage.getItem('zonapantys_session');
+            if (session) {
+                console.log('Sesión existente encontrada');
+                const sessionData = JSON.parse(session);
+                // Redirigir a dashboard correspondiente
+                if (sessionData.userType === 'buyer') {
+                    window.location.href = 'dashboard-comprador.html';
+                } else {
+                    window.location.href = 'dashboard-vendedora.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
