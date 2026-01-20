@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidad - ZonaPantys</title>
+    <title data-i18n="title">Política de Privacidad - ZonaPantys</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
@@ -21,6 +22,67 @@
             color: white;
             padding: 3rem 0;
             text-align: center;
+        }
+
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .language-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: #f8f9fa;
+        }
+
+        .language-option:first-child {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .language-option:last-child {
+            border-radius: 0 0 10px 10px;
         }
         
         .content {
@@ -50,6 +112,24 @@
             color: #333;
         }
         
+        .highlight-box {
+            background: #fff3e0;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+        
+        .security-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 0.5rem;
+        }
+        
         .btn-back {
             display: inline-block;
             background: var(--primary-color);
@@ -66,170 +146,1107 @@
             transform: translateY(-2px);
             color: white;
         }
-        
-        .highlight {
-            background: #fff3e0;
-            padding: 1rem;
-            border-left: 4px solid var(--primary-color);
-            margin: 1.5rem 0;
+
+        @media (max-width: 768px) {
+            .language-selector {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🔒 Política de Privacidad</h1>
-        <p>Última actualización: Enero 2026</p>
+    <div class="header" style="position: relative;">
+        <div class="language-selector">
+            <button class="language-btn" id="languageBtn">
+                🌐 <span id="currentLang">ES</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+            </div>
+        </div>
+        <h1 data-i18n="header.title">🔒 Política de Privacidad</h1>
+        <p data-i18n="header.updated">Última actualización: Enero 2026</p>
     </div>
 
-    <div class="content">
-        <p><strong>En ZonaPantys, tu privacidad es nuestra máxima prioridad.</strong> Esta política explica cómo recopilamos, usamos y protegemos tu información personal.</p>
-
-        <div class="highlight">
-            <strong>🛡️ Compromiso:</strong> Nunca vendemos, alquilamos ni compartimos tu información personal con terceros sin tu consentimiento explícito.
-        </div>
-
-        <h2>1. Información que Recopilamos</h2>
-        
-        <h3>1.1 Información de Cuenta</h3>
-        <ul>
-            <li>Nombre completo</li>
-            <li>Email</li>
-            <li>Fecha de nacimiento (verificación de mayoría de edad)</li>
-            <li>País de residencia</li>
-        </ul>
-
-        <h3>1.2 Para Vendedoras</h3>
-        <ul>
-            <li>Documento de identidad (para verificación)</li>
-            <li>Información bancaria o PayPal (para pagos)</li>
-            <li>Fotos de perfil y productos</li>
-            <li>Descripción de perfil</li>
-        </ul>
-
-        <h3>1.3 Para Compradores</h3>
-        <ul>
-            <li>Dirección de envío</li>
-            <li>Información de pago (procesada por Stripe/PayPal, no la almacenamos)</li>
-            <li>Historial de compras</li>
-        </ul>
-
-        <h3>1.4 Información Automática</h3>
-        <ul>
-            <li>Dirección IP</li>
-            <li>Tipo de navegador y dispositivo</li>
-            <li>Páginas visitadas y tiempo de permanencia</li>
-            <li>Cookies (ver sección de cookies más abajo)</li>
-        </ul>
-
-        <h2>2. Cómo Usamos tu Información</h2>
-        <ul>
-            <li><strong>Operar la plataforma:</strong> Procesar pagos, envíos y transacciones</li>
-            <li><strong>Verificación:</strong> Confirmar identidad de vendedoras</li>
-            <li><strong>Comunicación:</strong> Enviarte actualizaciones, promociones y notificaciones</li>
-            <li><strong>Mejorar el servicio:</strong> Analizar comportamiento para mejorar experiencia</li>
-            <li><strong>Seguridad:</strong> Detectar y prevenir fraudes</li>
-            <li><strong>Legal:</strong> Cumplir con obligaciones legales</li>
-        </ul>
-
-        <h2>3. Cómo Protegemos tu Información</h2>
-        
-        <div class="highlight">
-            <strong>🔐 Medidas de Seguridad:</strong>
-        </div>
-        
-        <ul>
-            <li><strong>Encriptación SSL/TLS:</strong> Todas las conexiones están encriptadas</li>
-            <li><strong>Encriptación de datos:</strong> Información sensible cifrada en nuestra base de datos</li>
-            <li><strong>Servidores seguros:</strong> Infraestructura en AWS con protección avanzada</li>
-            <li><strong>Acceso limitado:</strong> Solo personal autorizado accede a datos personales</li>
-            <li><strong>Auditorías regulares:</strong> Revisiones de seguridad trimestrales</li>
-            <li><strong>2FA disponible:</strong> Autenticación de dos factores para cuentas</li>
-        </ul>
-
-        <h2>4. Compartir Información con Terceros</h2>
-        <p>Compartimos información SOLO con:</p>
-        <ul>
-            <li><strong>Procesadores de pago:</strong> Stripe, PayPal (con sus propias políticas de privacidad)</li>
-            <li><strong>Empresas de envío:</strong> Solo dirección necesaria para entrega</li>
-            <li><strong>Servicios de análisis:</strong> Google Analytics (datos anónimos)</li>
-            <li><strong>Autoridades legales:</strong> Solo si es requerido por ley</li>
-        </ul>
-
-        <h2>5. Tus Derechos</h2>
-        <p>Según GDPR, CCPA y LGPD, tienes derecho a:</p>
-        
-        <h3>5.1 Acceso</h3>
-        <p>Solicitar una copia de toda tu información personal.</p>
-        
-        <h3>5.2 Rectificación</h3>
-        <p>Corregir información incorrecta o desactualizada.</p>
-        
-        <h3>5.3 Eliminación</h3>
-        <p>Solicitar la eliminación de tu cuenta y datos (derecho al olvido).</p>
-        
-        <h3>5.4 Portabilidad</h3>
-        <p>Recibir tus datos en formato legible para transferirlos.</p>
-        
-        <h3>5.5 Oposición</h3>
-        <p>Oponerte al procesamiento de tus datos para marketing.</p>
-        
-        <h3>5.6 Limitación</h3>
-        <p>Limitar cómo usamos tus datos.</p>
-
-        <div class="highlight">
-            <strong>Para ejercer cualquiera de estos derechos, contacta a:</strong> privacy@zonapantys.com
-        </div>
-
-        <h2>6. Cookies</h2>
-        <p>Usamos cookies para:</p>
-        <ul>
-            <li><strong>Esenciales:</strong> Mantener tu sesión activa</li>
-            <li><strong>Funcionales:</strong> Recordar preferencias (idioma, etc.)</li>
-            <li><strong>Analíticas:</strong> Entender cómo usas el sitio</li>
-            <li><strong>Publicitarias:</strong> Mostrar anuncios relevantes (puedes rechazarlas)</li>
-        </ul>
-        
-        <p>Puedes configurar tu navegador para rechazar cookies, aunque algunas funciones pueden no funcionar correctamente.</p>
-
-        <h2>7. Retención de Datos</h2>
-        <ul>
-            <li><strong>Cuentas activas:</strong> Mientras uses el servicio</li>
-            <li><strong>Cuentas inactivas:</strong> 2 años de inactividad, luego eliminación</li>
-            <li><strong>Información de transacciones:</strong> 7 años (requisito legal fiscal)</li>
-            <li><strong>Logs de seguridad:</strong> 90 días</li>
-        </ul>
-
-        <h2>8. Privacidad de Menores</h2>
-        <p>ZonaPantys es para mayores de 18 años. No recopilamos información de menores intencionalmente. Si descubrimos que un menor nos ha proporcionado información, la eliminaremos inmediatamente.</p>
-
-        <h2>9. Cambios a esta Política</h2>
-        <p>Podemos actualizar esta política ocasionalmente. Te notificaremos por email sobre cambios importantes. La fecha de "Última actualización" al inicio siempre reflejará la versión más reciente.</p>
-
-        <h2>10. Transferencias Internacionales</h2>
-        <p>Tus datos pueden ser transferidos y procesados en servidores ubicados en:</p>
-        <ul>
-            <li>Estados Unidos (AWS)</li>
-            <li>Unión Europea (para usuarios europeos)</li>
-        </ul>
-        <p>Garantizamos el mismo nivel de protección en todas las ubicaciones.</p>
-
-        <h2>11. Contacto</h2>
-        <p><strong>Responsable de Protección de Datos:</strong></p>
-        <ul>
-            <li>Email: zonapantys@zonapantys.com</li>
-            <li>Dirección: ZonaPantys LLC, Delaware, USA</li>
-            <li>Tiempo de respuesta: 72 horas máximo</li>
-        </ul>
-
-        <hr style="margin: 2rem 0;">
-
-        <p><strong>Al usar ZonaPantys, aceptas esta política de privacidad. Si no estás de acuerdo, por favor no uses nuestro servicio.</strong></p>
-
-        <a href="index.html" class="btn-back">← Volver al Inicio</a>
+    <div class="content" id="mainContent">
+        <!-- El contenido se cargará dinámicamente según el idioma -->
     </div>
 
     <footer style="text-align: center; padding: 2rem; color: #666;">
-        <p>© 2025 ZonaPantys LLC. Todos los derechos reservados.</p>
+        <p>© 2026 ZonaPantys LLC. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
     </footer>
+
+    <script>
+        const translations = {
+            es: {
+                title: "Política de Privacidad - ZonaPantys",
+                header: {
+                    title: "🔒 Política de Privacidad",
+                    updated: "Última actualización: Enero 2026"
+                },
+                footer: {
+                    rights: "Todos los derechos reservados."
+                },
+                content: `
+                    <p>En <strong>ZonaPantys</strong>, tu privacidad es nuestra máxima prioridad. Esta política explica cómo recopilamos, usamos y protegemos tu información personal.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Compromiso:</strong> Nunca vendemos, alquilamos ni compartimos tu información personal con terceros sin tu consentimiento explícito.
+                    </div>
+
+                    <h2>1. Información que Recopilamos</h2>
+                    
+                    <h3>1.1 Información de Cuenta</h3>
+                    <ul>
+                        <li>Nombre completo</li>
+                        <li>Email</li>
+                        <li>Fecha de nacimiento (verificación de mayoría de edad)</li>
+                        <li>País de residencia</li>
+                    </ul>
+
+                    <h3>1.2 Para Vendedoras</h3>
+                    <ul>
+                        <li>Documento de identidad (para verificación)</li>
+                        <li>Información bancaria o de criptomonedas (para pagos)</li>
+                        <li>Fotos de perfil y productos</li>
+                        <li>Descripción de perfil</li>
+                    </ul>
+
+                    <h3>1.3 Para Compradores</h3>
+                    <ul>
+                        <li>Dirección de envío</li>
+                        <li>Información de pago (procesada por Stripe, no la almacenamos)</li>
+                        <li>Historial de compras</li>
+                    </ul>
+
+                    <h3>1.4 Información Automática</h3>
+                    <ul>
+                        <li>Dirección IP</li>
+                        <li>Tipo de navegador y dispositivo</li>
+                        <li>Páginas visitadas y tiempo de permanencia</li>
+                        <li>Cookies (ver sección de cookies más abajo)</li>
+                    </ul>
+
+                    <h2>2. Cómo Usamos tu Información</h2>
+                    <ul>
+                        <li><strong>Operar la plataforma:</strong> Procesar pagos, envíos y transacciones</li>
+                        <li><strong>Verificación:</strong> Confirmar identidad de vendedoras</li>
+                        <li><strong>Comunicación:</strong> Enviarte actualizaciones, promociones y notificaciones</li>
+                        <li><strong>Mejorar el servicio:</strong> Analizar comportamiento para mejorar experiencia</li>
+                        <li><strong>Seguridad:</strong> Detectar y prevenir fraudes</li>
+                        <li><strong>Legal:</strong> Cumplir con obligaciones legales</li>
+                    </ul>
+
+                    <h2>3. Cómo Protegemos tu Información</h2>
+                    <p><strong>🔐 Medidas de Seguridad:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">Encriptación SSL/TLS</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Encriptación de Datos</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Servidores Seguros</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Acceso Limitado</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Auditorías Regulares</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Disponible</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Encriptación SSL/TLS:</strong> Todas las conexiones están encriptadas</li>
+                        <li><strong>Encriptación de datos:</strong> Información sensible cifrada en nuestra base de datos</li>
+                        <li><strong>Servidores seguros:</strong> Infraestructura en AWS con protección avanzada</li>
+                        <li><strong>Acceso limitado:</strong> Solo personal autorizado accede a datos personales</li>
+                        <li><strong>Auditorías regulares:</strong> Revisiones de seguridad trimestrales</li>
+                        <li><strong>2FA disponible:</strong> Autenticación de dos factores para cuentas</li>
+                    </ul>
+
+                    <h2>4. Compartir Información con Terceros</h2>
+                    <p>Compartimos información SOLO con:</p>
+                    <ul>
+                        <li><strong>Procesadores de pago:</strong> Stripe (con su propia política de privacidad)</li>
+                        <li><strong>Empresas de envío:</strong> Solo dirección necesaria para entrega</li>
+                        <li><strong>Servicios de análisis:</strong> Google Analytics (datos anónimos)</li>
+                        <li><strong>Autoridades legales:</strong> Solo si es requerido por ley</li>
+                    </ul>
+
+                    <h2>5. Tus Derechos</h2>
+                    <p>Según GDPR, CCPA y LGPD, tienes derecho a:</p>
+
+                    <h3>5.1 Acceso</h3>
+                    <p>Solicitar una copia de toda tu información personal.</p>
+
+                    <h3>5.2 Rectificación</h3>
+                    <p>Corregir información incorrecta o desactualizada.</p>
+
+                    <h3>5.3 Eliminación</h3>
+                    <p>Solicitar la eliminación de tu cuenta y datos (derecho al olvido).</p>
+
+                    <h3>5.4 Portabilidad</h3>
+                    <p>Recibir tus datos en formato legible para transferirlos.</p>
+
+                    <h3>5.5 Oposición</h3>
+                    <p>Oponerte al procesamiento de tus datos para marketing.</p>
+
+                    <h3>5.6 Limitación</h3>
+                    <p>Limitar cómo usamos tus datos.</p>
+
+                    <div class="highlight-box">
+                        <strong>Para ejercer cualquiera de estos derechos, contacta a:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookies</h2>
+                    <p>Usamos cookies para:</p>
+                    <ul>
+                        <li><strong>Esenciales:</strong> Mantener tu sesión activa</li>
+                        <li><strong>Funcionales:</strong> Recordar preferencias (idioma, etc.)</li>
+                        <li><strong>Analíticas:</strong> Entender cómo usas el sitio</li>
+                        <li><strong>Publicitarias:</strong> Mostrar anuncios relevantes (puedes rechazarlas)</li>
+                    </ul>
+                    <p>Puedes configurar tu navegador para rechazar cookies, aunque algunas funciones pueden no funcionar correctamente.</p>
+
+                    <h2>7. Retención de Datos</h2>
+                    <ul>
+                        <li><strong>Cuentas activas:</strong> Mientras uses el servicio</li>
+                        <li><strong>Cuentas inactivas:</strong> 2 años de inactividad, luego eliminación</li>
+                        <li><strong>Información de transacciones:</strong> 7 años (requisito legal fiscal)</li>
+                        <li><strong>Logs de seguridad:</strong> 90 días</li>
+                    </ul>
+
+                    <h2>8. Privacidad de Menores</h2>
+                    <p>ZonaPantys es para mayores de 18 años. No recopilamos información de menores intencionalmente. Si descubrimos que un menor nos ha proporcionado información, la eliminaremos inmediatamente.</p>
+
+                    <h2>9. Cambios a esta Política</h2>
+                    <p>Podemos actualizar esta política ocasionalmente. Te notificaremos por email sobre cambios importantes. La fecha de "Última actualización" al inicio siempre reflejará la versión más reciente.</p>
+
+                    <h2>10. Transferencias Internacionales</h2>
+                    <p>Tus datos pueden ser transferidos y procesados en servidores ubicados en:</p>
+                    <ul>
+                        <li>Estados Unidos (AWS)</li>
+                        <li>Unión Europea (para usuarios europeos)</li>
+                    </ul>
+                    <p>Garantizamos el mismo nivel de protección en todas las ubicaciones.</p>
+
+                    <h2>11. Contacto</h2>
+                    <p><strong>Responsable de Protección de Datos:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Dirección:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Tiempo de respuesta:</strong> 72 horas máximo</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Al usar ZonaPantys, aceptas esta política de privacidad. Si no estás de acuerdo, por favor no uses nuestro servicio.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Volver al Inicio</a>
+                `
+            },
+            en: {
+                title: "Privacy Policy - ZonaPantys",
+                header: {
+                    title: "🔒 Privacy Policy",
+                    updated: "Last updated: January 2026"
+                },
+                footer: {
+                    rights: "All rights reserved."
+                },
+                content: `
+                    <p>At <strong>ZonaPantys</strong>, your privacy is our top priority. This policy explains how we collect, use, and protect your personal information.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Commitment:</strong> We never sell, rent, or share your personal information with third parties without your explicit consent.
+                    </div>
+
+                    <h2>1. Information We Collect</h2>
+                    
+                    <h3>1.1 Account Information</h3>
+                    <ul>
+                        <li>Full name</li>
+                        <li>Email</li>
+                        <li>Date of birth (age verification)</li>
+                        <li>Country of residence</li>
+                    </ul>
+
+                    <h3>1.2 For Sellers</h3>
+                    <ul>
+                        <li>ID document (for verification)</li>
+                        <li>Bank or cryptocurrency information (for payments)</li>
+                        <li>Profile and product photos</li>
+                        <li>Profile description</li>
+                    </ul>
+
+                    <h3>1.3 For Buyers</h3>
+                    <ul>
+                        <li>Shipping address</li>
+                        <li>Payment information (processed by Stripe, we don't store it)</li>
+                        <li>Purchase history</li>
+                    </ul>
+
+                    <h3>1.4 Automatic Information</h3>
+                    <ul>
+                        <li>IP address</li>
+                        <li>Browser type and device</li>
+                        <li>Pages visited and time spent</li>
+                        <li>Cookies (see cookies section below)</li>
+                    </ul>
+
+                    <h2>2. How We Use Your Information</h2>
+                    <ul>
+                        <li><strong>Operate the platform:</strong> Process payments, shipments and transactions</li>
+                        <li><strong>Verification:</strong> Confirm seller identity</li>
+                        <li><strong>Communication:</strong> Send you updates, promotions and notifications</li>
+                        <li><strong>Improve service:</strong> Analyze behavior to improve experience</li>
+                        <li><strong>Security:</strong> Detect and prevent fraud</li>
+                        <li><strong>Legal:</strong> Comply with legal obligations</li>
+                    </ul>
+
+                    <h2>3. How We Protect Your Information</h2>
+                    <p><strong>🔐 Security Measures:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">SSL/TLS Encryption</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Data Encryption</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Secure Servers</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Limited Access</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Regular Audits</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Available</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>SSL/TLS Encryption:</strong> All connections are encrypted</li>
+                        <li><strong>Data encryption:</strong> Sensitive information encrypted in our database</li>
+                        <li><strong>Secure servers:</strong> AWS infrastructure with advanced protection</li>
+                        <li><strong>Limited access:</strong> Only authorized personnel access personal data</li>
+                        <li><strong>Regular audits:</strong> Quarterly security reviews</li>
+                        <li><strong>2FA available:</strong> Two-factor authentication for accounts</li>
+                    </ul>
+
+                    <h2>4. Sharing Information with Third Parties</h2>
+                    <p>We share information ONLY with:</p>
+                    <ul>
+                        <li><strong>Payment processors:</strong> Stripe (with its own privacy policy)</li>
+                        <li><strong>Shipping companies:</strong> Only address needed for delivery</li>
+                        <li><strong>Analytics services:</strong> Google Analytics (anonymous data)</li>
+                        <li><strong>Legal authorities:</strong> Only if required by law</li>
+                    </ul>
+
+                    <h2>5. Your Rights</h2>
+                    <p>Under GDPR, CCPA and LGPD, you have the right to:</p>
+
+                    <h3>5.1 Access</h3>
+                    <p>Request a copy of all your personal information.</p>
+
+                    <h3>5.2 Rectification</h3>
+                    <p>Correct incorrect or outdated information.</p>
+
+                    <h3>5.3 Deletion</h3>
+                    <p>Request deletion of your account and data (right to be forgotten).</p>
+
+                    <h3>5.4 Portability</h3>
+                    <p>Receive your data in readable format to transfer it.</p>
+
+                    <h3>5.5 Opposition</h3>
+                    <p>Object to processing of your data for marketing.</p>
+
+                    <h3>5.6 Limitation</h3>
+                    <p>Limit how we use your data.</p>
+
+                    <div class="highlight-box">
+                        <strong>To exercise any of these rights, contact:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookies</h2>
+                    <p>We use cookies for:</p>
+                    <ul>
+                        <li><strong>Essential:</strong> Keep your session active</li>
+                        <li><strong>Functional:</strong> Remember preferences (language, etc.)</li>
+                        <li><strong>Analytics:</strong> Understand how you use the site</li>
+                        <li><strong>Advertising:</strong> Show relevant ads (you can reject them)</li>
+                    </ul>
+                    <p>You can configure your browser to reject cookies, although some features may not work properly.</p>
+
+                    <h2>7. Data Retention</h2>
+                    <ul>
+                        <li><strong>Active accounts:</strong> While you use the service</li>
+                        <li><strong>Inactive accounts:</strong> 2 years of inactivity, then deletion</li>
+                        <li><strong>Transaction information:</strong> 7 years (legal tax requirement)</li>
+                        <li><strong>Security logs:</strong> 90 days</li>
+                    </ul>
+
+                    <h2>8. Minors' Privacy</h2>
+                    <p>ZonaPantys is for people over 18 years old. We do not intentionally collect information from minors. If we discover that a minor has provided us with information, we will delete it immediately.</p>
+
+                    <h2>9. Changes to this Policy</h2>
+                    <p>We may update this policy occasionally. We will notify you by email about important changes. The "Last updated" date at the top will always reflect the most recent version.</p>
+
+                    <h2>10. International Transfers</h2>
+                    <p>Your data may be transferred and processed on servers located in:</p>
+                    <ul>
+                        <li>United States (AWS)</li>
+                        <li>European Union (for European users)</li>
+                    </ul>
+                    <p>We guarantee the same level of protection in all locations.</p>
+
+                    <h2>11. Contact</h2>
+                    <p><strong>Data Protection Officer:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Address:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Response time:</strong> Maximum 72 hours</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>By using ZonaPantys, you accept this privacy policy. If you do not agree, please do not use our service.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Back to Home</a>
+                `
+            },
+            pt: {
+                title: "Política de Privacidade - ZonaPantys",
+                header: {
+                    title: "🔒 Política de Privacidade",
+                    updated: "Última atualização: Janeiro 2026"
+                },
+                footer: {
+                    rights: "Todos os direitos reservados."
+                },
+                content: `
+                    <p>Na <strong>ZonaPantys</strong>, sua privacidade é nossa máxima prioridade. Esta política explica como coletamos, usamos e protegemos suas informações pessoais.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Compromisso:</strong> Nunca vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros sem seu consentimento explícito.
+                    </div>
+
+                    <h2>1. Informações que Coletamos</h2>
+                    
+                    <h3>1.1 Informações da Conta</h3>
+                    <ul>
+                        <li>Nome completo</li>
+                        <li>Email</li>
+                        <li>Data de nascimento (verificação de maioridade)</li>
+                        <li>País de residência</li>
+                    </ul>
+
+                    <h3>1.2 Para Vendedoras</h3>
+                    <ul>
+                        <li>Documento de identidade (para verificação)</li>
+                        <li>Informações bancárias ou de criptomoedas (para pagamentos)</li>
+                        <li>Fotos de perfil e produtos</li>
+                        <li>Descrição do perfil</li>
+                    </ul>
+
+                    <h3>1.3 Para Compradores</h3>
+                    <ul>
+                        <li>Endereço de entrega</li>
+                        <li>Informações de pagamento (processadas pela Stripe, não as armazenamos)</li>
+                        <li>Histórico de compras</li>
+                    </ul>
+
+                    <h3>1.4 Informações Automáticas</h3>
+                    <ul>
+                        <li>Endereço IP</li>
+                        <li>Tipo de navegador e dispositivo</li>
+                        <li>Páginas visitadas e tempo de permanência</li>
+                        <li>Cookies (veja a seção de cookies abaixo)</li>
+                    </ul>
+
+                    <h2>2. Como Usamos suas Informações</h2>
+                    <ul>
+                        <li><strong>Operar a plataforma:</strong> Processar pagamentos, envios e transações</li>
+                        <li><strong>Verificação:</strong> Confirmar identidade das vendedoras</li>
+                        <li><strong>Comunicação:</strong> Enviar atualizações, promoções e notificações</li>
+                        <li><strong>Melhorar o serviço:</strong> Analisar comportamento para melhorar experiência</li>
+                        <li><strong>Segurança:</strong> Detectar e prevenir fraudes</li>
+                        <li><strong>Legal:</strong> Cumprir obrigações legais</li>
+                    </ul>
+
+                    <h2>3. Como Protegemos suas Informações</h2>
+                    <p><strong>🔐 Medidas de Segurança:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">Criptografia SSL/TLS</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Criptografia de Dados</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Servidores Seguros</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Acesso Limitado</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Auditorias Regulares</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Disponível</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Criptografia SSL/TLS:</strong> Todas as conexões são criptografadas</li>
+                        <li><strong>Criptografia de dados:</strong> Informações sensíveis criptografadas em nosso banco de dados</li>
+                        <li><strong>Servidores seguros:</strong> Infraestrutura AWS com proteção avançada</li>
+                        <li><strong>Acesso limitado:</strong> Apenas pessoal autorizado acessa dados pessoais</li>
+                        <li><strong>Auditorias regulares:</strong> Revisões de segurança trimestrais</li>
+                        <li><strong>2FA disponível:</strong> Autenticação de dois fatores para contas</li>
+                    </ul>
+
+                    <h2>4. Compartilhar Informações com Terceiros</h2>
+                    <p>Compartilhamos informações APENAS com:</p>
+                    <ul>
+                        <li><strong>Processadores de pagamento:</strong> Stripe (com sua própria política de privacidade)</li>
+                        <li><strong>Empresas de envio:</strong> Apenas endereço necessário para entrega</li>
+                        <li><strong>Serviços de análise:</strong> Google Analytics (dados anônimos)</li>
+                        <li><strong>Autoridades legais:</strong> Apenas se exigido por lei</li>
+                    </ul>
+
+                    <h2>5. Seus Direitos</h2>
+                    <p>De acordo com GDPR, CCPA e LGPD, você tem direito a:</p>
+
+                    <h3>5.1 Acesso</h3>
+                    <p>Solicitar uma cópia de todas as suas informações pessoais.</p>
+
+                    <h3>5.2 Retificação</h3>
+                    <p>Corrigir informações incorretas ou desatualizadas.</p>
+
+                    <h3>5.3 Exclusão</h3>
+                    <p>Solicitar a exclusão de sua conta e dados (direito ao esquecimento).</p>
+
+                    <h3>5.4 Portabilidade</h3>
+                    <p>Receber seus dados em formato legível para transferi-los.</p>
+
+                    <h3>5.5 Oposição</h3>
+                    <p>Opor-se ao processamento de seus dados para marketing.</p>
+
+                    <h3>5.6 Limitação</h3>
+                    <p>Limitar como usamos seus dados.</p>
+
+                    <div class="highlight-box">
+                        <strong>Para exercer qualquer um desses direitos, contate:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookies</h2>
+                    <p>Usamos cookies para:</p>
+                    <ul>
+                        <li><strong>Essenciais:</strong> Manter sua sessão ativa</li>
+                        <li><strong>Funcionais:</strong> Lembrar preferências (idioma, etc.)</li>
+                        <li><strong>Analíticos:</strong> Entender como você usa o site</li>
+                        <li><strong>Publicitários:</strong> Mostrar anúncios relevantes (você pode rejeitá-los)</li>
+                    </ul>
+                    <p>Você pode configurar seu navegador para rejeitar cookies, embora algumas funções possam não funcionar corretamente.</p>
+
+                    <h2>7. Retenção de Dados</h2>
+                    <ul>
+                        <li><strong>Contas ativas:</strong> Enquanto você usa o serviço</li>
+                        <li><strong>Contas inativas:</strong> 2 anos de inatividade, depois exclusão</li>
+                        <li><strong>Informações de transações:</strong> 7 anos (requisito legal fiscal)</li>
+                        <li><strong>Logs de segurança:</strong> 90 dias</li>
+                    </ul>
+
+                    <h2>8. Privacidade de Menores</h2>
+                    <p>ZonaPantys é para maiores de 18 anos. Não coletamos informações de menores intencionalmente. Se descobrirmos que um menor nos forneceu informações, as excluiremos imediatamente.</p>
+
+                    <h2>9. Alterações a esta Política</h2>
+                    <p>Podemos atualizar esta política ocasionalmente. Notificaremos você por email sobre mudanças importantes. A data de "Última atualização" no início sempre refletirá a versão mais recente.</p>
+
+                    <h2>10. Transferências Internacionais</h2>
+                    <p>Seus dados podem ser transferidos e processados em servidores localizados em:</p>
+                    <ul>
+                        <li>Estados Unidos (AWS)</li>
+                        <li>União Europeia (para usuários europeus)</li>
+                    </ul>
+                    <p>Garantimos o mesmo nível de proteção em todas as localizações.</p>
+
+                    <h2>11. Contato</h2>
+                    <p><strong>Responsável pela Proteção de Dados:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Endereço:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Tempo de resposta:</strong> Máximo 72 horas</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Ao usar o ZonaPantys, você aceita esta política de privacidade. Se você não concordar, por favor não use nosso serviço.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Voltar ao Início</a>
+                `
+            },
+            fr: {
+                title: "Politique de Confidentialité - ZonaPantys",
+                header: {
+                    title: "🔒 Politique de Confidentialité",
+                    updated: "Dernière mise à jour: Janvier 2026"
+                },
+                footer: {
+                    rights: "Tous droits réservés."
+                },
+                content: `
+                    <p>Chez <strong>ZonaPantys</strong>, votre vie privée est notre priorité absolue. Cette politique explique comment nous collectons, utilisons et protégeons vos informations personnelles.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Engagement:</strong> Nous ne vendons, ne louons ni ne partageons jamais vos informations personnelles avec des tiers sans votre consentement explicite.
+                    </div>
+
+                    <h2>1. Informations que Nous Collectons</h2>
+                    
+                    <h3>1.1 Informations de Compte</h3>
+                    <ul>
+                        <li>Nom complet</li>
+                        <li>Email</li>
+                        <li>Date de naissance (vérification de la majorité)</li>
+                        <li>Pays de résidence</li>
+                    </ul>
+
+                    <h3>1.2 Pour les Vendeuses</h3>
+                    <ul>
+                        <li>Pièce d'identité (pour vérification)</li>
+                        <li>Informations bancaires ou de cryptomonnaies (pour les paiements)</li>
+                        <li>Photos de profil et de produits</li>
+                        <li>Description du profil</li>
+                    </ul>
+
+                    <h3>1.3 Pour les Acheteurs</h3>
+                    <ul>
+                        <li>Adresse de livraison</li>
+                        <li>Informations de paiement (traitées par Stripe, nous ne les stockons pas)</li>
+                        <li>Historique d'achats</li>
+                    </ul>
+
+                    <h3>1.4 Informations Automatiques</h3>
+                    <ul>
+                        <li>Adresse IP</li>
+                        <li>Type de navigateur et d'appareil</li>
+                        <li>Pages visitées et temps passé</li>
+                        <li>Cookies (voir la section cookies ci-dessous)</li>
+                    </ul>
+
+                    <h2>2. Comment Nous Utilisons Vos Informations</h2>
+                    <ul>
+                        <li><strong>Exploiter la plateforme:</strong> Traiter les paiements, envois et transactions</li>
+                        <li><strong>Vérification:</strong> Confirmer l'identité des vendeuses</li>
+                        <li><strong>Communication:</strong> Vous envoyer des mises à jour, promotions et notifications</li>
+                        <li><strong>Améliorer le service:</strong> Analyser le comportement pour améliorer l'expérience</li>
+                        <li><strong>Sécurité:</strong> Détecter et prévenir la fraude</li>
+                        <li><strong>Légal:</strong> Respecter les obligations légales</li>
+                    </ul>
+
+                    <h2>3. Comment Nous Protégeons Vos Informations</h2>
+                    <p><strong>🔐 Mesures de Sécurité:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">Chiffrement SSL/TLS</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Chiffrement des Données</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Serveurs Sécurisés</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Accès Limité</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Audits Réguliers</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Disponible</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Chiffrement SSL/TLS:</strong> Toutes les connexions sont chiffrées</li>
+                        <li><strong>Chiffrement des données:</strong> Informations sensibles chiffrées dans notre base de données</li>
+                        <li><strong>Serveurs sécurisés:</strong> Infrastructure AWS avec protection avancée</li>
+                        <li><strong>Accès limité:</strong> Seul le personnel autorisé accède aux données personnelles</li>
+                        <li><strong>Audits réguliers:</strong> Révisions de sécurité trimestrielles</li>
+                        <li><strong>2FA disponible:</strong> Authentification à deux facteurs pour les comptes</li>
+                    </ul>
+
+                    <h2>4. Partage d'Informations avec des Tiers</h2>
+                    <p>Nous partageons des informations UNIQUEMENT avec:</p>
+                    <ul>
+                        <li><strong>Processeurs de paiement:</strong> Stripe (avec sa propre politique de confidentialité)</li>
+                        <li><strong>Entreprises d'expédition:</strong> Uniquement l'adresse nécessaire pour la livraison</li>
+                        <li><strong>Services d'analyse:</strong> Google Analytics (données anonymes)</li>
+                        <li><strong>Autorités légales:</strong> Uniquement si requis par la loi</li>
+                    </ul>
+
+                    <h2>5. Vos Droits</h2>
+                    <p>Selon le RGPD, CCPA et LGPD, vous avez le droit de:</p>
+
+                    <h3>5.1 Accès</h3>
+                    <p>Demander une copie de toutes vos informations personnelles.</p>
+
+                    <h3>5.2 Rectification</h3>
+                    <p>Corriger des informations incorrectes ou obsolètes.</p>
+
+                    <h3>5.3 Suppression</h3>
+                    <p>Demander la suppression de votre compte et de vos données (droit à l'oubli).</p>
+
+                    <h3>5.4 Portabilité</h3>
+                    <p>Recevoir vos données dans un format lisible pour les transférer.</p>
+
+                    <h3>5.5 Opposition</h3>
+                    <p>Vous opposer au traitement de vos données pour le marketing.</p>
+
+                    <h3>5.6 Limitation</h3>
+                    <p>Limiter comment nous utilisons vos données.</p>
+
+                    <div class="highlight-box">
+                        <strong>Pour exercer l'un de ces droits, contactez:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookies</h2>
+                    <p>Nous utilisons des cookies pour:</p>
+                    <ul>
+                        <li><strong>Essentiels:</strong> Maintenir votre session active</li>
+                        <li><strong>Fonctionnels:</strong> Mémoriser les préférences (langue, etc.)</li>
+                        <li><strong>Analytiques:</strong> Comprendre comment vous utilisez le site</li>
+                        <li><strong>Publicitaires:</strong> Afficher des annonces pertinentes (vous pouvez les refuser)</li>
+                    </ul>
+                    <p>Vous pouvez configurer votre navigateur pour refuser les cookies, bien que certaines fonctionnalités puissent ne pas fonctionner correctement.</p>
+
+                    <h2>7. Conservation des Données</h2>
+                    <ul>
+                        <li><strong>Comptes actifs:</strong> Tant que vous utilisez le service</li>
+                        <li><strong>Comptes inactifs:</strong> 2 ans d'inactivité, puis suppression</li>
+                        <li><strong>Informations de transaction:</strong> 7 ans (exigence légale fiscale)</li>
+                        <li><strong>Journaux de sécurité:</strong> 90 jours</li>
+                    </ul>
+
+                    <h2>8. Confidentialité des Mineurs</h2>
+                    <p>ZonaPantys est pour les personnes de plus de 18 ans. Nous ne collectons pas intentionnellement d'informations sur les mineurs. Si nous découvrons qu'un mineur nous a fourni des informations, nous les supprimerons immédiatement.</p>
+
+                    <h2>9. Modifications de cette Politique</h2>
+                    <p>Nous pouvons mettre à jour cette politique occasionnellement. Nous vous informerons par email des changements importants. La date de "Dernière mise à jour" en haut reflétera toujours la version la plus récente.</p>
+
+                    <h2>10. Transferts Internationaux</h2>
+                    <p>Vos données peuvent être transférées et traitées sur des serveurs situés dans:</p>
+                    <ul>
+                        <li>États-Unis (AWS)</li>
+                        <li>Union européenne (pour les utilisateurs européens)</li>
+                    </ul>
+                    <p>Nous garantissons le même niveau de protection dans tous les emplacements.</p>
+
+                    <h2>11. Contact</h2>
+                    <p><strong>Responsable de la Protection des Données:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Adresse:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Temps de réponse:</strong> Maximum 72 heures</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>En utilisant ZonaPantys, vous acceptez cette politique de confidentialité. Si vous n'êtes pas d'accord, veuillez ne pas utiliser notre service.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Retour à l'Accueil</a>
+                `
+            },
+            de: {
+                title: "Datenschutzerklärung - ZonaPantys",
+                header: {
+                    title: "🔒 Datenschutzerklärung",
+                    updated: "Letzte Aktualisierung: Januar 2026"
+                },
+                footer: {
+                    rights: "Alle Rechte vorbehalten."
+                },
+                content: `
+                    <p>Bei <strong>ZonaPantys</strong> ist Ihre Privatsphäre unsere oberste Priorität. Diese Richtlinie erklärt, wie wir Ihre persönlichen Informationen sammeln, verwenden und schützen.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Verpflichtung:</strong> Wir verkaufen, vermieten oder teilen Ihre persönlichen Informationen niemals mit Dritten ohne Ihre ausdrückliche Zustimmung.
+                    </div>
+
+                    <h2>1. Informationen, die Wir Sammeln</h2>
+                    
+                    <h3>1.1 Kontoinformationen</h3>
+                    <ul>
+                        <li>Vollständiger Name</li>
+                        <li>Email</li>
+                        <li>Geburtsdatum (Altersverifizierung)</li>
+                        <li>Wohnsitzland</li>
+                    </ul>
+
+                    <h3>1.2 Für Verkäuferinnen</h3>
+                    <ul>
+                        <li>Ausweisdokument (zur Verifizierung)</li>
+                        <li>Bank- oder Kryptowährungsinformationen (für Zahlungen)</li>
+                        <li>Profil- und Produktfotos</li>
+                        <li>Profilbeschreibung</li>
+                    </ul>
+
+                    <h3>1.3 Für Käufer</h3>
+                    <ul>
+                        <li>Lieferadresse</li>
+                        <li>Zahlungsinformationen (verarbeitet von Stripe, wir speichern sie nicht)</li>
+                        <li>Kaufhistorie</li>
+                    </ul>
+
+                    <h3>1.4 Automatische Informationen</h3>
+                    <ul>
+                        <li>IP-Adresse</li>
+                        <li>Browsertyp und Gerät</li>
+                        <li>Besuchte Seiten und Verweildauer</li>
+                        <li>Cookies (siehe Cookie-Bereich unten)</li>
+                    </ul>
+
+                    <h2>2. Wie Wir Ihre Informationen Verwenden</h2>
+                    <ul>
+                        <li><strong>Plattform betreiben:</strong> Zahlungen, Versand und Transaktionen verarbeiten</li>
+                        <li><strong>Verifizierung:</strong> Identität der Verkäuferinnen bestätigen</li>
+                        <li><strong>Kommunikation:</strong> Ihnen Updates, Werbeaktionen und Benachrichtigungen senden</li>
+                        <li><strong>Service verbessern:</strong> Verhalten analysieren, um Erfahrung zu verbessern</li>
+                        <li><strong>Sicherheit:</strong> Betrug erkennen und verhindern</li>
+                        <li><strong>Rechtlich:</strong> Rechtliche Verpflichtungen erfüllen</li>
+                    </ul>
+
+                    <h2>3. Wie Wir Ihre Informationen Schützen</h2>
+                    <p><strong>🔐 Sicherheitsmaßnahmen:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">SSL/TLS Verschlüsselung</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Datenverschlüsselung</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Sichere Server</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Begrenzter Zugriff</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Regelmäßige Audits</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Verfügbar</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>SSL/TLS Verschlüsselung:</strong> Alle Verbindungen sind verschlüsselt</li>
+                        <li><strong>Datenverschlüsselung:</strong> Sensible Informationen in unserer Datenbank verschlüsselt</li>
+                        <li><strong>Sichere Server:</strong> AWS-Infrastruktur mit erweitertem Schutz</li>
+                        <li><strong>Begrenzter Zugriff:</strong> Nur autorisiertes Personal greift auf persönliche Daten zu</li>
+                        <li><strong>Regelmäßige Audits:</strong> Vierteljährliche Sicherheitsüberprüfungen</li>
+                        <li><strong>2FA verfügbar:</strong> Zwei-Faktor-Authentifizierung für Konten</li>
+                    </ul>
+
+                    <h2>4. Informationen mit Dritten Teilen</h2>
+                    <p>Wir teilen Informationen NUR mit:</p>
+                    <ul>
+                        <li><strong>Zahlungsabwicklern:</strong> Stripe (mit eigener Datenschutzrichtlinie)</li>
+                        <li><strong>Versandunternehmen:</strong> Nur für Lieferung benötigte Adresse</li>
+                        <li><strong>Analysediensten:</strong> Google Analytics (anonyme Daten)</li>
+                        <li><strong>Rechtsbehörden:</strong> Nur wenn gesetzlich vorgeschrieben</li>
+                    </ul>
+
+                    <h2>5. Ihre Rechte</h2>
+                    <p>Gemäß DSGVO, CCPA und LGPD haben Sie das Recht auf:</p>
+
+                    <h3>5.1 Zugriff</h3>
+                    <p>Eine Kopie aller Ihrer persönlichen Informationen anzufordern.</p>
+
+                    <h3>5.2 Berichtigung</h3>
+                    <p>Falsche oder veraltete Informationen zu korrigieren.</p>
+
+                    <h3>5.3 Löschung</h3>
+                    <p>Löschung Ihres Kontos und Ihrer Daten zu beantragen (Recht auf Vergessenwerden).</p>
+
+                    <h3>5.4 Datenübertragbarkeit</h3>
+                    <p>Ihre Daten in lesbarem Format zu erhalten, um sie zu übertragen.</p>
+
+                    <h3>5.5 Widerspruch</h3>
+                    <p>Der Verarbeitung Ihrer Daten für Marketing zu widersprechen.</p>
+
+                    <h3>5.6 Einschränkung</h3>
+                    <p>Zu begrenzen, wie wir Ihre Daten verwenden.</p>
+
+                    <div class="highlight-box">
+                        <strong>Um eines dieser Rechte auszuüben, kontaktieren Sie:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookies</h2>
+                    <p>Wir verwenden Cookies für:</p>
+                    <ul>
+                        <li><strong>Wesentlich:</strong> Ihre Sitzung aktiv halten</li>
+                        <li><strong>Funktional:</strong> Präferenzen merken (Sprache, etc.)</li>
+                        <li><strong>Analytisch:</strong> Verstehen, wie Sie die Website nutzen</li>
+                        <li><strong>Werbung:</strong> Relevante Anzeigen zeigen (Sie können sie ablehnen)</li>
+                    </ul>
+                    <p>Sie können Ihren Browser so konfigurieren, dass er Cookies ablehnt, obwohl einige Funktionen möglicherweise nicht richtig funktionieren.</p>
+
+                    <h2>7. Datenspeicherung</h2>
+                    <ul>
+                        <li><strong>Aktive Konten:</strong> Während Sie den Service nutzen</li>
+                        <li><strong>Inaktive Konten:</strong> 2 Jahre Inaktivität, dann Löschung</li>
+                        <li><strong>Transaktionsinformationen:</strong> 7 Jahre (gesetzliche Steueranforderung)</li>
+                        <li><strong>Sicherheitsprotokolle:</strong> 90 Tage</li>
+                    </ul>
+
+                    <h2>8. Datenschutz für Minderjährige</h2>
+                    <p>ZonaPantys ist für Personen über 18 Jahre. Wir sammeln nicht absichtlich Informationen von Minderjährigen. Wenn wir feststellen, dass uns ein Minderjähriger Informationen zur Verfügung gestellt hat, werden wir diese sofort löschen.</p>
+
+                    <h2>9. Änderungen an dieser Richtlinie</h2>
+                    <p>Wir können diese Richtlinie gelegentlich aktualisieren. Wir werden Sie per E-Mail über wichtige Änderungen informieren. Das Datum "Letzte Aktualisierung" oben spiegelt immer die neueste Version wider.</p>
+
+                    <h2>10. Internationale Übertragungen</h2>
+                    <p>Ihre Daten können auf Servern übertragen und verarbeitet werden, die sich befinden in:</p>
+                    <ul>
+                        <li>Vereinigte Staaten (AWS)</li>
+                        <li>Europäische Union (für europäische Benutzer)</li>
+                    </ul>
+                    <p>Wir garantieren das gleiche Schutzniveau an allen Standorten.</p>
+
+                    <h2>11. Kontakt</h2>
+                    <p><strong>Datenschutzbeauftragter:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Adresse:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Antwortzeit:</strong> Maximal 72 Stunden</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Durch die Nutzung von ZonaPantys akzeptieren Sie diese Datenschutzrichtlinie. Wenn Sie nicht einverstanden sind, verwenden Sie bitte unseren Service nicht.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Zurück zur Startseite</a>
+                `
+            },
+            it: {
+                title: "Informativa sulla Privacy - ZonaPantys",
+                header: {
+                    title: "🔒 Informativa sulla Privacy",
+                    updated: "Ultimo aggiornamento: Gennaio 2026"
+                },
+                footer: {
+                    rights: "Tutti i diritti riservati."
+                },
+                content: `
+                    <p>Su <strong>ZonaPantys</strong>, la tua privacy è la nostra massima priorità. Questa politica spiega come raccogliamo, utilizziamo e proteggiamo le tue informazioni personali.</p>
+
+                    <div class="highlight-box">
+                        <strong>🛡️ Impegno:</strong> Non vendiamo, affittiamo o condividiamo mai le tue informazioni personali con terze parti senza il tuo consenso esplicito.
+                    </div>
+
+                    <h2>1. Informazioni che Raccogliamo</h2>
+                    
+                    <h3>1.1 Informazioni dell'Account</h3>
+                    <ul>
+                        <li>Nome completo</li>
+                        <li>Email</li>
+                        <li>Data di nascita (verifica della maggiore età)</li>
+                        <li>Paese di residenza</li>
+                    </ul>
+
+                    <h3>1.2 Per le Venditrici</h3>
+                    <ul>
+                        <li>Documento di identità (per verifica)</li>
+                        <li>Informazioni bancarie o di criptovalute (per pagamenti)</li>
+                        <li>Foto del profilo e dei prodotti</li>
+                        <li>Descrizione del profilo</li>
+                    </ul>
+
+                    <h3>1.3 Per gli Acquirenti</h3>
+                    <ul>
+                        <li>Indirizzo di spedizione</li>
+                        <li>Informazioni di pagamento (elaborate da Stripe, non le conserviamo)</li>
+                        <li>Cronologia degli acquisti</li>
+                    </ul>
+
+                    <h3>1.4 Informazioni Automatiche</h3>
+                    <ul>
+                        <li>Indirizzo IP</li>
+                        <li>Tipo di browser e dispositivo</li>
+                        <li>Pagine visitate e tempo trascorso</li>
+                        <li>Cookie (vedi sezione cookie qui sotto)</li>
+                    </ul>
+
+                    <h2>2. Come Utilizziamo le Tue Informazioni</h2>
+                    <ul>
+                        <li><strong>Gestire la piattaforma:</strong> Elaborare pagamenti, spedizioni e transazioni</li>
+                        <li><strong>Verifica:</strong> Confermare l'identità delle venditrici</li>
+                        <li><strong>Comunicazione:</strong> Inviarti aggiornamenti, promozioni e notifiche</li>
+                        <li><strong>Migliorare il servizio:</strong> Analizzare il comportamento per migliorare l'esperienza</li>
+                        <li><strong>Sicurezza:</strong> Rilevare e prevenire frodi</li>
+                        <li><strong>Legale:</strong> Rispettare gli obblighi legali</li>
+                    </ul>
+
+                    <h2>3. Come Proteggiamo le Tue Informazioni</h2>
+                    <p><strong>🔐 Misure di Sicurezza:</strong></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="security-badge">Crittografia SSL/TLS</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Crittografia dei Dati</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Server Sicuri</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Accesso Limitato</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">Audit Regolari</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="security-badge">2FA Disponibile</span>
+                        </div>
+                    </div>
+                    <ul style="margin-top: 1rem;">
+                        <li><strong>Crittografia SSL/TLS:</strong> Tutte le connessioni sono crittografate</li>
+                        <li><strong>Crittografia dei dati:</strong> Informazioni sensibili crittografate nel nostro database</li>
+                        <li><strong>Server sicuri:</strong> Infrastruttura AWS con protezione avanzata</li>
+                        <li><strong>Accesso limitato:</strong> Solo il personale autorizzato accede ai dati personali</li>
+                        <li><strong>Audit regolari:</strong> Revisioni di sicurezza trimestrali</li>
+                        <li><strong>2FA disponibile:</strong> Autenticazione a due fattori per gli account</li>
+                    </ul>
+
+                    <h2>4. Condivisione di Informazioni con Terze Parti</h2>
+                    <p>Condividiamo informazioni SOLO con:</p>
+                    <ul>
+                        <li><strong>Processori di pagamento:</strong> Stripe (con la propria politica sulla privacy)</li>
+                        <li><strong>Compagnie di spedizione:</strong> Solo indirizzo necessario per la consegna</li>
+                        <li><strong>Servizi di analisi:</strong> Google Analytics (dati anonimi)</li>
+                        <li><strong>Autorità legali:</strong> Solo se richiesto dalla legge</li>
+                    </ul>
+
+                    <h2>5. I Tuoi Diritti</h2>
+                    <p>Secondo GDPR, CCPA e LGPD, hai il diritto di:</p>
+
+                    <h3>5.1 Accesso</h3>
+                    <p>Richiedere una copia di tutte le tue informazioni personali.</p>
+
+                    <h3>5.2 Rettifica</h3>
+                    <p>Correggere informazioni errate o obsolete.</p>
+
+                    <h3>5.3 Cancellazione</h3>
+                    <p>Richiedere la cancellazione del tuo account e dei tuoi dati (diritto all'oblio).</p>
+
+                    <h3>5.4 Portabilità</h3>
+                    <p>Ricevere i tuoi dati in formato leggibile per trasferirli.</p>
+
+                    <h3>5.5 Opposizione</h3>
+                    <p>Opporsi al trattamento dei tuoi dati per marketing.</p>
+
+                    <h3>5.6 Limitazione</h3>
+                    <p>Limitare come utilizziamo i tuoi dati.</p>
+
+                    <div class="highlight-box">
+                        <strong>Per esercitare uno qualsiasi di questi diritti, contatta:</strong> zonapantys@zonapantys.com
+                    </div>
+
+                    <h2>6. Cookie</h2>
+                    <p>Utilizziamo i cookie per:</p>
+                    <ul>
+                        <li><strong>Essenziali:</strong> Mantenere la tua sessione attiva</li>
+                        <li><strong>Funzionali:</strong> Ricordare le preferenze (lingua, ecc.)</li>
+                        <li><strong>Analitici:</strong> Capire come usi il sito</li>
+                        <li><strong>Pubblicitari:</strong> Mostrare annunci pertinenti (puoi rifiutarli)</li>
+                    </ul>
+                    <p>Puoi configurare il tuo browser per rifiutare i cookie, anche se alcune funzionalità potrebbero non funzionare correttamente.</p>
+
+                    <h2>7. Conservazione dei Dati</h2>
+                    <ul>
+                        <li><strong>Account attivi:</strong> Finché usi il servizio</li>
+                        <li><strong>Account inattivi:</strong> 2 anni di inattività, poi cancellazione</li>
+                        <li><strong>Informazioni sulle transazioni:</strong> 7 anni (requisito legale fiscale)</li>
+                        <li><strong>Log di sicurezza:</strong> 90 giorni</li>
+                    </ul>
+
+                    <h2>8. Privacy dei Minori</h2>
+                    <p>ZonaPantys è per persone di età superiore ai 18 anni. Non raccogliamo intenzionalmente informazioni da minori. Se scopriamo che un minore ci ha fornito informazioni, le elimineremo immediatamente.</p>
+
+                    <h2>9. Modifiche a questa Politica</h2>
+                    <p>Possiamo aggiornare questa politica occasionalmente. Ti informeremo via email di cambiamenti importanti. La data di "Ultimo aggiornamento" in alto rifletterà sempre la versione più recente.</p>
+
+                    <h2>10. Trasferimenti Internazionali</h2>
+                    <p>I tuoi dati possono essere trasferiti ed elaborati su server situati in:</p>
+                    <ul>
+                        <li>Stati Uniti (AWS)</li>
+                        <li>Unione Europea (per utenti europei)</li>
+                    </ul>
+                    <p>Garantiamo lo stesso livello di protezione in tutte le località.</p>
+
+                    <h2>11. Contatto</h2>
+                    <p><strong>Responsabile della Protezione dei Dati:</strong></p>
+                    <ul>
+                        <li><strong>Email:</strong> zonapantys@zonapantys.com</li>
+                        <li><strong>Indirizzo:</strong> ZonaPantys LLC, Delaware, USA</li>
+                        <li><strong>Tempo di risposta:</strong> Massimo 72 ore</li>
+                    </ul>
+
+                    <hr style="margin: 2rem 0;">
+
+                    <p><strong>Utilizzando ZonaPantys, accetti questa informativa sulla privacy. Se non sei d'accordo, ti preghiamo di non utilizzare il nostro servizio.</strong></p>
+
+                    <a href="index.html" class="btn-back">← Torna alla Home</a>
+                `
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            
+            document.title = t.title;
+            document.querySelector('[data-i18n="header.title"]').textContent = t.header.title;
+            document.querySelector('[data-i18n="header.updated"]').textContent = t.header.updated;
+            document.querySelector('[data-i18n="footer.rights"]').textContent = t.footer.rights;
+            document.getElementById('mainContent').innerHTML = t.content;
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', function() {
+            document.getElementById('languageDropdown').classList.remove('active');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+        });
+    </script>
 </body>
 </html>
