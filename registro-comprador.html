@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="title">Registro Comprador - ZonaPantys</title>
+    <title>Registro de Comprador - ZonaPantys</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,149 +11,159 @@
             --primary-color: #e91e63;
             --secondary-color: #9c27b0;
             --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
-            padding: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
         .register-container {
-            max-width: 600px;
-            margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .register-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 2rem;
-            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 3rem;
             position: relative;
+            margin: 2rem auto;
         }
 
-        .language-selector {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .language-btn {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .language-btn:hover {
-            background: white;
-            color: var(--primary-color);
-        }
-
-        .language-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            margin-top: 0.5rem;
-            min-width: 140px;
-            z-index: 1000;
-        }
-
-        .language-dropdown.active {
-            display: block;
-        }
-
-        .language-option {
-            padding: 0.7rem 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            color: #333;
-            font-size: 0.9rem;
-        }
-
-        .language-option:hover {
-            background: #f8f9fa;
-        }
-
-        .register-header h1 {
+        .logo h1 {
             font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
 
-        .register-header p {
-            opacity: 0.9;
-            margin-bottom: 0;
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
         }
 
-        .register-body {
-            padding: 2.5rem;
+        .form-title {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
         }
 
         .form-label {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--dark-color);
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
-        .form-control, .form-select {
-            border-radius: 10px;
-            border: 2px solid #e0e0e0;
+        .form-control {
             padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             transition: all 0.3s;
+            font-size: 0.95rem;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.25);
         }
 
-        .input-group-text {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 10px 0 0 10px;
-        }
-
-        .btn-register {
+        .btn-primary-custom {
+            width: 100%;
+            padding: 1rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            border-radius: 10px;
             font-weight: bold;
-            width: 100%;
-            margin-top: 1.5rem;
+            font-size: 1.1rem;
             transition: all 0.3s;
+            cursor: pointer;
+            margin-top: 1rem;
         }
 
-        .btn-register:hover {
+        .btn-primary-custom:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
         }
 
-        .btn-register:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .form-check {
+            margin: 1.5rem 0;
+        }
+
+        .form-check-label {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .form-check-label a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .form-check-label a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #999;
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
         }
 
         .login-link {
             text-align: center;
             margin-top: 1.5rem;
-            color: #666;
         }
 
         .login-link a {
@@ -166,289 +176,311 @@
             text-decoration: underline;
         }
 
-        .alert {
-            border-radius: 10px;
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
         }
 
-        .form-check-label {
+        .language-btn {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: var(--light-color);
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-home a {
+            color: #666;
+            text-decoration: none;
             font-size: 0.9rem;
         }
 
-        .form-check-label a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        .form-check-label a:hover {
-            text-decoration: underline;
-        }
-
-        .required {
+        .back-home a:hover {
             color: var(--primary-color);
         }
 
-        @media (max-width: 768px) {
-            .register-body {
-                padding: 1.5rem;
+        @media (max-width: 576px) {
+            .register-container {
+                padding: 2rem;
             }
-            
-            .register-header h1 {
+
+            .logo h1 {
                 font-size: 1.5rem;
+            }
+
+            .form-title {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="register-container">
-        <div class="register-header">
-            <div class="language-selector">
-                <button class="language-btn" id="languageBtn">
-                    🌐 <span id="currentLang">ES</span>
-                </button>
-                <div class="language-dropdown" id="languageDropdown">
-                    <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
-                    <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
-                    <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
-                    <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
-                    <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
-                    <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
-                </div>
+        <div class="language-selector">
+            <button class="language-btn" id="languageBtn">
+                🌐 <span id="currentLang">ES</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
             </div>
-            <h1 data-i18n="header.title">🛒 Registro de Comprador</h1>
-            <p data-i18n="header.subtitle">Únete a miles de compradores en ZonaPantys</p>
         </div>
 
-        <div class="register-body">
-            <div class="alert alert-success d-none" id="successAlert"></div>
-            <div class="alert alert-danger d-none" id="errorAlert"></div>
+        <div class="logo">
+            <h1>🔥 ZONAPANTYS</h1>
+            <p data-i18n="registerBuyer.subtitle">Lencería Premium con Esencia Latina</p>
+        </div>
 
-            <form id="buyerRegistrationForm">
-                <!-- Username -->
-                <div class="mb-3">
-                    <label for="username" class="form-label" data-i18n="form.username">
-                        Nombre de usuario <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        <input type="text" class="form-control" id="username" required 
-                               minlength="3" maxlength="50" 
-                               pattern="[a-zA-Z0-9_-]+"
-                               placeholder="tu_usuario">
-                    </div>
-                    <small class="text-muted" data-i18n="form.usernameHelp">Mínimo 3 caracteres, solo letras, números y guiones</small>
-                </div>
+        <h2 class="form-title" data-i18n="registerBuyer.title">Registro de Comprador</h2>
+        <p class="form-subtitle" data-i18n="registerBuyer.subtitle2">Únete y disfruta contenido exclusivo</p>
 
-                <!-- Email -->
-                <div class="mb-3">
-                    <label for="email" class="form-label" data-i18n="form.email">
-                        Email <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" class="form-control" id="email" required 
-                               placeholder="tu@email.com">
-                    </div>
-                </div>
-
-                <!-- Password -->
-                <div class="mb-3">
-                    <label for="password" class="form-label" data-i18n="form.password">
-                        Contraseña <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" class="form-control" id="password" required 
-                               minlength="8" placeholder="Mínimo 8 caracteres">
-                    </div>
-                    <small class="text-muted" data-i18n="form.passwordHelp">Mínimo 8 caracteres</small>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label" data-i18n="form.confirmPassword">
-                        Confirmar contraseña <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" class="form-control" id="confirmPassword" required 
-                               minlength="8" placeholder="Repite tu contraseña">
-                    </div>
-                </div>
-
-                <!-- Full Name -->
-                <div class="mb-3">
-                    <label for="fullName" class="form-label" data-i18n="form.fullName">
-                        Nombre completo <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                        <input type="text" class="form-control" id="fullName" required 
-                               placeholder="Juan Pérez">
-                    </div>
-                </div>
-
-                <!-- Date of Birth -->
-                <div class="mb-3">
-                    <label for="dateOfBirth" class="form-label" data-i18n="form.dateOfBirth">
-                        Fecha de nacimiento <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                        <input type="date" class="form-control" id="dateOfBirth" required>
-                    </div>
-                    <small class="text-muted" data-i18n="form.ageHelp">Debes ser mayor de 18 años</small>
-                </div>
-
-                <!-- Country -->
-                <div class="mb-3">
-                    <label for="country" class="form-label" data-i18n="form.country">
-                        País <span class="required">*</span>
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
-                        <select class="form-select" id="country" required>
-                            <option value="">Selecciona tu país</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Bolivia">Bolivia</option>
-                            <option value="Brasil">Brasil</option>
-                            <option value="Chile">Chile</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Costa Rica">Costa Rica</option>
-                            <option value="Cuba">Cuba</option>
-                            <option value="Ecuador">Ecuador</option>
-                            <option value="El Salvador">El Salvador</option>
-                            <option value="España">España</option>
-                            <option value="Estados Unidos">Estados Unidos</option>
-                            <option value="Guatemala">Guatemala</option>
-                            <option value="Honduras">Honduras</option>
-                            <option value="México">México</option>
-                            <option value="Nicaragua">Nicaragua</option>
-                            <option value="Panamá">Panamá</option>
-                            <option value="Paraguay">Paraguay</option>
-                            <option value="Perú">Perú</option>
-                            <option value="Portugal">Portugal</option>
-                            <option value="República Dominicana">República Dominicana</option>
-                            <option value="Uruguay">Uruguay</option>
-                            <option value="Venezuela">Venezuela</option>
-                            <option value="Alemania">Alemania</option>
-                            <option value="Francia">Francia</option>
-                            <option value="Italia">Italia</option>
-                            <option value="Reino Unido">Reino Unido</option>
-                            <option value="Canadá">Canadá</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Otro">Otro</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Preferred Language -->
-                <div class="mb-3">
-                    <label for="preferredLanguage" class="form-label" data-i18n="form.preferredLanguage">
-                        Idioma preferido
-                    </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-language"></i></span>
-                        <select class="form-select" id="preferredLanguage">
-                            <option value="es">🇪🇸 Español</option>
-                            <option value="en">🇺🇸 English</option>
-                            <option value="pt">🇧🇷 Português</option>
-                            <option value="fr">🇫🇷 Français</option>
-                            <option value="de">🇩🇪 Deutsch</option>
-                            <option value="it">🇮🇹 Italiano</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="acceptTerms" required>
-                    <label class="form-check-label" for="acceptTerms">
-                        <span data-i18n="form.acceptTerms1">Acepto los</span>
-                        <a href="terminos.html" target="_blank" data-i18n="form.terms">Términos de Servicio</a>
-                        <span data-i18n="form.acceptTerms2">y la</span>
-                        <a href="privacidad.html" target="_blank" data-i18n="form.privacy">Política de Privacidad</a>
-                        <span class="required">*</span>
-                    </label>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-register" id="submitBtn">
-                    <i class="fas fa-user-plus me-2"></i>
-                    <span data-i18n="form.submit">Crear mi cuenta de comprador</span>
-                </button>
-            </form>
-
-            <div class="login-link">
-                <span data-i18n="form.alreadyAccount">¿Ya tienes cuenta?</span>
-                <a href="login.html" data-i18n="form.login">Inicia sesión</a>
+        <form id="registerForm">
+            <div class="form-group">
+                <label class="form-label" data-i18n="registerBuyer.name">Nombre Completo</label>
+                <input type="text" class="form-control" required data-i18n-placeholder="registerBuyer.namePlaceholder">
             </div>
 
-            <div class="login-link mt-2">
-                <a href="registro-vendedora.html" data-i18n="form.registerSeller">¿Quieres vender? Regístrate como vendedora</a>
+            <div class="form-group">
+                <label class="form-label" data-i18n="registerBuyer.email">Correo Electrónico</label>
+                <input type="email" class="form-control" required data-i18n-placeholder="registerBuyer.emailPlaceholder">
             </div>
 
-            <div class="login-link mt-3">
-                <a href="index.html" data-i18n="form.backHome">← Volver al inicio</a>
+            <div class="form-group">
+                <label class="form-label" data-i18n="registerBuyer.password">Contraseña</label>
+                <input type="password" class="form-control" required data-i18n-placeholder="registerBuyer.passwordPlaceholder">
             </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="registerBuyer.confirmPassword">Confirmar Contraseña</label>
+                <input type="password" class="form-control" required data-i18n-placeholder="registerBuyer.confirmPasswordPlaceholder">
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="terms" required>
+                <label class="form-check-label" for="terms">
+                    <span data-i18n="registerBuyer.acceptTerms">Acepto los</span> <a href="terminos.html" data-i18n="registerBuyer.terms">Términos de Servicio</a> <span data-i18n="registerBuyer.and">y</span> <a href="privacidad.html" data-i18n="registerBuyer.privacy">Política de Privacidad</a>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary-custom" data-i18n="registerBuyer.button">Crear Cuenta</button>
+        </form>
+
+        <div class="divider">
+            <span data-i18n="registerBuyer.or">O</span>
+        </div>
+
+        <div class="login-link">
+            <p><span data-i18n="registerBuyer.haveAccount">¿Ya tienes cuenta?</span> <a href="login.html" data-i18n="registerBuyer.login">Inicia sesión aquí</a></p>
+        </div>
+
+        <div class="back-home">
+            <a href="index.html">
+                <i class="fas fa-arrow-left"></i> <span data-i18n="registerBuyer.backHome">Volver al inicio</span>
+            </a>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-        
-        const { createClient } = supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Traducciones (solo las esenciales)
         const translations = {
             es: {
-                title: "Registro Comprador - ZonaPantys",
-                header: {
-                    title: "🛒 Registro de Comprador",
-                    subtitle: "Únete a miles de compradores en ZonaPantys"
-                },
-                form: {
-                    username: "Nombre de usuario",
-                    usernameHelp: "Mínimo 3 caracteres, solo letras, números y guiones",
-                    email: "Email",
+                registerBuyer: {
+                    subtitle: "Lencería Premium con Esencia Latina",
+                    title: "Registro de Comprador",
+                    subtitle2: "Únete y disfruta contenido exclusivo",
+                    name: "Nombre Completo",
+                    namePlaceholder: "Tu nombre completo",
+                    email: "Correo Electrónico",
+                    emailPlaceholder: "tu@email.com",
                     password: "Contraseña",
-                    passwordHelp: "Mínimo 8 caracteres",
-                    confirmPassword: "Confirmar contraseña",
-                    fullName: "Nombre completo",
-                    dateOfBirth: "Fecha de nacimiento",
-                    ageHelp: "Debes ser mayor de 18 años",
-                    country: "País",
-                    preferredLanguage: "Idioma preferido",
-                    acceptTerms1: "Acepto los",
+                    passwordPlaceholder: "Crea una contraseña segura",
+                    confirmPassword: "Confirmar Contraseña",
+                    confirmPasswordPlaceholder: "Confirma tu contraseña",
+                    acceptTerms: "Acepto los",
                     terms: "Términos de Servicio",
-                    acceptTerms2: "y la",
+                    and: "y",
                     privacy: "Política de Privacidad",
-                    submit: "Crear mi cuenta de comprador",
-                    alreadyAccount: "¿Ya tienes cuenta?",
-                    login: "Inicia sesión",
-                    registerSeller: "¿Quieres vender? Regístrate como vendedora",
-                    backHome: "← Volver al inicio"
-                },
-                alerts: {
-                    passwordMismatch: "Las contraseñas no coinciden",
-                    under18: "Debes ser mayor de 18 años para registrarte",
-                    usernameExists: "Este nombre de usuario ya está en uso",
-                    emailExists: "Este email ya está registrado",
-                    success: "¡Registro exitoso! Revisa tu email para verificar tu cuenta.",
-                    error: "Error al registrar. Por favor intenta de nuevo.",
-                    errorDetail: "Error: "
+                    button: "Crear Cuenta",
+                    or: "O",
+                    haveAccount: "¿Ya tienes cuenta?",
+                    login: "Inicia sesión aquí",
+                    backHome: "Volver al inicio"
+                }
+            },
+            en: {
+                registerBuyer: {
+                    subtitle: "Premium Lingerie with Latin Essence",
+                    title: "Buyer Registration",
+                    subtitle2: "Join and enjoy exclusive content",
+                    name: "Full Name",
+                    namePlaceholder: "Your full name",
+                    email: "Email Address",
+                    emailPlaceholder: "your@email.com",
+                    password: "Password",
+                    passwordPlaceholder: "Create a secure password",
+                    confirmPassword: "Confirm Password",
+                    confirmPasswordPlaceholder: "Confirm your password",
+                    acceptTerms: "I accept the",
+                    terms: "Terms of Service",
+                    and: "and",
+                    privacy: "Privacy Policy",
+                    button: "Create Account",
+                    or: "Or",
+                    haveAccount: "Already have an account?",
+                    login: "Log in here",
+                    backHome: "Back to home"
+                }
+            },
+            pt: {
+                registerBuyer: {
+                    subtitle: "Lingerie Premium com Essência Latina",
+                    title: "Cadastro de Comprador",
+                    subtitle2: "Junte-se e desfrute de conteúdo exclusivo",
+                    name: "Nome Completo",
+                    namePlaceholder: "Seu nome completo",
+                    email: "Endereço de Email",
+                    emailPlaceholder: "seu@email.com",
+                    password: "Senha",
+                    passwordPlaceholder: "Crie uma senha segura",
+                    confirmPassword: "Confirmar Senha",
+                    confirmPasswordPlaceholder: "Confirme sua senha",
+                    acceptTerms: "Aceito os",
+                    terms: "Termos de Serviço",
+                    and: "e",
+                    privacy: "Política de Privacidade",
+                    button: "Criar Conta",
+                    or: "Ou",
+                    haveAccount: "Já tem uma conta?",
+                    login: "Entre aqui",
+                    backHome: "Voltar ao início"
+                }
+            },
+            fr: {
+                registerBuyer: {
+                    subtitle: "Lingerie Premium avec Essence Latine",
+                    title: "Inscription Acheteur",
+                    subtitle2: "Rejoignez et profitez de contenu exclusif",
+                    name: "Nom Complet",
+                    namePlaceholder: "Votre nom complet",
+                    email: "Adresse Email",
+                    emailPlaceholder: "votre@email.com",
+                    password: "Mot de Passe",
+                    passwordPlaceholder: "Créez un mot de passe sécurisé",
+                    confirmPassword: "Confirmer le Mot de Passe",
+                    confirmPasswordPlaceholder: "Confirmez votre mot de passe",
+                    acceptTerms: "J'accepte les",
+                    terms: "Conditions de Service",
+                    and: "et",
+                    privacy: "Politique de Confidentialité",
+                    button: "Créer un Compte",
+                    or: "Ou",
+                    haveAccount: "Vous avez déjà un compte?",
+                    login: "Connectez-vous ici",
+                    backHome: "Retour à l'accueil"
+                }
+            },
+            de: {
+                registerBuyer: {
+                    subtitle: "Premium Dessous mit Lateinamerikanischem Flair",
+                    title: "Käufer Registrierung",
+                    subtitle2: "Treten Sie bei und genießen Sie exklusive Inhalte",
+                    name: "Vollständiger Name",
+                    namePlaceholder: "Ihr vollständiger Name",
+                    email: "E-Mail-Adresse",
+                    emailPlaceholder: "ihre@email.com",
+                    password: "Passwort",
+                    passwordPlaceholder: "Erstellen Sie ein sicheres Passwort",
+                    confirmPassword: "Passwort Bestätigen",
+                    confirmPasswordPlaceholder: "Bestätigen Sie Ihr Passwort",
+                    acceptTerms: "Ich akzeptiere die",
+                    terms: "Nutzungsbedingungen",
+                    and: "und",
+                    privacy: "Datenschutz",
+                    button: "Konto Erstellen",
+                    or: "Oder",
+                    haveAccount: "Haben Sie bereits ein Konto?",
+                    login: "Hier anmelden",
+                    backHome: "Zurück zur Startseite"
+                }
+            },
+            it: {
+                registerBuyer: {
+                    subtitle: "Lingerie Premium con Essenza Latina",
+                    title: "Registrazione Acquirente",
+                    subtitle2: "Unisciti e goditi contenuti esclusivi",
+                    name: "Nome Completo",
+                    namePlaceholder: "Il tuo nome completo",
+                    email: "Indirizzo Email",
+                    emailPlaceholder: "tua@email.com",
+                    password: "Password",
+                    passwordPlaceholder: "Crea una password sicura",
+                    confirmPassword: "Conferma Password",
+                    confirmPasswordPlaceholder: "Conferma la tua password",
+                    acceptTerms: "Accetto i",
+                    terms: "Termini di Servizio",
+                    and: "e",
+                    privacy: "Privacy Policy",
+                    button: "Crea Account",
+                    or: "O",
+                    haveAccount: "Hai già un account?",
+                    login: "Accedi qui",
+                    backHome: "Torna alla home"
                 }
             }
         };
 
-        // Idioma actual
         let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
 
-        // Cambiar idioma
         function changeLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('zonapantys_lang', lang);
@@ -457,23 +489,38 @@
             document.getElementById('languageDropdown').classList.remove('active');
         }
 
-        // Actualizar contenido
         function updateContent() {
-            const t = translations[currentLang] || translations.es;
-            document.title = t.title;
+            const t = translations[currentLang];
             
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
                 const keys = key.split('.');
                 let value = t;
+                
                 for (let k of keys) {
-                    value = value?.[k];
+                    value = value[k];
                 }
-                if (value) el.textContent = value;
+                
+                if (value) {
+                    element.textContent = value;
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                const keys = key.split('.');
+                let value = t;
+                
+                for (let k of keys) {
+                    value = value[k];
+                }
+                
+                if (value) {
+                    element.placeholder = value;
+                }
             });
         }
 
-        // Dropdown de idiomas
         document.getElementById('languageBtn').addEventListener('click', function(e) {
             e.stopPropagation();
             document.getElementById('languageDropdown').classList.toggle('active');
@@ -483,162 +530,14 @@
             document.getElementById('languageDropdown').classList.remove('active');
         });
 
-        // Validar edad +18
-        function validateAge(dateOfBirth) {
-            const today = new Date();
-            const birthDate = new Date(dateOfBirth);
-            const age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                return age - 1;
-            }
-            return age;
-        }
-
-        // Hash de contraseña
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
-        }
-
-        // Manejo del formulario
-        document.getElementById('buyerRegistrationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const t = translations[currentLang].alerts;
-            const errorAlert = document.getElementById('errorAlert');
-            const successAlert = document.getElementById('successAlert');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            // Limpiar alertas
-            errorAlert.classList.add('d-none');
-            successAlert.classList.add('d-none');
-            
-            // Validar contraseñas
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                errorAlert.textContent = t.passwordMismatch;
-                errorAlert.classList.remove('d-none');
-                window.scrollTo(0, 0);
-                return;
-            }
-            
-            // Validar edad
-            const dateOfBirth = document.getElementById('dateOfBirth').value;
-            if (validateAge(dateOfBirth) < 18) {
-                errorAlert.textContent = t.under18;
-                errorAlert.classList.remove('d-none');
-                window.scrollTo(0, 0);
-                return;
-            }
-            
-            // Deshabilitar botón
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Registrando...';
-            
-            try {
-                // Obtener datos del formulario
-                const username = document.getElementById('username').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const fullName = document.getElementById('fullName').value.trim();
-                const country = document.getElementById('country').value;
-                const preferredLanguage = document.getElementById('preferredLanguage').value;
-                
-                // Verificar si el username ya existe
-                const { data: existingUsername } = await supabaseClient
-                    .from('buyers')
-                    .select('username')
-                    .eq('username', username)
-                    .single();
-                
-                if (existingUsername) {
-                    errorAlert.textContent = t.usernameExists;
-                    errorAlert.classList.remove('d-none');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Crear mi cuenta de comprador';
-                    window.scrollTo(0, 0);
-                    return;
-                }
-                
-                // Hash de contraseña
-                const passwordHash = await hashPassword(password);
-                
-                // Insertar en la tabla buyers
-                const { data, error } = await supabaseClient
-                    .from('buyers')
-                    .insert([
-                        {
-                            username: username,
-                            email: email,
-                            password_hash: passwordHash,
-                            full_name: fullName,
-                            date_of_birth: dateOfBirth,
-                            country: country,
-                            preferred_language: preferredLanguage,
-                            is_verified: false,
-                            is_active: true
-                        }
-                    ])
-                    .select();
-                
-                if (error) {
-                    console.error('Error al registrar:', error);
-                    if (error.code === '23505') {
-                        if (error.message.includes('email')) {
-                            errorAlert.textContent = t.emailExists;
-                        } else {
-                            errorAlert.textContent = t.usernameExists;
-                        }
-                    } else {
-                        errorAlert.textContent = t.errorDetail + error.message;
-                    }
-                    errorAlert.classList.remove('d-none');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Crear mi cuenta de comprador';
-                    window.scrollTo(0, 0);
-                    return;
-                }
-                
-                // Éxito
-                successAlert.textContent = t.success;
-                successAlert.classList.remove('d-none');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Crear mi cuenta de comprador';
-                
-                // Limpiar formulario
-                document.getElementById('buyerRegistrationForm').reset();
-                document.getElementById('preferredLanguage').value = currentLang;
-                
-                // Scroll al top
-                window.scrollTo(0, 0);
-                
-                // Redirigir a login después de 3 segundos
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 3000);
-                
-            } catch (err) {
-                console.error('Error:', err);
-                errorAlert.textContent = t.error + ' ' + err.message;
-                errorAlert.classList.remove('d-none');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i> Crear mi cuenta de comprador';
-                window.scrollTo(0, 0);
-            }
-        });
-
-        // Inicializar
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
-            document.getElementById('preferredLanguage').value = currentLang;
             updateContent();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Formulario enviado (demo)');
         });
     </script>
 </body>
