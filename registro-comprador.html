@@ -535,10 +535,77 @@
             updateContent();
         });
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+           <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Formulario enviado (demo)');
+            
+            const fullName = document.querySelector('input[type="text"]').value.trim();
+            const email = document.querySelector('input[type="email"]').value.trim();
+            const password = document.querySelectorAll('input[type="password"]')[0].value;
+            const confirmPassword = document.querySelectorAll('input[type="password"]')[1].value;
+            const terms = document.getElementById('terms').checked;
+
+            // Validaciones
+            if (!fullName || !email || !password || !confirmPassword) {
+                alert('❌ Por favor completa todos los campos');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('❌ Las contraseñas no coinciden');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('❌ La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            if (!terms) {
+                alert('❌ Debes aceptar los términos y condiciones');
+                return;
+            }
+
+            const btn = document.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Creando cuenta...';
+
+            try {
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) throw authError;
+
+                const { error: buyerError } = await supabase
+                    .from('buyers')
+                    .insert([{
+                        username: email.split('@')[0],
+                        email: email,
+                        password_hash: 'handled_by_auth',
+                        full_name: fullName,
+                        date_of_birth: '2000-01-01',
+                        is_active: true
+                    }]);
+
+                if (buyerError) throw buyerError;
+
+                alert('✅ ¡Cuenta creada! Ahora puedes iniciar sesión');
+                window.location.href = 'login.html';
+
+            } catch (error) {
+                console.error(error);
+                alert('❌ Error: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = 'Crear Cuenta';
+            }
         });
+    </script>
     </script>
 </body>
 </html>
