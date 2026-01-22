@@ -625,12 +625,29 @@
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
         });
+    </script>
 
-            <!-- Supabase JS SDK -->
+    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
     
     <script>
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+        
+        let supabaseClient;
+        
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Supabase inicializado correctamente');
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        
+        initSupabase();
+        
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -641,7 +658,6 @@
             const password = document.querySelector('input[type="password"]').value;
             const terms = document.getElementById('terms').checked;
 
-            // Validaciones
             if (!stageName || !age || !country || !email || !password) {
                 alert('❌ Por favor completa todos los campos');
                 return;
@@ -667,7 +683,7 @@
             btn.textContent = 'Creando cuenta...';
 
             try {
-                const { data: authData, error: authError } = await supabase.auth.signUp({
+                const { data: authData, error: authError } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password
                 });
@@ -675,7 +691,7 @@
                 if (authError) throw authError;
 
                 const birthYear = new Date().getFullYear() - age;
-                const { error: sellerError } = await supabase
+                const { error: sellerError } = await supabaseClient
                     .from('sellers')
                     .insert([{
                         username: email.split('@')[0],
@@ -691,7 +707,7 @@
 
                 if (sellerError) throw sellerError;
 
-                alert('✅ ¡Cuenta creada! Ahora puedes iniciar sesión');
+                alert('✅ ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión');
                 window.location.href = 'login.html';
 
             } catch (error) {
@@ -702,5 +718,5 @@
             }
         });
     </script>
-    </body>
+</body>
 </html>
