@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Comprador | ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-color);
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 2rem 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-menu {
+            padding: 2rem 0;
+        }
+
+        .menu-item {
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-details h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: var(--light-color);
+        }
+
+        .btn-logout {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .seller-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .seller-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .seller-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .seller-info {
+            padding: 1.5rem;
+        }
+
+        .seller-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .seller-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .seller-stats {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .stat-card-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #666;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <span>🔥</span>
+                <span>ZONAPANTYS</span>
+            </a>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" onclick="showSection('explorar')">
+                <i class="fas fa-search"></i>
+                <span data-i18n="menu.explore">Explorar Vendedoras</span>
+            </div>
+            <div class="menu-item" onclick="showSection('perfil')">
+                <i class="fas fa-user"></i>
+                <span data-i18n="menu.profile">Mi Perfil</span>
+            </div>
+            <div class="menu-item" onclick="showSection('compras')">
+                <i class="fas fa-shopping-bag"></i>
+                <span data-i18n="menu.purchases">Mis Compras</span>
+            </div>
+            <div class="menu-item" onclick="showSection('favoritos')">
+                <i class="fas fa-heart"></i>
+                <span data-i18n="menu.favorites">Favoritos</span>
+            </div>
+            <div class="menu-item" onclick="showSection('mensajes')">
+                <i class="fas fa-envelope"></i>
+                <span data-i18n="menu.messages">Mensajes</span>
+            </div>
+            <div class="menu-item" onclick="showSection('configuracion')">
+                <i class="fas fa-cog"></i>
+                <span data-i18n="menu.settings">Configuración</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h3 id="userName" data-i18n="header.loading">Cargando...</h3>
+                    <p id="userEmail">usuario@email.com</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="language-selector">
+                    <button class="language-btn" id="languageBtn">
+                        🌐 <span id="currentLang">ES</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                        <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                        <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                        <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                        <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                        <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> <span data-i18n="header.logout">Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="explorar" class="content-section active">
+            <h2 class="section-title" data-i18n="explore.title">Explorar Vendedoras</h2>
+            <div class="cards-grid" id="sellersGrid">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3 data-i18n="explore.loading">Cargando vendedoras...</h3>
+                    <p data-i18n="explore.wait">Espera un momento</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="perfil" class="content-section">
+            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="profile.purchases">Compras Realizadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="profile.favorites">Favoritos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-card-value">5.0</div>
+                    <div class="stat-card-label" data-i18n="profile.rating">Rating</div>
+                </div>
+            </div>
+            <div class="empty-state">
+                <i class="fas fa-user-circle"></i>
+                <h3 data-i18n="profile.info">Información del Perfil</h3>
+                <p data-i18n="profile.infoDesc">Aquí podrás editar tu información personal próximamente</p>
+            </div>
+        </div>
+
+        <div id="compras" class="content-section">
+            <h2 class="section-title" data-i18n="purchases.title">Mis Compras</h2>
+            <div class="empty-state">
+                <i class="fas fa-shopping-bag"></i>
+                <h3 data-i18n="purchases.empty">No tienes compras aún</h3>
+                <p data-i18n="purchases.emptyDesc">Explora nuestras vendedoras y comienza a comprar</p>
+            </div>
+        </div>
+
+        <div id="favoritos" class="content-section">
+            <h2 class="section-title" data-i18n="favorites.title">Mis Favoritos</h2>
+            <div class="empty-state">
+                <i class="fas fa-heart"></i>
+                <h3 data-i18n="favorites.empty">No tienes favoritos aún</h3>
+                <p data-i18n="favorites.emptyDesc">Marca como favoritas las vendedoras que más te gusten</p>
+            </div>
+        </div>
+
+        <div id="mensajes" class="content-section">
+            <h2 class="section-title" data-i18n="messages.title">Mensajes</h2>
+            <div class="empty-state">
+                <i class="fas fa-envelope"></i>
+                <h3 data-i18n="messages.empty">No tienes mensajes</h3>
+                <p data-i18n="messages.emptyDesc">Contacta a las vendedoras para comenzar a chatear</p>
+            </div>
+        </div>
+
+        <div id="configuracion" class="content-section">
+            <h2 class="section-title" data-i18n="settings.title">Configuración</h2>
+            <div class="empty-state">
+                <i class="fas fa-cog"></i>
+                <h3 data-i18n="settings.title">Configuración</h3>
+                <p data-i18n="settings.desc">Opciones de configuración próximamente</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const translations = {
+            es: {
+                menu: { explore: "Explorar Vendedoras", profile: "Mi Perfil", purchases: "Mis Compras", favorites: "Favoritos", messages: "Mensajes", settings: "Configuración" },
+                header: { loading: "Cargando...", logout: "Cerrar Sesión" },
+                explore: { title: "Explorar Vendedoras", loading: "Cargando vendedoras...", wait: "Espera un momento", empty: "No hay vendedoras disponibles", emptyDesc: "Vuelve pronto para ver nuevas vendedoras" },
+                profile: { title: "Mi Perfil", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Rating", info: "Información del Perfil", infoDesc: "Aquí podrás editar tu información personal próximamente" },
+                purchases: { title: "Mis Compras", empty: "No tienes compras aún", emptyDesc: "Explora nuestras vendedoras y comienza a comprar" },
+                favorites: { title: "Mis Favoritos", empty: "No tienes favoritos aún", emptyDesc: "Marca como favoritas las vendedoras que más te gusten" },
+                messages: { title: "Mensajes", empty: "No tienes mensajes", emptyDesc: "Contacta a las vendedoras para comenzar a chatear" },
+                settings: { title: "Configuración", desc: "Opciones de configuración próximamente" }
+            },
+            en: {
+                menu: { explore: "Explore Sellers", profile: "My Profile", purchases: "My Purchases", favorites: "Favorites", messages: "Messages", settings: "Settings" },
+                header: { loading: "Loading...", logout: "Logout" },
+                explore: { title: "Explore Sellers", loading: "Loading sellers...", wait: "Wait a moment", empty: "No sellers available", emptyDesc: "Come back soon to see new sellers" },
+                profile: { title: "My Profile", purchases: "Purchases Made", favorites: "Favorites", rating: "Rating", info: "Profile Information", infoDesc: "You will be able to edit your personal information soon" },
+                purchases: { title: "My Purchases", empty: "You have no purchases yet", emptyDesc: "Explore our sellers and start shopping" },
+                favorites: { title: "My Favorites", empty: "You have no favorites yet", emptyDesc: "Mark your favorite sellers" },
+                messages: { title: "Messages", empty: "You have no messages", emptyDesc: "Contact sellers to start chatting" },
+                settings: { title: "Settings", desc: "Configuration options coming soon" }
+            },
+            pt: {
+                menu: { explore: "Explorar Vendedoras", profile: "Meu Perfil", purchases: "Minhas Compras", favorites: "Favoritos", messages: "Mensagens", settings: "Configurações" },
+                header: { loading: "Carregando...", logout: "Sair" },
+                explore: { title: "Explorar Vendedoras", loading: "Carregando vendedoras...", wait: "Aguarde um momento", empty: "Nenhuma vendedora disponível", emptyDesc: "Volte em breve para ver novas vendedoras" },
+                profile: { title: "Meu Perfil", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Avaliação", info: "Informações do Perfil", infoDesc: "Você poderá editar suas informações pessoais em breve" },
+                purchases: { title: "Minhas Compras", empty: "Você ainda não tem compras", emptyDesc: "Explore nossas vendedoras e comece a comprar" },
+                favorites: { title: "Meus Favoritos", empty: "Você ainda não tem favoritos", emptyDesc: "Marque suas vendedoras favoritas" },
+                messages: { title: "Mensagens", empty: "Você não tem mensagens", emptyDesc: "Entre em contato com as vendedoras para começar a conversar" },
+                settings: { title: "Configurações", desc: "Opções de configuração em breve" }
+            },
+            fr: {
+                menu: { explore: "Explorer les Vendeuses", profile: "Mon Profil", purchases: "Mes Achats", favorites: "Favoris", messages: "Messages", settings: "Paramètres" },
+                header: { loading: "Chargement...", logout: "Déconnexion" },
+                explore: { title: "Explorer les Vendeuses", loading: "Chargement des vendeuses...", wait: "Attendez un moment", empty: "Aucune vendeuse disponible", emptyDesc: "Revenez bientôt pour voir de nouvelles vendeuses" },
+                profile: { title: "Mon Profil", purchases: "Achats Effectués", favorites: "Favoris", rating: "Évaluation", info: "Informations du Profil", infoDesc: "Vous pourrez bientôt modifier vos informations personnelles" },
+                purchases: { title: "Mes Achats", empty: "Vous n'avez pas encore d'achats", emptyDesc: "Explorez nos vendeuses et commencez à acheter" },
+                favorites: { title: "Mes Favoris", empty: "Vous n'avez pas encore de favoris", emptyDesc: "Marquez vos vendeuses préférées" },
+                messages: { title: "Messages", empty: "Vous n'avez pas de messages", emptyDesc: "Contactez les vendeuses pour commencer à discuter" },
+                settings: { title: "Paramètres", desc: "Options de configuration à venir" }
+            },
+            de: {
+                menu: { explore: "Verkäuferinnen Erkunden", profile: "Mein Profil", purchases: "Meine Käufe", favorites: "Favoriten", messages: "Nachrichten", settings: "Einstellungen" },
+                header: { loading: "Laden...", logout: "Abmelden" },
+                explore: { title: "Verkäuferinnen Erkunden", loading: "Lade Verkäuferinnen...", wait: "Warten Sie einen Moment", empty: "Keine Verkäuferinnen verfügbar", emptyDesc: "Kommen Sie bald wieder, um neue Verkäuferinnen zu sehen" },
+                profile: { title: "Mein Profil", purchases: "Getätigte Käufe", favorites: "Favoriten", rating: "Bewertung", info: "Profilinformationen", infoDesc: "Sie können Ihre persönlichen Informationen bald bearbeiten" },
+                purchases: { title: "Meine Käufe", empty: "Sie haben noch keine Käufe", emptyDesc: "Erkunden Sie unsere Verkäuferinnen und beginnen Sie mit dem Einkaufen" },
+                favorites: { title: "Meine Favoriten", empty: "Sie haben noch keine Favoriten", emptyDesc: "Markieren Sie Ihre Lieblings-Verkäuferinnen" },
+                messages: { title: "Nachrichten", empty: "Sie haben keine Nachrichten", emptyDesc: "Kontaktieren Sie Verkäuferinnen, um zu chatten" },
+                settings: { title: "Einstellungen", desc: "Konfigurationsoptionen in Kürze" }
+            },
+            it: {
+                menu: { explore: "Esplora Venditrici", profile: "Il Mio Profilo", purchases: "I Miei Acquisti", favorites: "Preferiti", messages: "Messaggi", settings: "Impostazioni" },
+                header: { loading: "Caricamento...", logout: "Esci" },
+                explore: { title: "Esplora Venditrici", loading: "Caricamento venditrici...", wait: "Aspetta un momento", empty: "Nessuna venditrice disponibile", emptyDesc: "Torna presto per vedere nuove venditrici" },
+                profile: { title: "Il Mio Profilo", purchases: "Acquisti Effettuati", favorites: "Preferiti", rating: "Valutazione", info: "Informazioni Profilo", infoDesc: "Potrai modificare le tue informazioni personali presto" },
+                purchases: { title: "I Miei Acquisti", empty: "Non hai ancora acquisti", emptyDesc: "Esplora le nostre venditrici e inizia a comprare" },
+                favorites: { title: "I Miei Preferiti", empty: "Non hai ancora preferiti", emptyDesc: "Segna le tue venditrici preferite" },
+                messages: { title: "Messaggi", empty: "Non hai messaggi", emptyDesc: "Contatta le venditrici per iniziare a chattare" },
+                settings: { title: "Impostazioni", desc: "Opzioni di configurazione in arrivo" }
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+        let supabaseClient;
+        
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                checkAuth();
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        
+        async function checkAuth() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            loadUserData(user.email);
+            loadSellers();
+        }
+
+        async function loadUserData(email) {
+            const { data: buyer } = await supabaseClient.from('buyers').select('*').eq('email', email).single();
+            if (buyer) {
+                document.getElementById('userName').textContent = buyer.full_name || buyer.username;
+                document.getElementById('userEmail').textContent = buyer.email;
+                document.getElementById('userAvatar').textContent = buyer.full_name ? buyer.full_name.charAt(0).toUpperCase() : 'U';
+            }
+        }
+
+        async function loadSellers() {
+            const { data: sellers } = await supabaseClient.from('sellers').select('*').eq('is_active', true).limit(12);
+            const grid = document.getElementById('sellersGrid');
+            if (!sellers || sellers.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><h3 data-i18n="explore.empty">No hay vendedoras disponibles</h3><p data-i18n="explore.emptyDesc">Vuelve pronto</p></div>`;
+                updateContent();
+                return;
+            }
+            grid.innerHTML = sellers.map(seller => `
+                <div class="seller-card">
+                    <div class="seller-image">${seller.stage_name ? seller.stage_name.charAt(0) : '👸'}</div>
+                    <div class="seller-info">
+                        <div class="seller-name">${seller.stage_name || seller.username}</div>
+                        <div class="seller-location"><i class="fas fa-map-marker-alt"></i> ${seller.country || 'Latinoamérica'}</div>
+                        <div class="seller-stats">
+                            <div class="stat"><div class="stat-value">${seller.active_items_count || 0}</div><div class="stat-label">Items</div></div>
+                            <div class="stat"><div class="stat-value">${seller.average_rating || '5.0'}★</div><div class="stat-label">Rating</div></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const keys = element.getAttribute('data-i18n').split('.');
+                let value = t;
+                for (let k of keys) value = value[k];
+                if (value) element.textContent = value;
+            });
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.closest('.menu-item').classList.add('active');
+            if (window.innerWidth <= 768) toggleSidebar();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => document.getElementById('languageDropdown').classList.remove('active'));
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+            initSupabase();
+        });
+    </script>
+</body>
+</html>
