@@ -458,10 +458,64 @@
             updateContent();
         });
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Formulario enviado (demo)');
+            
+            const email = document.querySelector('input[type="email"]').value.trim();
+            const password = document.querySelector('input[type="password"]').value;
+
+            if (!email || !password) {
+                alert('❌ Por favor completa todos los campos');
+                return;
+            }
+
+            const btn = document.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Iniciando sesión...';
+
+            try {
+                const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) throw authError;
+
+                const { data: buyer } = await supabase
+                    .from('buyers')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                const { data: seller } = await supabase
+                    .from('sellers')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                if (buyer) {
+                    alert('✅ ¡Bienvenido!');
+                    window.location.href = 'dashboard-comprador.html';
+                } else if (seller) {
+                    alert('✅ ¡Bienvenida!');
+                    window.location.href = 'dashboard-vendedora.html';
+                } else {
+                    alert('❌ Usuario no encontrado');
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert('❌ Email o contraseña incorrectos');
+                btn.disabled = false;
+                btn.textContent = 'Iniciar Sesión';
+            }
         });
+    </script>
     </script>
 </body>
 </html>
