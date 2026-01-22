@@ -626,10 +626,82 @@
             updateContent();
         });
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Formulario enviado (demo)');
+            
+            const stageName = document.querySelector('input[type="text"]').value.trim();
+            const age = parseInt(document.querySelector('input[type="number"]').value);
+            const country = document.querySelector('select').value;
+            const email = document.querySelector('input[type="email"]').value.trim();
+            const password = document.querySelector('input[type="password"]').value;
+            const terms = document.getElementById('terms').checked;
+
+            // Validaciones
+            if (!stageName || !age || !country || !email || !password) {
+                alert('❌ Por favor completa todos los campos');
+                return;
+            }
+
+            if (age < 18) {
+                alert('❌ Debes ser mayor de 18 años');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('❌ La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            if (!terms) {
+                alert('❌ Debes aceptar los términos y condiciones');
+                return;
+            }
+
+            const btn = document.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Creando cuenta...';
+
+            try {
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: email,
+                    password: password
+                });
+
+                if (authError) throw authError;
+
+                const birthYear = new Date().getFullYear() - age;
+                const { error: sellerError } = await supabase
+                    .from('sellers')
+                    .insert([{
+                        username: email.split('@')[0],
+                        email: email,
+                        password_hash: 'handled_by_auth',
+                        stage_name: stageName,
+                        date_of_birth: birthYear + '-01-01',
+                        country: country,
+                        membership_status: 'active',
+                        membership_type: 'monthly',
+                        is_active: true
+                    }]);
+
+                if (sellerError) throw sellerError;
+
+                alert('✅ ¡Cuenta creada! Ahora puedes iniciar sesión');
+                window.location.href = 'login.html';
+
+            } catch (error) {
+                console.error(error);
+                alert('❌ Error: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = 'Empezar a Vender';
+            }
         });
+    </script>
     </script>
 </body>
 </html>
