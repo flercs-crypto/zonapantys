@@ -258,12 +258,12 @@
         <form id="loginForm">
             <div class="form-group">
                 <label class="form-label" data-i18n="email">Correo Electrónico</label>
-                <input type="email" class="form-control" required data-i18n-placeholder="emailPlaceholder">
+                <input type="email" class="form-control" required placeholder="tu@email.com">
             </div>
 
             <div class="form-group">
                 <label class="form-label" data-i18n="password">Contraseña</label>
-                <input type="password" class="form-control" required data-i18n-placeholder="passwordPlaceholder">
+                <input type="password" class="form-control" required placeholder="Tu contraseña">
             </div>
 
             <button type="submit" class="btn-primary-custom" data-i18n="button">Iniciar Sesión</button>
@@ -293,118 +293,46 @@
     <script>
         const translations = {
             es: {
-                subtitle: "Lencería Premium con Esencia Latina",
-                title: "Iniciar Sesión",
-                email: "Correo Electrónico",
-                emailPlaceholder: "tu@email.com",
-                password: "Contraseña",
-                passwordPlaceholder: "Tu contraseña",
-                button: "Iniciar Sesión",
-                forgot: "¿Olvidaste tu contraseña?",
-                or: "O",
-                noAccount: "¿No tienes cuenta?",
-                register: "Regístrate aquí",
-                back: "Volver al inicio",
-                loggingIn: "Iniciando sesión...",
-                fillFields: "Por favor completa todos los campos",
-                incorrectCreds: "Email o contraseña incorrectos",
-                userNotFound: "Usuario no encontrado",
-                forgotMsg: "Próximamente: recuperación de contraseña"
+                subtitle: "Lencería Premium con Esencia Latina", title: "Iniciar Sesión", email: "Correo Electrónico", password: "Contraseña",
+                button: "Iniciar Sesión", forgot: "¿Olvidaste tu contraseña?", or: "O", noAccount: "¿No tienes cuenta?",
+                register: "Regístrate aquí", back: "Volver al inicio", loggingIn: "Iniciando sesión...",
+                fillFields: "Por favor completa todos los campos", incorrectCreds: "Email o contraseña incorrectos",
+                userNotFound: "Usuario no encontrado", forgotMsg: "Próximamente: recuperación de contraseña"
             },
             en: {
-                subtitle: "Premium Lingerie with Latin Essence",
-                title: "Log In",
-                email: "Email Address",
-                emailPlaceholder: "your@email.com",
-                password: "Password",
-                passwordPlaceholder: "Your password",
-                button: "Log In",
-                forgot: "Forgot your password?",
-                or: "Or",
-                noAccount: "Don't have an account?",
-                register: "Sign up here",
-                back: "Back to home",
-                loggingIn: "Logging in...",
-                fillFields: "Please fill all fields",
-                incorrectCreds: "Incorrect email or password",
-                userNotFound: "User not found",
-                forgotMsg: "Coming soon: password recovery"
+                subtitle: "Premium Lingerie with Latin Essence", title: "Log In", email: "Email Address", password: "Password",
+                button: "Log In", forgot: "Forgot your password?", or: "Or", noAccount: "Don't have an account?",
+                register: "Sign up here", back: "Back to home", loggingIn: "Logging in...",
+                fillFields: "Please fill all fields", incorrectCreds: "Incorrect email or password",
+                userNotFound: "User not found", forgotMsg: "Coming soon: password recovery"
             },
             pt: {
-                subtitle: "Lingerie Premium com Essência Latina",
-                title: "Iniciar Sessão",
-                email: "Endereço de Email",
-                emailPlaceholder: "seu@email.com",
-                password: "Senha",
-                passwordPlaceholder: "Sua senha",
-                button: "Iniciar Sessão",
-                forgot: "Esqueceu sua senha?",
-                or: "Ou",
-                noAccount: "Não tem uma conta?",
-                register: "Cadastre-se aqui",
-                back: "Voltar ao início",
-                loggingIn: "Iniciando sessão...",
-                fillFields: "Por favor preencha todos os campos",
-                incorrectCreds: "Email ou senha incorretos",
-                userNotFound: "Usuário não encontrado",
-                forgotMsg: "Em breve: recuperação de senha"
+                subtitle: "Lingerie Premium com Essência Latina", title: "Iniciar Sessão", email: "Endereço de Email", password: "Senha",
+                button: "Iniciar Sessão", forgot: "Esqueceu sua senha?", or: "Ou", noAccount: "Não tem uma conta?",
+                register: "Cadastre-se aqui", back: "Voltar ao início", loggingIn: "Iniciando sessão...",
+                fillFields: "Por favor preencha todos os campos", incorrectCreds: "Email ou senha incorretos",
+                userNotFound: "Usuário não encontrado", forgotMsg: "Em breve: recuperação de senha"
             },
             fr: {
-                subtitle: "Lingerie Premium avec Essence Latine",
-                title: "Se Connecter",
-                email: "Adresse Email",
-                emailPlaceholder: "votre@email.com",
-                password: "Mot de Passe",
-                passwordPlaceholder: "Votre mot de passe",
-                button: "Se Connecter",
-                forgot: "Mot de passe oublié?",
-                or: "Ou",
-                noAccount: "Vous n'avez pas de compte?",
-                register: "Inscrivez-vous ici",
-                back: "Retour à l'accueil",
-                loggingIn: "Connexion...",
-                fillFields: "Veuillez remplir tous les champs",
-                incorrectCreds: "Email ou mot de passe incorrect",
-                userNotFound: "Utilisateur non trouvé",
-                forgotMsg: "Bientôt: récupération de mot de passe"
+                subtitle: "Lingerie Premium avec Essence Latine", title: "Se Connecter", email: "Adresse Email", password: "Mot de Passe",
+                button: "Se Connecter", forgot: "Mot de passe oublié?", or: "Ou", noAccount: "Vous n'avez pas de compte?",
+                register: "Inscrivez-vous ici", back: "Retour à l'accueil", loggingIn: "Connexion...",
+                fillFields: "Veuillez remplir tous les champs", incorrectCreds: "Email ou mot de passe incorrect",
+                userNotFound: "Utilisateur non trouvé", forgotMsg: "Bientôt: récupération de mot de passe"
             },
             de: {
-                subtitle: "Premium Dessous mit Lateinamerikanischem Flair",
-                title: "Anmelden",
-                email: "E-Mail-Adresse",
-                emailPlaceholder: "ihre@email.com",
-                password: "Passwort",
-                passwordPlaceholder: "Ihr Passwort",
-                button: "Anmelden",
-                forgot: "Passwort vergessen?",
-                or: "Oder",
-                noAccount: "Noch kein Konto?",
-                register: "Hier registrieren",
-                back: "Zurück zur Startseite",
-                loggingIn: "Anmelden...",
-                fillFields: "Bitte füllen Sie alle Felder aus",
-                incorrectCreds: "Falsche E-Mail oder Passwort",
-                userNotFound: "Benutzer nicht gefunden",
-                forgotMsg: "Demnächst: Passwort-Wiederherstellung"
+                subtitle: "Premium Dessous mit Lateinamerikanischem Flair", title: "Anmelden", email: "E-Mail-Adresse", password: "Passwort",
+                button: "Anmelden", forgot: "Passwort vergessen?", or: "Oder", noAccount: "Noch kein Konto?",
+                register: "Hier registrieren", back: "Zurück zur Startseite", loggingIn: "Anmelden...",
+                fillFields: "Bitte füllen Sie alle Felder aus", incorrectCreds: "Falsche E-Mail oder Passwort",
+                userNotFound: "Benutzer nicht gefunden", forgotMsg: "Demnächst: Passwort-Wiederherstellung"
             },
             it: {
-                subtitle: "Lingerie Premium con Essenza Latina",
-                title: "Accedi",
-                email: "Indirizzo Email",
-                emailPlaceholder: "tua@email.com",
-                password: "Password",
-                passwordPlaceholder: "La tua password",
-                button: "Accedi",
-                forgot: "Password dimenticata?",
-                or: "O",
-                noAccount: "Non hai un account?",
-                register: "Registrati qui",
-                back: "Torna alla home",
-                loggingIn: "Accesso...",
-                fillFields: "Compila tutti i campi",
-                incorrectCreds: "Email o password errati",
-                userNotFound: "Utente non trovato",
-                forgotMsg: "Prossimamente: recupero password"
+                subtitle: "Lingerie Premium con Essenza Latina", title: "Accedi", email: "Indirizzo Email", password: "Password",
+                button: "Accedi", forgot: "Password dimenticata?", or: "O", noAccount: "Non hai un account?",
+                register: "Registrati qui", back: "Torna alla home", loggingIn: "Accesso...",
+                fillFields: "Compila tutti i campi", incorrectCreds: "Email o password errati",
+                userNotFound: "Utente non trovato", forgotMsg: "Prossimamente: recupero password"
             }
         };
 
@@ -425,15 +353,22 @@
                 const key = element.getAttribute('data-i18n');
                 if (t[key]) element.textContent = t[key];
             });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-                const key = element.getAttribute('data-i18n-placeholder');
-                if (t[key]) element.placeholder = t[key];
-            });
+        }
+
+        function showError(message) {
+            const btn = document.querySelector('button[type="submit"]');
+            btn.style.background = '#f44336';
+            btn.textContent = '❌ ' + message;
+            setTimeout(() => {
+                btn.style.background = '';
+                btn.disabled = false;
+                updateContent();
+            }, 3000);
         }
 
         function forgotPassword() {
             const t = translations[currentLang];
-            alert(t.forgotMsg);
+            showError(t.forgotMsg);
         }
 
         document.getElementById('languageBtn').addEventListener('click', e => {
@@ -448,7 +383,7 @@
         function initSupabase() {
             if (typeof window.supabase !== 'undefined') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             } else {
                 setTimeout(initSupabase, 100);
@@ -465,12 +400,11 @@
             const password = document.querySelector('input[type="password"]').value;
 
             if (!email || !password) {
-                alert('❌ ' + t.fillFields);
+                showError(t.fillFields);
                 return;
             }
 
             const btn = document.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
             btn.disabled = true;
             btn.textContent = t.loggingIn;
 
@@ -490,16 +424,12 @@
                 } else if (seller) {
                     window.location.href = 'dashboard-vendedora.html';
                 } else {
-                    alert('❌ ' + t.userNotFound);
-                    btn.disabled = false;
-                    btn.textContent = originalText;
+                    showError(t.userNotFound);
                 }
 
             } catch (error) {
                 console.error(error);
-                alert('❌ ' + t.incorrectCreds);
-                btn.disabled = false;
-                btn.textContent = originalText;
+                showError(t.incorrectCreds);
             }
         });
 
