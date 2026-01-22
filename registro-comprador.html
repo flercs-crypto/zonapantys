@@ -534,11 +534,29 @@
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
         });
+    </script>
 
-           <!-- Supabase JS SDK -->
+    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
+        // Configuración de Supabase
+        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+        
+        let supabaseClient;
+        
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Supabase inicializado correctamente');
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        
+        initSupabase();
+        
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -548,7 +566,6 @@
             const confirmPassword = document.querySelectorAll('input[type="password"]')[1].value;
             const terms = document.getElementById('terms').checked;
 
-            // Validaciones
             if (!fullName || !email || !password || !confirmPassword) {
                 alert('❌ Por favor completa todos los campos');
                 return;
@@ -594,7 +611,7 @@
 
                 if (buyerError) throw buyerError;
 
-                alert('✅ ¡Cuenta creada! Ahora puedes iniciar sesión');
+                alert('✅ ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión');
                 window.location.href = 'login.html';
 
             } catch (error) {
@@ -605,5 +622,5 @@
             }
         });
     </script>
-    </body>
+</body>
 </html>
