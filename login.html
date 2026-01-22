@@ -175,64 +175,281 @@
         .back-home a:hover {
             color: var(--primary-color);
         }
+
+        .language-selector {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .language-btn {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: var(--light-color);
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">
-            <h1>🔥 ZONAPANTYS</h1>
-            <p>Lencería Premium con Esencia Latina</p>
+        <div class="language-selector">
+            <button class="language-btn" id="languageBtn">
+                🌐 <span id="currentLang">ES</span>
+            </button>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+            </div>
         </div>
 
-        <h2 class="form-title">Iniciar Sesión</h2>
+        <div class="logo">
+            <h1>🔥 ZONAPANTYS</h1>
+            <p data-i18n="subtitle">Lencería Premium con Esencia Latina</p>
+        </div>
+
+        <h2 class="form-title" data-i18n="title">Iniciar Sesión</h2>
 
         <form id="loginForm">
             <div class="form-group">
-                <label class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" required placeholder="tu@email.com">
+                <label class="form-label" data-i18n="email">Correo Electrónico</label>
+                <input type="email" class="form-control" required data-i18n-placeholder="emailPlaceholder">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Contraseña</label>
-                <input type="password" class="form-control" required placeholder="Tu contraseña">
+                <label class="form-label" data-i18n="password">Contraseña</label>
+                <input type="password" class="form-control" required data-i18n-placeholder="passwordPlaceholder">
             </div>
 
-            <button type="submit" class="btn-primary-custom">Iniciar Sesión</button>
+            <button type="submit" class="btn-primary-custom" data-i18n="button">Iniciar Sesión</button>
 
             <div class="forgot-password">
-                <a href="#" onclick="alert('Próximamente: recuperación de contraseña'); return false;">¿Olvidaste tu contraseña?</a>
+                <a href="#" onclick="forgotPassword(); return false;" data-i18n="forgot">¿Olvidaste tu contraseña?</a>
             </div>
         </form>
 
         <div class="divider">
-            <span>O</span>
+            <span data-i18n="or">O</span>
         </div>
 
         <div class="register-link">
-            <p>¿No tienes cuenta? <a href="registro-comprador.html">Regístrate aquí</a></p>
+            <p><span data-i18n="noAccount">¿No tienes cuenta?</span> <a href="registro-comprador.html" data-i18n="register">Regístrate aquí</a></p>
         </div>
 
         <div class="back-home">
             <a href="index.html">
-                <i class="fas fa-arrow-left"></i> Volver al inicio
+                <i class="fas fa-arrow-left"></i> <span data-i18n="back">Volver al inicio</span>
             </a>
         </div>
     </div>
 
-    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-        
+        const translations = {
+            es: {
+                subtitle: "Lencería Premium con Esencia Latina",
+                title: "Iniciar Sesión",
+                email: "Correo Electrónico",
+                emailPlaceholder: "tu@email.com",
+                password: "Contraseña",
+                passwordPlaceholder: "Tu contraseña",
+                button: "Iniciar Sesión",
+                forgot: "¿Olvidaste tu contraseña?",
+                or: "O",
+                noAccount: "¿No tienes cuenta?",
+                register: "Regístrate aquí",
+                back: "Volver al inicio",
+                loggingIn: "Iniciando sesión...",
+                fillFields: "Por favor completa todos los campos",
+                incorrectCreds: "Email o contraseña incorrectos",
+                userNotFound: "Usuario no encontrado",
+                forgotMsg: "Próximamente: recuperación de contraseña"
+            },
+            en: {
+                subtitle: "Premium Lingerie with Latin Essence",
+                title: "Log In",
+                email: "Email Address",
+                emailPlaceholder: "your@email.com",
+                password: "Password",
+                passwordPlaceholder: "Your password",
+                button: "Log In",
+                forgot: "Forgot your password?",
+                or: "Or",
+                noAccount: "Don't have an account?",
+                register: "Sign up here",
+                back: "Back to home",
+                loggingIn: "Logging in...",
+                fillFields: "Please fill all fields",
+                incorrectCreds: "Incorrect email or password",
+                userNotFound: "User not found",
+                forgotMsg: "Coming soon: password recovery"
+            },
+            pt: {
+                subtitle: "Lingerie Premium com Essência Latina",
+                title: "Iniciar Sessão",
+                email: "Endereço de Email",
+                emailPlaceholder: "seu@email.com",
+                password: "Senha",
+                passwordPlaceholder: "Sua senha",
+                button: "Iniciar Sessão",
+                forgot: "Esqueceu sua senha?",
+                or: "Ou",
+                noAccount: "Não tem uma conta?",
+                register: "Cadastre-se aqui",
+                back: "Voltar ao início",
+                loggingIn: "Iniciando sessão...",
+                fillFields: "Por favor preencha todos os campos",
+                incorrectCreds: "Email ou senha incorretos",
+                userNotFound: "Usuário não encontrado",
+                forgotMsg: "Em breve: recuperação de senha"
+            },
+            fr: {
+                subtitle: "Lingerie Premium avec Essence Latine",
+                title: "Se Connecter",
+                email: "Adresse Email",
+                emailPlaceholder: "votre@email.com",
+                password: "Mot de Passe",
+                passwordPlaceholder: "Votre mot de passe",
+                button: "Se Connecter",
+                forgot: "Mot de passe oublié?",
+                or: "Ou",
+                noAccount: "Vous n'avez pas de compte?",
+                register: "Inscrivez-vous ici",
+                back: "Retour à l'accueil",
+                loggingIn: "Connexion...",
+                fillFields: "Veuillez remplir tous les champs",
+                incorrectCreds: "Email ou mot de passe incorrect",
+                userNotFound: "Utilisateur non trouvé",
+                forgotMsg: "Bientôt: récupération de mot de passe"
+            },
+            de: {
+                subtitle: "Premium Dessous mit Lateinamerikanischem Flair",
+                title: "Anmelden",
+                email: "E-Mail-Adresse",
+                emailPlaceholder: "ihre@email.com",
+                password: "Passwort",
+                passwordPlaceholder: "Ihr Passwort",
+                button: "Anmelden",
+                forgot: "Passwort vergessen?",
+                or: "Oder",
+                noAccount: "Noch kein Konto?",
+                register: "Hier registrieren",
+                back: "Zurück zur Startseite",
+                loggingIn: "Anmelden...",
+                fillFields: "Bitte füllen Sie alle Felder aus",
+                incorrectCreds: "Falsche E-Mail oder Passwort",
+                userNotFound: "Benutzer nicht gefunden",
+                forgotMsg: "Demnächst: Passwort-Wiederherstellung"
+            },
+            it: {
+                subtitle: "Lingerie Premium con Essenza Latina",
+                title: "Accedi",
+                email: "Indirizzo Email",
+                emailPlaceholder: "tua@email.com",
+                password: "Password",
+                passwordPlaceholder: "La tua password",
+                button: "Accedi",
+                forgot: "Password dimenticata?",
+                or: "O",
+                noAccount: "Non hai un account?",
+                register: "Registrati qui",
+                back: "Torna alla home",
+                loggingIn: "Accesso...",
+                fillFields: "Compila tutti i campi",
+                incorrectCreds: "Email o password errati",
+                userNotFound: "Utente non trovato",
+                forgotMsg: "Prossimamente: recupero password"
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
         let supabaseClient;
         
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (t[key]) element.textContent = t[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (t[key]) element.placeholder = t[key];
+            });
+        }
+
+        function forgotPassword() {
+            const t = translations[currentLang];
+            alert(t.forgotMsg);
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            document.getElementById('languageDropdown').classList.remove('active');
+        });
+
         function initSupabase() {
             if (typeof window.supabase !== 'undefined') {
+                const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Supabase inicializado correctamente');
             } else {
                 setTimeout(initSupabase, 100);
             }
@@ -242,18 +459,20 @@
         
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const t = translations[currentLang];
             
             const email = document.querySelector('input[type="email"]').value.trim();
             const password = document.querySelector('input[type="password"]').value;
 
             if (!email || !password) {
-                alert('❌ Por favor completa todos los campos');
+                alert('❌ ' + t.fillFields);
                 return;
             }
 
             const btn = document.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
             btn.disabled = true;
-            btn.textContent = 'Iniciando sesión...';
+            btn.textContent = t.loggingIn;
 
             try {
                 const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
@@ -263,34 +482,30 @@
 
                 if (authError) throw authError;
 
-                const { data: buyer } = await supabaseClient
-                    .from('buyers')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
-
-                const { data: seller } = await supabaseClient
-                    .from('sellers')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
+                const { data: buyer } = await supabaseClient.from('buyers').select('*').eq('email', email).single();
+                const { data: seller } = await supabaseClient.from('sellers').select('*').eq('email', email).single();
 
                 if (buyer) {
-                    alert('✅ ¡Bienvenido!');
                     window.location.href = 'dashboard-comprador.html';
                 } else if (seller) {
-                    alert('✅ ¡Bienvenida!');
                     window.location.href = 'dashboard-vendedora.html';
                 } else {
-                    alert('❌ Usuario no encontrado');
+                    alert('❌ ' + t.userNotFound);
+                    btn.disabled = false;
+                    btn.textContent = originalText;
                 }
 
             } catch (error) {
                 console.error(error);
-                alert('❌ Email o contraseña incorrectos');
+                alert('❌ ' + t.incorrectCreds);
                 btn.disabled = false;
-                btn.textContent = 'Iniciar Sesión';
+                btn.textContent = originalText;
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
         });
     </script>
 </body>
