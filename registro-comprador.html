@@ -582,7 +582,7 @@
 
                 if (authError) throw authError;
 
-                const { error: buyerError } = await supabase
+                const { error: buyerError } = await supabaseClient
                     .from('buyers')
                     .insert([{
                         username: email.split('@')[0],
