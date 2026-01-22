@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tienda - Vendedora - ZonaPantys</title>
+    <title>Dashboard - Vendedora | ZonaPantys</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,346 +11,691 @@
             --primary-color: #e91e63;
             --secondary-color: #9c27b0;
             --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            min-height: 100vh;
+            background: var(--light-color);
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            padding: 2rem 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar-logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-menu {
             padding: 2rem 0;
         }
 
-        .dashboard-container {
-            max-width: 900px;
-            margin: 0 auto;
+        .menu-item {
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
         }
 
-        .welcome-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .welcome-card h1 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .membership-badge {
-            background: linear-gradient(135deg, #28a745, #20c997);
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(255,255,255,0.1);
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 0.5rem;
-            font-weight: 600;
         }
 
-        .profile-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        .main-content {
+            margin-left: 260px;
             padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             margin-bottom: 2rem;
-        }
-
-        .profile-card h2 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
         }
 
-        .info-row:last-child {
-            border-bottom: none;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .info-label {
-            font-weight: 600;
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-details h3 {
+            margin: 0;
+            font-size: 1.1rem;
             color: var(--dark-color);
         }
 
-        .info-value {
+        .user-details p {
+            margin: 0;
+            font-size: 0.85rem;
             color: #666;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .language-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+
+        .language-dropdown.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: var(--light-color);
+        }
+
         .btn-logout {
-            background: linear-gradient(135deg, #dc3545, #c82333);
+            background: var(--secondary-color);
             color: white;
             border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
             transition: all 0.3s;
-            display: block;
-            width: 100%;
-            margin-top: 1rem;
         }
 
         .btn-logout:hover {
+            background: var(--primary-color);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
         }
 
-        .btn-home {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .stat-card-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             color: white;
             border: none;
             padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-size: 1rem;
+            border-radius: 25px;
             font-weight: bold;
+            cursor: pointer;
             transition: all 0.3s;
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .btn-home:hover {
+        .btn-primary-custom:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
-            color: white;
+            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.3);
         }
 
-        .badge-active {
-            background: #28a745;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .badge-pending {
-            background: #ffc107;
-            color: #333;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .empty-state i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
-            .dashboard-container {
-                padding: 0 1rem;
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <div class="welcome-card">
-            <h1>👩 Bienvenida, <span id="userName">Vendedora</span>!</h1>
-            <p>Panel de Control de Tu Tienda</p>
-            <div class="membership-badge">
-                💳 Membresía Activa - $10 USD/mes
-            </div>
-        </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
 
-        <div class="profile-card">
-            <h2><i class="fas fa-store me-2"></i> Mi Tienda</h2>
-            
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-shopping-bag me-2"></i> Nombre de tienda:</span>
-                <span class="info-value" id="displayShopName">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-star me-2"></i> Nombre artístico:</span>
-                <span class="info-value" id="displayStageName">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-user me-2"></i> Usuario:</span>
-                <span class="info-value" id="displayUsername">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-envelope me-2"></i> Email:</span>
-                <span class="info-value" id="displayEmail">-</span>
-            </div>
-        </div>
-
-        <div class="profile-card">
-            <h2><i class="fas fa-id-card me-2"></i> Información Personal</h2>
-            
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-id-badge me-2"></i> Nombre completo:</span>
-                <span class="info-value" id="displayFullName">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-globe me-2"></i> País:</span>
-                <span class="info-value" id="displayCountry">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-check-circle me-2"></i> Verificación:</span>
-                <span class="badge-pending" id="verificationBadge">Pendiente</span>
-            </div>
-        </div>
-
-        <div class="profile-card">
-            <h2><i class="fas fa-credit-card me-2"></i> Membresía</h2>
-            
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-calendar-check me-2"></i> Tipo:</span>
-                <span class="info-value" id="membershipType">Mensual</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-dollar-sign me-2"></i> Precio:</span>
-                <span class="info-value">$10.00 USD/mes</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-calendar me-2"></i> Inicio:</span>
-                <span class="info-value" id="membershipStart">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-calendar-times me-2"></i> Vencimiento:</span>
-                <span class="info-value" id="membershipEnd">-</span>
-            </div>
-
-            <div class="info-row">
-                <span class="info-label"><i class="fas fa-check-circle me-2"></i> Estado:</span>
-                <span class="badge-active">Activa</span>
-            </div>
-        </div>
-
-        <div class="profile-card">
-            <a href="index.html" class="btn-home">
-                <i class="fas fa-home me-2"></i> Volver al Inicio
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <span>🔥</span>
+                <span>ZONAPANTYS</span>
             </a>
-            <button class="btn-logout" id="logoutBtn">
-                <i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión
-            </button>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" onclick="showSection('resumen')">
+                <i class="fas fa-chart-line"></i>
+                <span data-i18n="menu.overview">Resumen</span>
+            </div>
+            <div class="menu-item" onclick="showSection('productos')">
+                <i class="fas fa-box"></i>
+                <span data-i18n="menu.products">Mis Productos</span>
+            </div>
+            <div class="menu-item" onclick="showSection('ventas')">
+                <i class="fas fa-dollar-sign"></i>
+                <span data-i18n="menu.sales">Ventas y Ganancias</span>
+            </div>
+            <div class="menu-item" onclick="showSection('mensajes')">
+                <i class="fas fa-envelope"></i>
+                <span data-i18n="menu.messages">Mensajes</span>
+            </div>
+            <div class="menu-item" onclick="showSection('perfil')">
+                <i class="fas fa-user"></i>
+                <span data-i18n="menu.profile">Mi Perfil</span>
+            </div>
+            <div class="menu-item" onclick="showSection('configuracion')">
+                <i class="fas fa-cog"></i>
+                <span data-i18n="menu.settings">Configuración</span>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-        
-        const { createClient } = supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <div class="main-content">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">V</div>
+                <div class="user-details">
+                    <h3 id="userName" data-i18n="header.loading">Cargando...</h3>
+                    <p id="userEmail">vendedora@email.com</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="language-selector">
+                    <button class="language-btn" id="languageBtn">
+                        🌐 <span id="currentLang">ES</span>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                        <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                        <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                        <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                        <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                        <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> <span data-i18n="header.logout">Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
 
-        // Verificar sesión
-        async function checkSession() {
-            const session = localStorage.getItem('zonapantys_session') || sessionStorage.getItem('zonapantys_session');
-            
-            if (!session) {
-                // No hay sesión, redirigir a login
+        <div id="resumen" class="content-section active">
+            <h2 class="section-title" data-i18n="overview.title">Resumen General</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="overview.products">Productos Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="overview.sales">Ventas Totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-card-value">$0</div>
+                    <div class="stat-card-label" data-i18n="overview.earnings">Ganancias Totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #fff3e0; color: #f57c00;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-card-value">5.0</div>
+                    <div class="stat-card-label" data-i18n="overview.rating">Rating Promedio</div>
+                </div>
+            </div>
+            <div class="empty-state">
+                <i class="fas fa-chart-line"></i>
+                <h3 data-i18n="overview.welcome">¡Bienvenida a tu Dashboard!</h3>
+                <p data-i18n="overview.welcomeDesc">Aquí podrás gestionar tus productos, ventas y mensajes</p>
+                <button class="btn-primary-custom" onclick="showSection('productos')">
+                    <i class="fas fa-plus"></i>
+                    <span data-i18n="overview.addProduct">Agregar Primer Producto</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="productos" class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title" data-i18n="products.title" style="margin: 0;">Mis Productos</h2>
+                <button class="btn-primary-custom">
+                    <i class="fas fa-plus"></i>
+                    <span data-i18n="products.add">Agregar Producto</span>
+                </button>
+            </div>
+            <div class="empty-state">
+                <i class="fas fa-box-open"></i>
+                <h3 data-i18n="products.empty">No tienes productos aún</h3>
+                <p data-i18n="products.emptyDesc">Comienza a vender subiendo tu primer producto</p>
+                <button class="btn-primary-custom">
+                    <i class="fas fa-plus"></i>
+                    <span data-i18n="products.add">Agregar Producto</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="ventas" class="content-section">
+            <h2 class="section-title" data-i18n="sales.title">Ventas y Ganancias</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-card-value">$0</div>
+                    <div class="stat-card-label" data-i18n="sales.thisMonth">Este Mes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-card-value">$0</div>
+                    <div class="stat-card-label" data-i18n="sales.total">Total Acumulado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #fff3e0; color: #f57c00;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-card-value">$0</div>
+                    <div class="stat-card-label" data-i18n="sales.pending">Pendiente de Retiro</div>
+                </div>
+            </div>
+            <div class="empty-state">
+                <i class="fas fa-receipt"></i>
+                <h3 data-i18n="sales.empty">No tienes ventas aún</h3>
+                <p data-i18n="sales.emptyDesc">Tus ventas aparecerán aquí cuando realices tu primera venta</p>
+            </div>
+        </div>
+
+        <div id="mensajes" class="content-section">
+            <h2 class="section-title" data-i18n="messages.title">Mensajes</h2>
+            <div class="empty-state">
+                <i class="fas fa-envelope-open"></i>
+                <h3 data-i18n="messages.empty">No tienes mensajes</h3>
+                <p data-i18n="messages.emptyDesc">Los compradores podrán contactarte aquí</p>
+            </div>
+        </div>
+
+        <div id="perfil" class="content-section">
+            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
+            <div class="empty-state">
+                <i class="fas fa-user-circle"></i>
+                <h3 data-i18n="profile.info">Información del Perfil</h3>
+                <p data-i18n="profile.infoDesc">Aquí podrás editar tu perfil y tienda próximamente</p>
+            </div>
+        </div>
+
+        <div id="configuracion" class="content-section">
+            <h2 class="section-title" data-i18n="settings.title">Configuración</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-card-value" data-i18n="settings.membership">Membresía</div>
+                    <div class="stat-card-label">$10 USD/mes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-card-value" data-i18n="settings.active">Activa</div>
+                    <div class="stat-card-label" data-i18n="settings.status">Estado</div>
+                </div>
+            </div>
+            <div class="empty-state">
+                <i class="fas fa-cog"></i>
+                <h3 data-i18n="settings.options">Opciones de Configuración</h3>
+                <p data-i18n="settings.optionsDesc">Gestión de membresía y configuración próximamente</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const translations = {
+            es: {
+                menu: { overview: "Resumen", products: "Mis Productos", sales: "Ventas y Ganancias", messages: "Mensajes", profile: "Mi Perfil", settings: "Configuración" },
+                header: { loading: "Cargando...", logout: "Cerrar Sesión" },
+                overview: { title: "Resumen General", products: "Productos Activos", sales: "Ventas Totales", earnings: "Ganancias Totales", rating: "Rating Promedio", welcome: "¡Bienvenida a tu Dashboard!", welcomeDesc: "Aquí podrás gestionar tus productos, ventas y mensajes", addProduct: "Agregar Primer Producto" },
+                products: { title: "Mis Productos", add: "Agregar Producto", empty: "No tienes productos aún", emptyDesc: "Comienza a vender subiendo tu primer producto" },
+                sales: { title: "Ventas y Ganancias", thisMonth: "Este Mes", total: "Total Acumulado", pending: "Pendiente de Retiro", empty: "No tienes ventas aún", emptyDesc: "Tus ventas aparecerán aquí cuando realices tu primera venta" },
+                messages: { title: "Mensajes", empty: "No tienes mensajes", emptyDesc: "Los compradores podrán contactarte aquí" },
+                profile: { title: "Mi Perfil", info: "Información del Perfil", infoDesc: "Aquí podrás editar tu perfil y tienda próximamente" },
+                settings: { title: "Configuración", membership: "Membresía", active: "Activa", status: "Estado", options: "Opciones de Configuración", optionsDesc: "Gestión de membresía y configuración próximamente" }
+            },
+            en: {
+                menu: { overview: "Overview", products: "My Products", sales: "Sales & Earnings", messages: "Messages", profile: "My Profile", settings: "Settings" },
+                header: { loading: "Loading...", logout: "Logout" },
+                overview: { title: "Overview", products: "Active Products", sales: "Total Sales", earnings: "Total Earnings", rating: "Average Rating", welcome: "Welcome to your Dashboard!", welcomeDesc: "Here you can manage your products, sales and messages", addProduct: "Add First Product" },
+                products: { title: "My Products", add: "Add Product", empty: "You have no products yet", emptyDesc: "Start selling by uploading your first product" },
+                sales: { title: "Sales & Earnings", thisMonth: "This Month", total: "Total Accumulated", pending: "Pending Withdrawal", empty: "You have no sales yet", emptyDesc: "Your sales will appear here when you make your first sale" },
+                messages: { title: "Messages", empty: "You have no messages", emptyDesc: "Buyers will be able to contact you here" },
+                profile: { title: "My Profile", info: "Profile Information", infoDesc: "You will be able to edit your profile and store soon" },
+                settings: { title: "Settings", membership: "Membership", active: "Active", status: "Status", options: "Configuration Options", optionsDesc: "Membership management and configuration coming soon" }
+            },
+            pt: {
+                menu: { overview: "Resumo", products: "Meus Produtos", sales: "Vendas e Ganhos", messages: "Mensagens", profile: "Meu Perfil", settings: "Configurações" },
+                header: { loading: "Carregando...", logout: "Sair" },
+                overview: { title: "Resumo Geral", products: "Produtos Ativos", sales: "Vendas Totais", earnings: "Ganhos Totais", rating: "Avaliação Média", welcome: "Bem-vinda ao seu Dashboard!", welcomeDesc: "Aqui você pode gerenciar seus produtos, vendas e mensagens", addProduct: "Adicionar Primeiro Produto" },
+                products: { title: "Meus Produtos", add: "Adicionar Produto", empty: "Você ainda não tem produtos", emptyDesc: "Comece a vender enviando seu primeiro produto" },
+                sales: { title: "Vendas e Ganhos", thisMonth: "Este Mês", total: "Total Acumulado", pending: "Pendente de Saque", empty: "Você ainda não tem vendas", emptyDesc: "Suas vendas aparecerão aqui quando você fizer sua primeira venda" },
+                messages: { title: "Mensagens", empty: "Você não tem mensagens", emptyDesc: "Os compradores poderão entrar em contato com você aqui" },
+                profile: { title: "Meu Perfil", info: "Informações do Perfil", infoDesc: "Você poderá editar seu perfil e loja em breve" },
+                settings: { title: "Configurações", membership: "Assinatura", active: "Ativa", status: "Status", options: "Opções de Configuração", optionsDesc: "Gerenciamento de assinatura e configuração em breve" }
+            },
+            fr: {
+                menu: { overview: "Aperçu", products: "Mes Produits", sales: "Ventes et Revenus", messages: "Messages", profile: "Mon Profil", settings: "Paramètres" },
+                header: { loading: "Chargement...", logout: "Déconnexion" },
+                overview: { title: "Aperçu Général", products: "Produits Actifs", sales: "Ventes Totales", earnings: "Revenus Totaux", rating: "Note Moyenne", welcome: "Bienvenue sur votre Dashboard!", welcomeDesc: "Ici vous pouvez gérer vos produits, ventes et messages", addProduct: "Ajouter Premier Produit" },
+                products: { title: "Mes Produits", add: "Ajouter Produit", empty: "Vous n'avez pas encore de produits", emptyDesc: "Commencez à vendre en téléchargeant votre premier produit" },
+                sales: { title: "Ventes et Revenus", thisMonth: "Ce Mois-ci", total: "Total Accumulé", pending: "En Attente de Retrait", empty: "Vous n'avez pas encore de ventes", emptyDesc: "Vos ventes apparaîtront ici lorsque vous ferez votre première vente" },
+                messages: { title: "Messages", empty: "Vous n'avez pas de messages", emptyDesc: "Les acheteurs pourront vous contacter ici" },
+                profile: { title: "Mon Profil", info: "Informations du Profil", infoDesc: "Vous pourrez bientôt modifier votre profil et boutique" },
+                settings: { title: "Paramètres", membership: "Abonnement", active: "Actif", status: "Statut", options: "Options de Configuration", optionsDesc: "Gestion de l'abonnement et configuration à venir" }
+            },
+            de: {
+                menu: { overview: "Übersicht", products: "Meine Produkte", sales: "Verkäufe & Einnahmen", messages: "Nachrichten", profile: "Mein Profil", settings: "Einstellungen" },
+                header: { loading: "Laden...", logout: "Abmelden" },
+                overview: { title: "Gesamtübersicht", products: "Aktive Produkte", sales: "Gesamtverkäufe", earnings: "Gesamteinnahmen", rating: "Durchschnittliche Bewertung", welcome: "Willkommen in Ihrem Dashboard!", welcomeDesc: "Hier können Sie Ihre Produkte, Verkäufe und Nachrichten verwalten", addProduct: "Erstes Produkt Hinzufügen" },
+                products: { title: "Meine Produkte", add: "Produkt Hinzufügen", empty: "Sie haben noch keine Produkte", emptyDesc: "Beginnen Sie mit dem Verkauf, indem Sie Ihr erstes Produkt hochladen" },
+                sales: { title: "Verkäufe & Einnahmen", thisMonth: "Diesen Monat", total: "Gesamt Akkumuliert", pending: "Auszahlung Ausstehend", empty: "Sie haben noch keine Verkäufe", emptyDesc: "Ihre Verkäufe erscheinen hier, wenn Sie Ihren ersten Verkauf tätigen" },
+                messages: { title: "Nachrichten", empty: "Sie haben keine Nachrichten", emptyDesc: "Käufer können Sie hier kontaktieren" },
+                profile: { title: "Mein Profil", info: "Profilinformationen", infoDesc: "Sie können Ihr Profil und Geschäft bald bearbeiten" },
+                settings: { title: "Einstellungen", membership: "Mitgliedschaft", active: "Aktiv", status: "Status", options: "Konfigurationsoptionen", optionsDesc: "Mitgliedschaftsverwaltung und Konfiguration in Kürze" }
+            },
+            it: {
+                menu: { overview: "Panoramica", products: "I Miei Prodotti", sales: "Vendite e Guadagni", messages: "Messaggi", profile: "Il Mio Profilo", settings: "Impostazioni" },
+                header: { loading: "Caricamento...", logout: "Esci" },
+                overview: { title: "Panoramica Generale", products: "Prodotti Attivi", sales: "Vendite Totali", earnings: "Guadagni Totali", rating: "Valutazione Media", welcome: "Benvenuta nella tua Dashboard!", welcomeDesc: "Qui puoi gestire i tuoi prodotti, vendite e messaggi", addProduct: "Aggiungi Primo Prodotto" },
+                products: { title: "I Miei Prodotti", add: "Aggiungi Prodotto", empty: "Non hai ancora prodotti", emptyDesc: "Inizia a vendere caricando il tuo primo prodotto" },
+                sales: { title: "Vendite e Guadagni", thisMonth: "Questo Mese", total: "Totale Accumulato", pending: "In Attesa di Prelievo", empty: "Non hai ancora vendite", emptyDesc: "Le tue vendite appariranno qui quando effettui la tua prima vendita" },
+                messages: { title: "Messaggi", empty: "Non hai messaggi", emptyDesc: "Gli acquirenti potranno contattarti qui" },
+                profile: { title: "Il Mio Profilo", info: "Informazioni Profilo", infoDesc: "Potrai modificare il tuo profilo e negozio presto" },
+                settings: { title: "Impostazioni", membership: "Abbonamento", active: "Attivo", status: "Stato", options: "Opzioni di Configurazione", optionsDesc: "Gestione abbonamento e configurazione in arrivo" }
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+        let supabaseClient;
+        
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                checkAuth();
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        
+        async function checkAuth() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            if (!user) {
                 window.location.href = 'login.html';
                 return;
             }
+            loadUserData(user.email);
+        }
 
-            const sessionData = JSON.parse(session);
-            
-            // Verificar que sea una vendedora
-            if (sessionData.userType !== 'seller') {
-                // Es comprador, redirigir a su dashboard
-                window.location.href = 'dashboard-comprador.html';
-                return;
-            }
-
-            // Cargar datos de la vendedora
-            try {
-                const { data: seller, error } = await supabaseClient
-                    .from('sellers')
-                    .select('*')
-                    .eq('seller_id', sessionData.userId)
-                    .single();
-
-                if (error || !seller) {
-                    console.error('Error al cargar datos:', error);
-                    // Sesión inválida, cerrar sesión
-                    logout();
-                    return;
-                }
-
-                // Mostrar datos
+        async function loadUserData(email) {
+            const { data: seller } = await supabaseClient.from('sellers').select('*').eq('email', email).single();
+            if (seller) {
                 document.getElementById('userName').textContent = seller.stage_name || seller.username;
-                document.getElementById('displayShopName').textContent = seller.shop_name || '-';
-                document.getElementById('displayStageName').textContent = seller.stage_name || '-';
-                document.getElementById('displayUsername').textContent = seller.username;
-                document.getElementById('displayFullName').textContent = seller.full_name || '-';
-                document.getElementById('displayEmail').textContent = seller.email;
-                document.getElementById('displayCountry').textContent = seller.country || '-';
-                
-                // Estado de verificación
-                const verificationBadge = document.getElementById('verificationBadge');
-                if (seller.id_verification_status === 'approved') {
-                    verificationBadge.textContent = 'Verificada';
-                    verificationBadge.className = 'badge-active';
-                } else if (seller.id_verification_status === 'rejected') {
-                    verificationBadge.textContent = 'Rechazada';
-                    verificationBadge.style.background = '#dc3545';
-                    verificationBadge.style.color = 'white';
-                } else {
-                    verificationBadge.textContent = 'Pendiente';
-                    verificationBadge.className = 'badge-pending';
-                }
-
-                // Tipo de membresía
-                const membershipTypeText = {
-                    'monthly': 'Mensual',
-                    'quarterly': 'Trimestral (3 meses)',
-                    'biannual': 'Semestral (6 meses)'
-                };
-                document.getElementById('membershipType').textContent = membershipTypeText[seller.membership_type] || 'Mensual';
-
-                // Fechas de membresía
-                if (seller.membership_start_date) {
-                    const startDate = new Date(seller.membership_start_date);
-                    document.getElementById('membershipStart').textContent = startDate.toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                }
-
-                if (seller.membership_end_date) {
-                    const endDate = new Date(seller.membership_end_date);
-                    document.getElementById('membershipEnd').textContent = endDate.toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                }
-
-            } catch (err) {
-                console.error('Error:', err);
-                logout();
+                document.getElementById('userEmail').textContent = seller.email;
+                document.getElementById('userAvatar').textContent = seller.stage_name ? seller.stage_name.charAt(0).toUpperCase() : 'V';
             }
         }
 
-        // Cerrar sesión
-        function logout() {
-            localStorage.removeItem('zonapantys_session');
-            sessionStorage.removeItem('zonapantys_session');
-            window.location.href = 'login.html';
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
         }
 
-        // Event listener para botón de logout
-        document.getElementById('logoutBtn').addEventListener('click', logout);
+        function updateContent() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const keys = element.getAttribute('data-i18n').split('.');
+                let value = t;
+                for (let k of keys) value = value[k];
+                if (value) element.textContent = value;
+            });
+        }
 
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', checkSession);
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.closest('.menu-item').classList.add('active');
+            if (window.innerWidth <= 768) toggleSidebar();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => document.getElementById('languageDropdown').classList.remove('active'));
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+            initSupabase();
+        });
     </script>
 </body>
 </html>
