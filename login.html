@@ -288,7 +288,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
     
     <script>
         const translations = {
@@ -380,12 +380,17 @@
             document.getElementById('languageDropdown').classList.remove('active');
         });
 
+        console.log('🔧 Iniciando configuración de Supabase para LOGIN...');
+        
         function initSupabase() {
-            if (typeof window.supabase !== 'undefined') {
+            console.log('Verificando window.supabase:', typeof window.supabase);
+            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
                 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Cliente Supabase creado para LOGIN');
             } else {
+                console.log('⏳ SDK aún no cargado, reintentando...');
                 setTimeout(initSupabase, 100);
             }
         }
@@ -399,6 +404,8 @@
             const email = document.querySelector('input[type="email"]').value.trim();
             const password = document.querySelector('input[type="password"]').value;
 
+            console.log('🔐 Intentando login con:', email);
+
             if (!email || !password) {
                 showError(t.fillFields);
                 return;
@@ -409,26 +416,40 @@
             btn.textContent = t.loggingIn;
 
             try {
+                console.log('📡 Enviando solicitud de login...');
+                
                 const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password
                 });
 
-                if (authError) throw authError;
+                console.log('📊 Respuesta login:', { authData, authError });
+
+                if (authError) {
+                    console.error('❌ Error auth:', authError);
+                    throw authError;
+                }
+
+                console.log('✅ Login exitoso, verificando tipo de usuario...');
 
                 const { data: buyer } = await supabaseClient.from('buyers').select('*').eq('email', email).single();
                 const { data: seller } = await supabaseClient.from('sellers').select('*').eq('email', email).single();
 
+                console.log('👤 Usuario:', { buyer, seller });
+
                 if (buyer) {
+                    console.log('✅ Redirigiendo a dashboard comprador');
                     window.location.href = 'dashboard-comprador.html';
                 } else if (seller) {
+                    console.log('✅ Redirigiendo a dashboard vendedora');
                     window.location.href = 'dashboard-vendedora.html';
                 } else {
+                    console.error('❌ Usuario no encontrado en tablas');
                     showError(t.userNotFound);
                 }
 
             } catch (error) {
-                console.error(error);
+                console.error('❌ Error login:', error);
                 showError(t.incorrectCreds);
             }
         });
