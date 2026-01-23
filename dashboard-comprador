@@ -359,6 +359,70 @@
             cursor: pointer;
         }
 
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .profile-info h2 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin: 0;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-field {
+            padding: 1rem;
+            background: var(--light-color);
+            border-radius: 10px;
+        }
+
+        .profile-field-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-field-value {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -403,13 +467,13 @@
             </a>
         </div>
         <div class="sidebar-menu">
-            <div class="menu-item active" onclick="showSection('explorar')">
-                <i class="fas fa-search"></i>
-                <span data-i18n="menu.explore">Explorar Vendedoras</span>
-            </div>
             <div class="menu-item" onclick="showSection('perfil')">
                 <i class="fas fa-user"></i>
                 <span data-i18n="menu.profile">Mi Perfil</span>
+            </div>
+            <div class="menu-item" onclick="showSection('explorar')">
+                <i class="fas fa-search"></i>
+                <span data-i18n="menu.explore">Explorar Vendedoras</span>
             </div>
             <div class="menu-item" onclick="showSection('compras')">
                 <i class="fas fa-shopping-bag"></i>
@@ -459,19 +523,37 @@
             </div>
         </div>
 
-        <div id="explorar" class="content-section active">
-            <h2 class="section-title" data-i18n="explore.title">Explorar Vendedoras</h2>
-            <div class="cards-grid" id="sellersGrid">
-                <div class="empty-state">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <h3 data-i18n="explore.loading">Cargando vendedoras...</h3>
-                    <p data-i18n="explore.wait">Espera un momento</p>
+        <div id="perfil" class="content-section active">
+            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
+            
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar-large" id="profileAvatar">U</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Nombre del Usuario</h2>
+                        <p id="profileEmail">email@usuario.com</p>
+                        <p style="color: var(--primary-color); margin-top: 0.5rem;">
+                            <i class="fas fa-check-circle"></i> <span data-i18n="profile.verified">Cuenta Verificada</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="profile-details">
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.username">Nombre de Usuario</div>
+                        <div class="profile-field-value" id="profileUsername">@usuario</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.memberSince">Miembro desde</div>
+                        <div class="profile-field-value" id="profileMemberSince">Enero 2026</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.accountType">Tipo de Cuenta</div>
+                        <div class="profile-field-value"><i class="fas fa-shopping-cart"></i> <span data-i18n="profile.buyer">Comprador</span></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="perfil" class="content-section">
-            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
@@ -495,10 +577,16 @@
                     <div class="stat-card-label" data-i18n="profile.rating">Rating</div>
                 </div>
             </div>
-            <div class="empty-state">
-                <i class="fas fa-user-circle"></i>
-                <h3 data-i18n="profile.info">Información del Perfil</h3>
-                <p data-i18n="profile.infoDesc">Aquí podrás editar tu información personal próximamente</p>
+        </div>
+
+        <div id="explorar" class="content-section">
+            <h2 class="section-title" data-i18n="explore.title">Explorar Vendedoras</h2>
+            <div class="cards-grid" id="sellersGrid">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <h3 data-i18n="explore.loading">Cargando vendedoras...</h3>
+                    <p data-i18n="explore.wait">Espera un momento</p>
+                </div>
             </div>
         </div>
 
@@ -539,65 +627,65 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
     <script>
         const translations = {
             es: {
-                menu: { explore: "Explorar Vendedoras", profile: "Mi Perfil", purchases: "Mis Compras", favorites: "Favoritos", messages: "Mensajes", settings: "Configuración" },
+                menu: { profile: "Mi Perfil", explore: "Explorar Vendedoras", purchases: "Mis Compras", favorites: "Favoritos", messages: "Mensajes", settings: "Configuración" },
                 header: { loading: "Cargando...", logout: "Cerrar Sesión" },
+                profile: { title: "Mi Perfil", verified: "Cuenta Verificada", username: "Nombre de Usuario", memberSince: "Miembro desde", accountType: "Tipo de Cuenta", buyer: "Comprador", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Rating" },
                 explore: { title: "Explorar Vendedoras", loading: "Cargando vendedoras...", wait: "Espera un momento", empty: "No hay vendedoras disponibles", emptyDesc: "Vuelve pronto para ver nuevas vendedoras" },
-                profile: { title: "Mi Perfil", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Rating", info: "Información del Perfil", infoDesc: "Aquí podrás editar tu información personal próximamente" },
                 purchases: { title: "Mis Compras", empty: "No tienes compras aún", emptyDesc: "Explora nuestras vendedoras y comienza a comprar" },
                 favorites: { title: "Mis Favoritos", empty: "No tienes favoritos aún", emptyDesc: "Marca como favoritas las vendedoras que más te gusten" },
                 messages: { title: "Mensajes", empty: "No tienes mensajes", emptyDesc: "Contacta a las vendedoras para comenzar a chatear" },
                 settings: { title: "Configuración", desc: "Opciones de configuración próximamente" }
             },
             en: {
-                menu: { explore: "Explore Sellers", profile: "My Profile", purchases: "My Purchases", favorites: "Favorites", messages: "Messages", settings: "Settings" },
+                menu: { profile: "My Profile", explore: "Explore Sellers", purchases: "My Purchases", favorites: "Favorites", messages: "Messages", settings: "Settings" },
                 header: { loading: "Loading...", logout: "Logout" },
+                profile: { title: "My Profile", verified: "Verified Account", username: "Username", memberSince: "Member since", accountType: "Account Type", buyer: "Buyer", purchases: "Purchases Made", favorites: "Favorites", rating: "Rating" },
                 explore: { title: "Explore Sellers", loading: "Loading sellers...", wait: "Wait a moment", empty: "No sellers available", emptyDesc: "Come back soon to see new sellers" },
-                profile: { title: "My Profile", purchases: "Purchases Made", favorites: "Favorites", rating: "Rating", info: "Profile Information", infoDesc: "You will be able to edit your personal information soon" },
                 purchases: { title: "My Purchases", empty: "You have no purchases yet", emptyDesc: "Explore our sellers and start shopping" },
                 favorites: { title: "My Favorites", empty: "You have no favorites yet", emptyDesc: "Mark your favorite sellers" },
                 messages: { title: "Messages", empty: "You have no messages", emptyDesc: "Contact sellers to start chatting" },
                 settings: { title: "Settings", desc: "Configuration options coming soon" }
             },
             pt: {
-                menu: { explore: "Explorar Vendedoras", profile: "Meu Perfil", purchases: "Minhas Compras", favorites: "Favoritos", messages: "Mensagens", settings: "Configurações" },
+                menu: { profile: "Meu Perfil", explore: "Explorar Vendedoras", purchases: "Minhas Compras", favorites: "Favoritos", messages: "Mensagens", settings: "Configurações" },
                 header: { loading: "Carregando...", logout: "Sair" },
+                profile: { title: "Meu Perfil", verified: "Conta Verificada", username: "Nome de Usuário", memberSince: "Membro desde", accountType: "Tipo de Conta", buyer: "Comprador", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Avaliação" },
                 explore: { title: "Explorar Vendedoras", loading: "Carregando vendedoras...", wait: "Aguarde um momento", empty: "Nenhuma vendedora disponível", emptyDesc: "Volte em breve para ver novas vendedoras" },
-                profile: { title: "Meu Perfil", purchases: "Compras Realizadas", favorites: "Favoritos", rating: "Avaliação", info: "Informações do Perfil", infoDesc: "Você poderá editar suas informações pessoais em breve" },
                 purchases: { title: "Minhas Compras", empty: "Você ainda não tem compras", emptyDesc: "Explore nossas vendedoras e comece a comprar" },
                 favorites: { title: "Meus Favoritos", empty: "Você ainda não tem favoritos", emptyDesc: "Marque suas vendedoras favoritas" },
                 messages: { title: "Mensagens", empty: "Você não tem mensagens", emptyDesc: "Entre em contato com as vendedoras para começar a conversar" },
                 settings: { title: "Configurações", desc: "Opções de configuração em breve" }
             },
             fr: {
-                menu: { explore: "Explorer les Vendeuses", profile: "Mon Profil", purchases: "Mes Achats", favorites: "Favoris", messages: "Messages", settings: "Paramètres" },
+                menu: { profile: "Mon Profil", explore: "Explorer les Vendeuses", purchases: "Mes Achats", favorites: "Favoris", messages: "Messages", settings: "Paramètres" },
                 header: { loading: "Chargement...", logout: "Déconnexion" },
+                profile: { title: "Mon Profil", verified: "Compte Vérifié", username: "Nom d'utilisateur", memberSince: "Membre depuis", accountType: "Type de Compte", buyer: "Acheteur", purchases: "Achats Effectués", favorites: "Favoris", rating: "Évaluation" },
                 explore: { title: "Explorer les Vendeuses", loading: "Chargement des vendeuses...", wait: "Attendez un moment", empty: "Aucune vendeuse disponible", emptyDesc: "Revenez bientôt pour voir de nouvelles vendeuses" },
-                profile: { title: "Mon Profil", purchases: "Achats Effectués", favorites: "Favoris", rating: "Évaluation", info: "Informations du Profil", infoDesc: "Vous pourrez bientôt modifier vos informations personnelles" },
                 purchases: { title: "Mes Achats", empty: "Vous n'avez pas encore d'achats", emptyDesc: "Explorez nos vendeuses et commencez à acheter" },
                 favorites: { title: "Mes Favoris", empty: "Vous n'avez pas encore de favoris", emptyDesc: "Marquez vos vendeuses préférées" },
                 messages: { title: "Messages", empty: "Vous n'avez pas de messages", emptyDesc: "Contactez les vendeuses pour commencer à discuter" },
                 settings: { title: "Paramètres", desc: "Options de configuration à venir" }
             },
             de: {
-                menu: { explore: "Verkäuferinnen Erkunden", profile: "Mein Profil", purchases: "Meine Käufe", favorites: "Favoriten", messages: "Nachrichten", settings: "Einstellungen" },
+                menu: { profile: "Mein Profil", explore: "Verkäuferinnen Erkunden", purchases: "Meine Käufe", favorites: "Favoriten", messages: "Nachrichten", settings: "Einstellungen" },
                 header: { loading: "Laden...", logout: "Abmelden" },
+                profile: { title: "Mein Profil", verified: "Verifiziertes Konto", username: "Benutzername", memberSince: "Mitglied seit", accountType: "Kontotyp", buyer: "Käufer", purchases: "Getätigte Käufe", favorites: "Favoriten", rating: "Bewertung" },
                 explore: { title: "Verkäuferinnen Erkunden", loading: "Lade Verkäuferinnen...", wait: "Warten Sie einen Moment", empty: "Keine Verkäuferinnen verfügbar", emptyDesc: "Kommen Sie bald wieder, um neue Verkäuferinnen zu sehen" },
-                profile: { title: "Mein Profil", purchases: "Getätigte Käufe", favorites: "Favoriten", rating: "Bewertung", info: "Profilinformationen", infoDesc: "Sie können Ihre persönlichen Informationen bald bearbeiten" },
                 purchases: { title: "Meine Käufe", empty: "Sie haben noch keine Käufe", emptyDesc: "Erkunden Sie unsere Verkäuferinnen und beginnen Sie mit dem Einkaufen" },
                 favorites: { title: "Meine Favoriten", empty: "Sie haben noch keine Favoriten", emptyDesc: "Markieren Sie Ihre Lieblings-Verkäuferinnen" },
                 messages: { title: "Nachrichten", empty: "Sie haben keine Nachrichten", emptyDesc: "Kontaktieren Sie Verkäuferinnen, um zu chatten" },
                 settings: { title: "Einstellungen", desc: "Konfigurationsoptionen in Kürze" }
             },
             it: {
-                menu: { explore: "Esplora Venditrici", profile: "Il Mio Profilo", purchases: "I Miei Acquisti", favorites: "Preferiti", messages: "Messaggi", settings: "Impostazioni" },
+                menu: { profile: "Il Mio Profilo", explore: "Esplora Venditrici", purchases: "I Miei Acquisti", favorites: "Preferiti", messages: "Messaggi", settings: "Impostazioni" },
                 header: { loading: "Caricamento...", logout: "Esci" },
+                profile: { title: "Il Mio Profilo", verified: "Account Verificato", username: "Nome Utente", memberSince: "Membro dal", accountType: "Tipo di Account", buyer: "Acquirente", purchases: "Acquisti Effettuati", favorites: "Preferiti", rating: "Valutazione" },
                 explore: { title: "Esplora Venditrici", loading: "Caricamento venditrici...", wait: "Aspetta un momento", empty: "Nessuna venditrice disponibile", emptyDesc: "Torna presto per vedere nuove venditrici" },
-                profile: { title: "Il Mio Profilo", purchases: "Acquisti Effettuati", favorites: "Preferiti", rating: "Valutazione", info: "Informazioni Profilo", infoDesc: "Potrai modificare le tue informazioni personali presto" },
                 purchases: { title: "I Miei Acquisti", empty: "Non hai ancora acquisti", emptyDesc: "Esplora le nostre venditrici e inizia a comprare" },
                 favorites: { title: "I Miei Preferiti", empty: "Non hai ancora preferiti", emptyDesc: "Segna le tue venditrici preferite" },
                 messages: { title: "Messaggi", empty: "Non hai messaggi", emptyDesc: "Contatta le venditrici per iniziare a chattare" },
@@ -607,34 +695,82 @@
 
         let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
         let supabaseClient;
+        let currentUser = null;
+        
+        console.log('🎯 Dashboard Comprador cargando...');
         
         function initSupabase() {
-            if (typeof window.supabase !== 'undefined') {
+            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
                 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Cliente Supabase creado en dashboard');
                 checkAuth();
             } else {
+                console.log('⏳ SDK aún no cargado, reintentando...');
                 setTimeout(initSupabase, 100);
             }
         }
         
+        initSupabase();
+
         async function checkAuth() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            if (!user) {
+            try {
+                console.log('🔐 Verificando autenticación...');
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                
+                console.log('📊 Sesión:', session);
+                
+                if (!session || !session.user) {
+                    console.log('❌ No hay sesión, redirigiendo a login...');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                console.log('✅ Sesión válida, cargando datos del usuario');
+                currentUser = session.user;
+                loadUserData(session.user.email);
+                loadSellers();
+            } catch (error) {
+                console.error('❌ Error verificando auth:', error);
                 window.location.href = 'login.html';
-                return;
             }
-            loadUserData(user.email);
-            loadSellers();
         }
 
         async function loadUserData(email) {
-            const { data: buyer } = await supabaseClient.from('buyers').select('*').eq('email', email).single();
-            if (buyer) {
-                document.getElementById('userName').textContent = buyer.full_name || buyer.username;
-                document.getElementById('userEmail').textContent = buyer.email;
-                document.getElementById('userAvatar').textContent = buyer.full_name ? buyer.full_name.charAt(0).toUpperCase() : 'U';
+            try {
+                console.log('📝 Cargando datos para:', email);
+                const { data: buyer, error } = await supabaseClient
+                    .from('buyers')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                console.log('👤 Datos del buyer:', buyer, error);
+
+                if (buyer) {
+                    const name = buyer.full_name || buyer.username;
+                    const initial = name.charAt(0).toUpperCase();
+                    
+                    document.getElementById('userName').textContent = name;
+                    document.getElementById('userEmail').textContent = buyer.email;
+                    document.getElementById('userAvatar').textContent = initial;
+                    
+                    document.getElementById('profileName').textContent = name;
+                    document.getElementById('profileEmail').textContent = buyer.email;
+                    document.getElementById('profileAvatar').textContent = initial;
+                    document.getElementById('profileUsername').textContent = '@' + buyer.username;
+                    
+                    const createdDate = new Date(buyer.created_at);
+                    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                    document.getElementById('profileMemberSince').textContent = monthNames[createdDate.getMonth()] + ' ' + createdDate.getFullYear();
+                    
+                    console.log('✅ Datos del usuario cargados');
+                } else {
+                    console.log('⚠️ Usuario no encontrado en tabla buyers');
+                }
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
             }
         }
 
@@ -692,6 +828,7 @@
         }
 
         async function logout() {
+            console.log('👋 Cerrando sesión...');
             await supabaseClient.auth.signOut();
             window.location.href = 'index.html';
         }
@@ -706,7 +843,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
-            initSupabase();
         });
     </script>
 </body>
