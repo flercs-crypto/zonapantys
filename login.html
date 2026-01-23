@@ -288,7 +288,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
     <script>
         const translations = {
@@ -386,7 +386,7 @@
             console.log('Verificando window.supabase:', typeof window.supabase);
             if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
                 supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('✅ Cliente Supabase creado para LOGIN');
             } else {
