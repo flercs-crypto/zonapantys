@@ -536,19 +536,30 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
     
     <script>
         const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
         
         let supabaseClient;
         
+        console.log('🔧 Iniciando configuración de Supabase...');
+        console.log('URL:', SUPABASE_URL);
+        console.log('Key (primeros 50):', SUPABASE_ANON_KEY.substring(0, 50) + '...');
+        
         function initSupabase() {
-            if (typeof window.supabase !== 'undefined') {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Supabase inicializado correctamente');
+            console.log('Verificando window.supabase:', typeof window.supabase);
+            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+                try {
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log('✅ Cliente Supabase creado exitosamente');
+                    console.log('Cliente:', supabaseClient);
+                } catch (error) {
+                    console.error('❌ Error al crear cliente Supabase:', error);
+                }
             } else {
+                console.log('⏳ SDK aún no cargado, reintentando en 100ms...');
                 setTimeout(initSupabase, 100);
             }
         }
@@ -558,11 +569,15 @@
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            console.log('📝 Formulario enviado');
+            
             const fullName = document.querySelector('input[type="text"]').value.trim();
             const email = document.querySelector('input[type="email"]').value.trim();
             const password = document.querySelectorAll('input[type="password"]')[0].value;
             const confirmPassword = document.querySelectorAll('input[type="password"]')[1].value;
             const terms = document.getElementById('terms').checked;
+
+            console.log('Datos del formulario:', { fullName, email, passwordLength: password.length, terms });
 
             if (!fullName || !email || !password || !confirmPassword) {
                 alert('❌ Por favor completa todos los campos');
@@ -590,13 +605,16 @@
 
             try {
                 console.log('🔐 Intentando crear usuario en Auth...');
+                console.log('Cliente disponible:', !!supabaseClient);
+                
                 const { data: authData, error: authError } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password
                 });
 
-                console.log('Auth Data:', authData);
-                console.log('Auth Error:', authError);
+                console.log('📊 Respuesta Auth:');
+                console.log('  - Data:', authData);
+                console.log('  - Error:', authError);
 
                 if (authError) {
                     console.error('❌ Error en Auth:', authError);
@@ -605,6 +623,7 @@
                 }
 
                 console.log('✅ Usuario creado en Auth correctamente');
+                console.log('📝 Insertando en tabla buyers...');
 
                 const { error: buyerError } = await supabaseClient
                     .from('buyers')
@@ -617,13 +636,19 @@
                         is_active: true
                     }]);
 
-                if (buyerError) throw buyerError;
+                console.log('📊 Resultado insert buyers:', buyerError);
 
+                if (buyerError) {
+                    console.error('❌ Error al insertar buyer:', buyerError);
+                    throw buyerError;
+                }
+
+                console.log('✅ ¡Registro completado exitosamente!');
                 alert('✅ ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión');
                 window.location.href = 'login.html';
 
             } catch (error) {
-                console.error(error);
+                console.error('❌ Error general:', error);
                 alert('❌ Error: ' + error.message);
                 btn.disabled = false;
                 btn.textContent = 'Crear Cuenta';
