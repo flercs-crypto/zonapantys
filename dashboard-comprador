@@ -703,8 +703,17 @@
             if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
                 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Cliente Supabase creado en dashboard');
+                
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true,
+                        storage: window.localStorage
+                    }
+                });
+                console.log('✅ Cliente Supabase creado en dashboard con persistencia de sesión');
+                console.log('📦 Storage configurado:', window.localStorage);
                 checkAuth();
             } else {
                 console.log('⏳ SDK aún no cargado, reintentando...');
@@ -719,15 +728,16 @@
                 console.log('🔐 Verificando autenticación...');
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 
-                console.log('📊 Sesión:', session);
+                console.log('📊 Sesión completa:', session);
+                console.log('📊 Usuario:', session?.user);
                 
                 if (!session || !session.user) {
-                    console.log('❌ No hay sesión, redirigiendo a login...');
+                    console.error('❌ No hay sesión, redirigiendo a login...');
                     window.location.href = 'login.html';
                     return;
                 }
 
-                console.log('✅ Sesión válida, cargando datos del usuario');
+                console.log('✅ Sesión válida encontrada!');
                 currentUser = session.user;
                 loadUserData(session.user.email);
                 loadSellers();
@@ -765,7 +775,7 @@
                     const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
                     document.getElementById('profileMemberSince').textContent = monthNames[createdDate.getMonth()] + ' ' + createdDate.getFullYear();
                     
-                    console.log('✅ Datos del usuario cargados');
+                    console.log('✅ Datos del usuario cargados correctamente');
                 } else {
                     console.log('⚠️ Usuario no encontrado en tabla buyers');
                 }
@@ -830,6 +840,7 @@
         async function logout() {
             console.log('👋 Cerrando sesión...');
             await supabaseClient.auth.signOut();
+            localStorage.clear();
             window.location.href = 'index.html';
         }
 
