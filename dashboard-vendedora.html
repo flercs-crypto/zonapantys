@@ -35,6 +35,7 @@
             padding: 2rem 0;
             z-index: 1000;
             transition: all 0.3s;
+            overflow-y: auto;
         }
 
         .sidebar-header {
@@ -212,6 +213,28 @@
             font-size: 1.8rem;
             color: var(--dark-color);
             margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.3);
         }
 
         .stats-container {
@@ -250,23 +273,136 @@
             font-size: 0.9rem;
         }
 
-        .btn-primary-custom {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
         }
 
-        .btn-primary-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(156, 39, 176, 0.3);
+        .upload-zone {
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--light-color);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.05);
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .upload-zone h3 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-zone p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .review-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .review-rating {
+            color: #ffa000;
+        }
+
+        .review-text {
+            color: #666;
+            line-height: 1.6;
         }
 
         .empty-state {
@@ -309,6 +445,70 @@
             cursor: pointer;
         }
 
+        .profile-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .profile-info h2 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: #666;
+            margin: 0;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-field {
+            padding: 1rem;
+            background: var(--light-color);
+            border-radius: 10px;
+        }
+
+        .profile-field-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-field-value {
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -338,8 +538,9 @@
                 width: 100%;
             }
 
-            .stats-container {
-                grid-template-columns: 1fr;
+            .section-title {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
@@ -365,9 +566,17 @@
                 <i class="fas fa-box"></i>
                 <span data-i18n="menu.products">Mis Productos</span>
             </div>
+            <div class="menu-item" onclick="showSection('contenido')">
+                <i class="fas fa-photo-video"></i>
+                <span data-i18n="menu.content">Mi Contenido</span>
+            </div>
             <div class="menu-item" onclick="showSection('ventas')">
                 <i class="fas fa-dollar-sign"></i>
-                <span data-i18n="menu.sales">Ventas y Ganancias</span>
+                <span data-i18n="menu.sales">Ventas</span>
+            </div>
+            <div class="menu-item" onclick="showSection('resenas')">
+                <i class="fas fa-star"></i>
+                <span data-i18n="menu.reviews">Reseñas</span>
             </div>
             <div class="menu-item" onclick="showSection('mensajes')">
                 <i class="fas fa-envelope"></i>
@@ -413,42 +622,45 @@
             </div>
         </div>
 
+        <!-- RESUMEN -->
         <div id="resumen" class="content-section active">
-            <h2 class="section-title" data-i18n="overview.title">Resumen General</h2>
+            <h2 class="section-title">
+                <span data-i18n="overview.title">Resumen General</span>
+            </h2>
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
                         <i class="fas fa-box"></i>
                     </div>
                     <div class="stat-card-value">0</div>
-                    <div class="stat-card-label" data-i18n="overview.products">Productos Activos</div>
+                    <div class="stat-card-label" data-i18n="overview.productsActive">Productos Activos</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="stat-card-value">0</div>
-                    <div class="stat-card-label" data-i18n="overview.sales">Ventas Totales</div>
+                    <div class="stat-card-label" data-i18n="overview.salesTotal">Ventas Totales</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
                         <i class="fas fa-dollar-sign"></i>
                     </div>
                     <div class="stat-card-value">$0</div>
-                    <div class="stat-card-label" data-i18n="overview.earnings">Ganancias Totales</div>
+                    <div class="stat-card-label" data-i18n="overview.earnings">Ganancias</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-card-icon" style="background: #fff3e0; color: #f57c00;">
                         <i class="fas fa-star"></i>
                     </div>
                     <div class="stat-card-value">5.0</div>
-                    <div class="stat-card-label" data-i18n="overview.rating">Rating Promedio</div>
+                    <div class="stat-card-label" data-i18n="overview.rating">Rating</div>
                 </div>
             </div>
             <div class="empty-state">
                 <i class="fas fa-chart-line"></i>
                 <h3 data-i18n="overview.welcome">¡Bienvenida a tu Dashboard!</h3>
-                <p data-i18n="overview.welcomeDesc">Aquí podrás gestionar tus productos, ventas y mensajes</p>
+                <p data-i18n="overview.welcomeDesc">Gestiona tu tienda, productos y ventas desde aquí</p>
                 <button class="btn-primary-custom" onclick="showSection('productos')">
                     <i class="fas fa-plus"></i>
                     <span data-i18n="overview.addProduct">Agregar Primer Producto</span>
@@ -456,14 +668,15 @@
             </div>
         </div>
 
+        <!-- PRODUCTOS -->
         <div id="productos" class="content-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 class="section-title" data-i18n="products.title" style="margin: 0;">Mis Productos</h2>
+            <h2 class="section-title">
+                <span data-i18n="products.title">Mis Productos</span>
                 <button class="btn-primary-custom">
                     <i class="fas fa-plus"></i>
                     <span data-i18n="products.add">Agregar Producto</span>
                 </button>
-            </div>
+            </h2>
             <div class="empty-state">
                 <i class="fas fa-box-open"></i>
                 <h3 data-i18n="products.empty">No tienes productos aún</h3>
@@ -475,6 +688,36 @@
             </div>
         </div>
 
+        <!-- CONTENIDO -->
+        <div id="contenido" class="content-section">
+            <h2 class="section-title">
+                <span data-i18n="content.title">Mi Contenido</span>
+            </h2>
+            
+            <div class="content-card">
+                <h3 style="margin-bottom: 1.5rem;">
+                    <i class="fas fa-video"></i> <span data-i18n="content.videos">Videos</span>
+                </h3>
+                <div class="upload-zone" onclick="alert('Función de subida de videos próximamente')">
+                    <i class="fas fa-video"></i>
+                    <h3 data-i18n="content.uploadVideo">Subir Video</h3>
+                    <p data-i18n="content.uploadVideoDesc">Click para seleccionar un video (MP4, MOV, AVI)</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3 style="margin-bottom: 1.5rem;">
+                    <i class="fas fa-images"></i> <span data-i18n="content.photos">Fotos</span>
+                </h3>
+                <div class="upload-zone" onclick="alert('Función de subida de fotos próximamente')">
+                    <i class="fas fa-images"></i>
+                    <h3 data-i18n="content.uploadPhoto">Subir Fotos</h3>
+                    <p data-i18n="content.uploadPhotoDesc">Click para seleccionar fotos (JPG, PNG, WEBP)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VENTAS -->
         <div id="ventas" class="content-section">
             <h2 class="section-title" data-i18n="sales.title">Ventas y Ganancias</h2>
             <div class="stats-container">
@@ -507,6 +750,17 @@
             </div>
         </div>
 
+        <!-- RESEÑAS -->
+        <div id="resenas" class="content-section">
+            <h2 class="section-title" data-i18n="reviews.title">Reseñas de Compradores</h2>
+            <div class="empty-state">
+                <i class="fas fa-star"></i>
+                <h3 data-i18n="reviews.empty">No tienes reseñas aún</h3>
+                <p data-i18n="reviews.emptyDesc">Las valoraciones de los compradores aparecerán aquí</p>
+            </div>
+        </div>
+
+        <!-- MENSAJES -->
         <div id="mensajes" class="content-section">
             <h2 class="section-title" data-i18n="messages.title">Mensajes</h2>
             <div class="empty-state">
@@ -516,15 +770,64 @@
             </div>
         </div>
 
+        <!-- PERFIL -->
         <div id="perfil" class="content-section">
             <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
-            <div class="empty-state">
-                <i class="fas fa-user-circle"></i>
-                <h3 data-i18n="profile.info">Información del Perfil</h3>
-                <p data-i18n="profile.infoDesc">Aquí podrás editar tu perfil y tienda próximamente</p>
+            
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar-large" id="profileAvatar">V</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">Nombre de la Vendedora</h2>
+                        <p id="profileEmail">email@vendedora.com</p>
+                        <p style="color: var(--primary-color); margin-top: 0.5rem;">
+                            <i class="fas fa-check-circle"></i> <span data-i18n="profile.verified">Cuenta Verificada</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="profile-details">
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.username">Nombre Artístico</div>
+                        <div class="profile-field-value" id="profileUsername">@vendedora</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.memberSince">Miembro desde</div>
+                        <div class="profile-field-value" id="profileMemberSince">Enero 2026</div>
+                    </div>
+                    <div class="profile-field">
+                        <div class="profile-field-label" data-i18n="profile.accountType">Tipo de Cuenta</div>
+                        <div class="profile-field-value"><i class="fas fa-store"></i> <span data-i18n="profile.seller">Vendedora</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="profile.products">Productos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-card-value">0</div>
+                    <div class="stat-card-label" data-i18n="profile.sales">Ventas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-card-value">5.0</div>
+                    <div class="stat-card-label" data-i18n="profile.rating">Rating</div>
+                </div>
             </div>
         </div>
 
+        <!-- CONFIGURACIÓN -->
         <div id="configuracion" class="content-section">
             <h2 class="section-title" data-i18n="settings.title">Configuración</h2>
             <div class="stats-container">
@@ -546,106 +849,174 @@
             <div class="empty-state">
                 <i class="fas fa-cog"></i>
                 <h3 data-i18n="settings.options">Opciones de Configuración</h3>
-                <p data-i18n="settings.optionsDesc">Gestión de membresía y configuración próximamente</p>
+                <p data-i18n="settings.optionsDesc">Gestión de membresía y métodos de pago próximamente</p>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
     <script>
         const translations = {
             es: {
-                menu: { overview: "Resumen", products: "Mis Productos", sales: "Ventas y Ganancias", messages: "Mensajes", profile: "Mi Perfil", settings: "Configuración" },
+                menu: { overview: "Resumen", products: "Mis Productos", content: "Mi Contenido", sales: "Ventas", reviews: "Reseñas", messages: "Mensajes", profile: "Mi Perfil", settings: "Configuración" },
                 header: { loading: "Cargando...", logout: "Cerrar Sesión" },
-                overview: { title: "Resumen General", products: "Productos Activos", sales: "Ventas Totales", earnings: "Ganancias Totales", rating: "Rating Promedio", welcome: "¡Bienvenida a tu Dashboard!", welcomeDesc: "Aquí podrás gestionar tus productos, ventas y mensajes", addProduct: "Agregar Primer Producto" },
+                overview: { title: "Resumen General", productsActive: "Productos Activos", salesTotal: "Ventas Totales", earnings: "Ganancias", rating: "Rating", welcome: "¡Bienvenida a tu Dashboard!", welcomeDesc: "Gestiona tu tienda, productos y ventas desde aquí", addProduct: "Agregar Primer Producto" },
                 products: { title: "Mis Productos", add: "Agregar Producto", empty: "No tienes productos aún", emptyDesc: "Comienza a vender subiendo tu primer producto" },
+                content: { title: "Mi Contenido", videos: "Videos", uploadVideo: "Subir Video", uploadVideoDesc: "Click para seleccionar un video (MP4, MOV, AVI)", photos: "Fotos", uploadPhoto: "Subir Fotos", uploadPhotoDesc: "Click para seleccionar fotos (JPG, PNG, WEBP)" },
                 sales: { title: "Ventas y Ganancias", thisMonth: "Este Mes", total: "Total Acumulado", pending: "Pendiente de Retiro", empty: "No tienes ventas aún", emptyDesc: "Tus ventas aparecerán aquí cuando realices tu primera venta" },
+                reviews: { title: "Reseñas de Compradores", empty: "No tienes reseñas aún", emptyDesc: "Las valoraciones de los compradores aparecerán aquí" },
                 messages: { title: "Mensajes", empty: "No tienes mensajes", emptyDesc: "Los compradores podrán contactarte aquí" },
-                profile: { title: "Mi Perfil", info: "Información del Perfil", infoDesc: "Aquí podrás editar tu perfil y tienda próximamente" },
-                settings: { title: "Configuración", membership: "Membresía", active: "Activa", status: "Estado", options: "Opciones de Configuración", optionsDesc: "Gestión de membresía y configuración próximamente" }
+                profile: { title: "Mi Perfil", verified: "Cuenta Verificada", username: "Nombre Artístico", memberSince: "Miembro desde", accountType: "Tipo de Cuenta", seller: "Vendedora", products: "Productos", sales: "Ventas", rating: "Rating" },
+                settings: { title: "Configuración", membership: "Membresía", active: "Activa", status: "Estado", options: "Opciones de Configuración", optionsDesc: "Gestión de membresía y métodos de pago próximamente" }
             },
             en: {
-                menu: { overview: "Overview", products: "My Products", sales: "Sales & Earnings", messages: "Messages", profile: "My Profile", settings: "Settings" },
+                menu: { overview: "Overview", products: "My Products", content: "My Content", sales: "Sales", reviews: "Reviews", messages: "Messages", profile: "My Profile", settings: "Settings" },
                 header: { loading: "Loading...", logout: "Logout" },
-                overview: { title: "Overview", products: "Active Products", sales: "Total Sales", earnings: "Total Earnings", rating: "Average Rating", welcome: "Welcome to your Dashboard!", welcomeDesc: "Here you can manage your products, sales and messages", addProduct: "Add First Product" },
+                overview: { title: "Overview", productsActive: "Active Products", salesTotal: "Total Sales", earnings: "Earnings", rating: "Rating", welcome: "Welcome to your Dashboard!", welcomeDesc: "Manage your store, products and sales from here", addProduct: "Add First Product" },
                 products: { title: "My Products", add: "Add Product", empty: "You have no products yet", emptyDesc: "Start selling by uploading your first product" },
+                content: { title: "My Content", videos: "Videos", uploadVideo: "Upload Video", uploadVideoDesc: "Click to select a video (MP4, MOV, AVI)", photos: "Photos", uploadPhoto: "Upload Photos", uploadPhotoDesc: "Click to select photos (JPG, PNG, WEBP)" },
                 sales: { title: "Sales & Earnings", thisMonth: "This Month", total: "Total Accumulated", pending: "Pending Withdrawal", empty: "You have no sales yet", emptyDesc: "Your sales will appear here when you make your first sale" },
+                reviews: { title: "Buyer Reviews", empty: "You have no reviews yet", emptyDesc: "Buyer ratings will appear here" },
                 messages: { title: "Messages", empty: "You have no messages", emptyDesc: "Buyers will be able to contact you here" },
-                profile: { title: "My Profile", info: "Profile Information", infoDesc: "You will be able to edit your profile and store soon" },
-                settings: { title: "Settings", membership: "Membership", active: "Active", status: "Status", options: "Configuration Options", optionsDesc: "Membership management and configuration coming soon" }
+                profile: { title: "My Profile", verified: "Verified Account", username: "Stage Name", memberSince: "Member since", accountType: "Account Type", seller: "Seller", products: "Products", sales: "Sales", rating: "Rating" },
+                settings: { title: "Settings", membership: "Membership", active: "Active", status: "Status", options: "Configuration Options", optionsDesc: "Membership and payment management coming soon" }
             },
             pt: {
-                menu: { overview: "Resumo", products: "Meus Produtos", sales: "Vendas e Ganhos", messages: "Mensagens", profile: "Meu Perfil", settings: "Configurações" },
+                menu: { overview: "Resumo", products: "Meus Produtos", content: "Meu Conteúdo", sales: "Vendas", reviews: "Avaliações", messages: "Mensagens", profile: "Meu Perfil", settings: "Configurações" },
                 header: { loading: "Carregando...", logout: "Sair" },
-                overview: { title: "Resumo Geral", products: "Produtos Ativos", sales: "Vendas Totais", earnings: "Ganhos Totais", rating: "Avaliação Média", welcome: "Bem-vinda ao seu Dashboard!", welcomeDesc: "Aqui você pode gerenciar seus produtos, vendas e mensagens", addProduct: "Adicionar Primeiro Produto" },
+                overview: { title: "Resumo Geral", productsActive: "Produtos Ativos", salesTotal: "Vendas Totais", earnings: "Ganhos", rating: "Avaliação", welcome: "Bem-vinda ao seu Dashboard!", welcomeDesc: "Gerencie sua loja, produtos e vendas daqui", addProduct: "Adicionar Primeiro Produto" },
                 products: { title: "Meus Produtos", add: "Adicionar Produto", empty: "Você ainda não tem produtos", emptyDesc: "Comece a vender enviando seu primeiro produto" },
+                content: { title: "Meu Conteúdo", videos: "Vídeos", uploadVideo: "Enviar Vídeo", uploadVideoDesc: "Clique para selecionar um vídeo (MP4, MOV, AVI)", photos: "Fotos", uploadPhoto: "Enviar Fotos", uploadPhotoDesc: "Clique para selecionar fotos (JPG, PNG, WEBP)" },
                 sales: { title: "Vendas e Ganhos", thisMonth: "Este Mês", total: "Total Acumulado", pending: "Pendente de Saque", empty: "Você ainda não tem vendas", emptyDesc: "Suas vendas aparecerão aqui quando você fizer sua primeira venda" },
+                reviews: { title: "Avaliações dos Compradores", empty: "Você ainda não tem avaliações", emptyDesc: "As avaliações dos compradores aparecerão aqui" },
                 messages: { title: "Mensagens", empty: "Você não tem mensagens", emptyDesc: "Os compradores poderão entrar em contato com você aqui" },
-                profile: { title: "Meu Perfil", info: "Informações do Perfil", infoDesc: "Você poderá editar seu perfil e loja em breve" },
-                settings: { title: "Configurações", membership: "Assinatura", active: "Ativa", status: "Status", options: "Opções de Configuração", optionsDesc: "Gerenciamento de assinatura e configuração em breve" }
+                profile: { title: "Meu Perfil", verified: "Conta Verificada", username: "Nome Artístico", memberSince: "Membro desde", accountType: "Tipo de Conta", seller: "Vendedora", products: "Produtos", sales: "Vendas", rating: "Avaliação" },
+                settings: { title: "Configurações", membership: "Assinatura", active: "Ativa", status: "Status", options: "Opções de Configuração", optionsDesc: "Gerenciamento de assinatura e pagamento em breve" }
             },
             fr: {
-                menu: { overview: "Aperçu", products: "Mes Produits", sales: "Ventes et Revenus", messages: "Messages", profile: "Mon Profil", settings: "Paramètres" },
+                menu: { overview: "Aperçu", products: "Mes Produits", content: "Mon Contenu", sales: "Ventes", reviews: "Avis", messages: "Messages", profile: "Mon Profil", settings: "Paramètres" },
                 header: { loading: "Chargement...", logout: "Déconnexion" },
-                overview: { title: "Aperçu Général", products: "Produits Actifs", sales: "Ventes Totales", earnings: "Revenus Totaux", rating: "Note Moyenne", welcome: "Bienvenue sur votre Dashboard!", welcomeDesc: "Ici vous pouvez gérer vos produits, ventes et messages", addProduct: "Ajouter Premier Produit" },
+                overview: { title: "Aperçu Général", productsActive: "Produits Actifs", salesTotal: "Ventes Totales", earnings: "Revenus", rating: "Note", welcome: "Bienvenue sur votre Dashboard!", welcomeDesc: "Gérez votre boutique, produits et ventes d'ici", addProduct: "Ajouter Premier Produit" },
                 products: { title: "Mes Produits", add: "Ajouter Produit", empty: "Vous n'avez pas encore de produits", emptyDesc: "Commencez à vendre en téléchargeant votre premier produit" },
+                content: { title: "Mon Contenu", videos: "Vidéos", uploadVideo: "Télécharger Vidéo", uploadVideoDesc: "Cliquez pour sélectionner une vidéo (MP4, MOV, AVI)", photos: "Photos", uploadPhoto: "Télécharger Photos", uploadPhotoDesc: "Cliquez pour sélectionner des photos (JPG, PNG, WEBP)" },
                 sales: { title: "Ventes et Revenus", thisMonth: "Ce Mois-ci", total: "Total Accumulé", pending: "En Attente de Retrait", empty: "Vous n'avez pas encore de ventes", emptyDesc: "Vos ventes apparaîtront ici lorsque vous ferez votre première vente" },
+                reviews: { title: "Avis des Acheteurs", empty: "Vous n'avez pas encore d'avis", emptyDesc: "Les évaluations des acheteurs apparaîtront ici" },
                 messages: { title: "Messages", empty: "Vous n'avez pas de messages", emptyDesc: "Les acheteurs pourront vous contacter ici" },
-                profile: { title: "Mon Profil", info: "Informations du Profil", infoDesc: "Vous pourrez bientôt modifier votre profil et boutique" },
-                settings: { title: "Paramètres", membership: "Abonnement", active: "Actif", status: "Statut", options: "Options de Configuration", optionsDesc: "Gestion de l'abonnement et configuration à venir" }
+                profile: { title: "Mon Profil", verified: "Compte Vérifié", username: "Nom de Scène", memberSince: "Membre depuis", accountType: "Type de Compte", seller: "Vendeuse", products: "Produits", sales: "Ventes", rating: "Note" },
+                settings: { title: "Paramètres", membership: "Abonnement", active: "Actif", status: "Statut", options: "Options de Configuration", optionsDesc: "Gestion de l'abonnement et du paiement à venir" }
             },
             de: {
-                menu: { overview: "Übersicht", products: "Meine Produkte", sales: "Verkäufe & Einnahmen", messages: "Nachrichten", profile: "Mein Profil", settings: "Einstellungen" },
+                menu: { overview: "Übersicht", products: "Meine Produkte", content: "Mein Inhalt", sales: "Verkäufe", reviews: "Bewertungen", messages: "Nachrichten", profile: "Mein Profil", settings: "Einstellungen" },
                 header: { loading: "Laden...", logout: "Abmelden" },
-                overview: { title: "Gesamtübersicht", products: "Aktive Produkte", sales: "Gesamtverkäufe", earnings: "Gesamteinnahmen", rating: "Durchschnittliche Bewertung", welcome: "Willkommen in Ihrem Dashboard!", welcomeDesc: "Hier können Sie Ihre Produkte, Verkäufe und Nachrichten verwalten", addProduct: "Erstes Produkt Hinzufügen" },
+                overview: { title: "Gesamtübersicht", productsActive: "Aktive Produkte", salesTotal: "Gesamtverkäufe", earnings: "Einnahmen", rating: "Bewertung", welcome: "Willkommen in Ihrem Dashboard!", welcomeDesc: "Verwalten Sie Ihren Shop, Produkte und Verkäufe von hier", addProduct: "Erstes Produkt Hinzufügen" },
                 products: { title: "Meine Produkte", add: "Produkt Hinzufügen", empty: "Sie haben noch keine Produkte", emptyDesc: "Beginnen Sie mit dem Verkauf, indem Sie Ihr erstes Produkt hochladen" },
+                content: { title: "Mein Inhalt", videos: "Videos", uploadVideo: "Video Hochladen", uploadVideoDesc: "Klicken Sie, um ein Video auszuwählen (MP4, MOV, AVI)", photos: "Fotos", uploadPhoto: "Fotos Hochladen", uploadPhotoDesc: "Klicken Sie, um Fotos auszuwählen (JPG, PNG, WEBP)" },
                 sales: { title: "Verkäufe & Einnahmen", thisMonth: "Diesen Monat", total: "Gesamt Akkumuliert", pending: "Auszahlung Ausstehend", empty: "Sie haben noch keine Verkäufe", emptyDesc: "Ihre Verkäufe erscheinen hier, wenn Sie Ihren ersten Verkauf tätigen" },
+                reviews: { title: "Käuferbewertungen", empty: "Sie haben noch keine Bewertungen", emptyDesc: "Käuferbewertungen erscheinen hier" },
                 messages: { title: "Nachrichten", empty: "Sie haben keine Nachrichten", emptyDesc: "Käufer können Sie hier kontaktieren" },
-                profile: { title: "Mein Profil", info: "Profilinformationen", infoDesc: "Sie können Ihr Profil und Geschäft bald bearbeiten" },
-                settings: { title: "Einstellungen", membership: "Mitgliedschaft", active: "Aktiv", status: "Status", options: "Konfigurationsoptionen", optionsDesc: "Mitgliedschaftsverwaltung und Konfiguration in Kürze" }
+                profile: { title: "Mein Profil", verified: "Verifiziertes Konto", username: "Künstlername", memberSince: "Mitglied seit", accountType: "Kontotyp", seller: "Verkäuferin", products: "Produkte", sales: "Verkäufe", rating: "Bewertung" },
+                settings: { title: "Einstellungen", membership: "Mitgliedschaft", active: "Aktiv", status: "Status", options: "Konfigurationsoptionen", optionsDesc: "Mitgliedschafts- und Zahlungsverwaltung in Kürze" }
             },
             it: {
-                menu: { overview: "Panoramica", products: "I Miei Prodotti", sales: "Vendite e Guadagni", messages: "Messaggi", profile: "Il Mio Profilo", settings: "Impostazioni" },
+                menu: { overview: "Panoramica", products: "I Miei Prodotti", content: "I Miei Contenuti", sales: "Vendite", reviews: "Recensioni", messages: "Messaggi", profile: "Il Mio Profilo", settings: "Impostazioni" },
                 header: { loading: "Caricamento...", logout: "Esci" },
-                overview: { title: "Panoramica Generale", products: "Prodotti Attivi", sales: "Vendite Totali", earnings: "Guadagni Totali", rating: "Valutazione Media", welcome: "Benvenuta nella tua Dashboard!", welcomeDesc: "Qui puoi gestire i tuoi prodotti, vendite e messaggi", addProduct: "Aggiungi Primo Prodotto" },
+                overview: { title: "Panoramica Generale", productsActive: "Prodotti Attivi", salesTotal: "Vendite Totali", earnings: "Guadagni", rating: "Valutazione", welcome: "Benvenuta nella tua Dashboard!", welcomeDesc: "Gestisci il tuo negozio, prodotti e vendite da qui", addProduct: "Aggiungi Primo Prodotto" },
                 products: { title: "I Miei Prodotti", add: "Aggiungi Prodotto", empty: "Non hai ancora prodotti", emptyDesc: "Inizia a vendere caricando il tuo primo prodotto" },
+                content: { title: "I Miei Contenuti", videos: "Video", uploadVideo: "Carica Video", uploadVideoDesc: "Clicca per selezionare un video (MP4, MOV, AVI)", photos: "Foto", uploadPhoto: "Carica Foto", uploadPhotoDesc: "Clicca per selezionare foto (JPG, PNG, WEBP)" },
                 sales: { title: "Vendite e Guadagni", thisMonth: "Questo Mese", total: "Totale Accumulato", pending: "In Attesa di Prelievo", empty: "Non hai ancora vendite", emptyDesc: "Le tue vendite appariranno qui quando effettui la tua prima vendita" },
+                reviews: { title: "Recensioni degli Acquirenti", empty: "Non hai ancora recensioni", emptyDesc: "Le valutazioni degli acquirenti appariranno qui" },
                 messages: { title: "Messaggi", empty: "Non hai messaggi", emptyDesc: "Gli acquirenti potranno contattarti qui" },
-                profile: { title: "Il Mio Profilo", info: "Informazioni Profilo", infoDesc: "Potrai modificare il tuo profilo e negozio presto" },
-                settings: { title: "Impostazioni", membership: "Abbonamento", active: "Attivo", status: "Stato", options: "Opzioni di Configurazione", optionsDesc: "Gestione abbonamento e configurazione in arrivo" }
+                profile: { title: "Il Mio Profilo", verified: "Account Verificato", username: "Nome d'Arte", memberSince: "Membro dal", accountType: "Tipo di Account", seller: "Venditrice", products: "Prodotti", sales: "Vendite", rating: "Valutazione" },
+                settings: { title: "Impostazioni", membership: "Abbonamento", active: "Attivo", status: "Stato", options: "Opzioni di Configurazione", optionsDesc: "Gestione abbonamento e pagamento in arrivo" }
             }
         };
 
         let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
         let supabaseClient;
+        let currentUser = null;
+        
+        console.log('🎯 Dashboard Vendedora cargando...');
         
         function initSupabase() {
-            if (typeof window.supabase !== 'undefined') {
+            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
                 const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
+                
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                    auth: {
+                        persistSession: true,
+                        autoRefreshToken: true,
+                        detectSessionInUrl: true,
+                        storage: window.localStorage
+                    }
+                });
+                console.log('✅ Cliente Supabase creado en dashboard vendedora con persistencia de sesión');
                 checkAuth();
             } else {
+                console.log('⏳ SDK aún no cargado, reintentando...');
                 setTimeout(initSupabase, 100);
             }
         }
         
+        initSupabase();
+
         async function checkAuth() {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            if (!user) {
+            try {
+                console.log('🔐 Verificando autenticación...');
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                
+                console.log('📊 Sesión:', session);
+                
+                if (!session || !session.user) {
+                    console.error('❌ No hay sesión, redirigiendo a login...');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                console.log('✅ Sesión válida encontrada!');
+                currentUser = session.user;
+                loadUserData(session.user.email);
+            } catch (error) {
+                console.error('❌ Error verificando auth:', error);
                 window.location.href = 'login.html';
-                return;
             }
-            loadUserData(user.email);
         }
 
         async function loadUserData(email) {
-            const { data: seller } = await supabaseClient.from('sellers').select('*').eq('email', email).single();
-            if (seller) {
-                document.getElementById('userName').textContent = seller.stage_name || seller.username;
-                document.getElementById('userEmail').textContent = seller.email;
-                document.getElementById('userAvatar').textContent = seller.stage_name ? seller.stage_name.charAt(0).toUpperCase() : 'V';
+            try {
+                console.log('📝 Cargando datos para:', email);
+                const { data: seller, error } = await supabaseClient
+                    .from('sellers')
+                    .select('*')
+                    .eq('email', email)
+                    .single();
+
+                console.log('👤 Datos del seller:', seller, error);
+
+                if (seller) {
+                    const name = seller.stage_name || seller.username;
+                    const initial = name.charAt(0).toUpperCase();
+                    
+                    document.getElementById('userName').textContent = name;
+                    document.getElementById('userEmail').textContent = seller.email;
+                    document.getElementById('userAvatar').textContent = initial;
+                    
+                    document.getElementById('profileName').textContent = name;
+                    document.getElementById('profileEmail').textContent = seller.email;
+                    document.getElementById('profileAvatar').textContent = initial;
+                    document.getElementById('profileUsername').textContent = '@' + seller.username;
+                    
+                    const createdDate = new Date(seller.created_at);
+                    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                    document.getElementById('profileMemberSince').textContent = monthNames[createdDate.getMonth()] + ' ' + createdDate.getFullYear();
+                    
+                    console.log('✅ Datos del usuario cargados correctamente');
+                } else {
+                    console.log('⚠️ Usuario no encontrado en tabla sellers');
+                }
+            } catch (error) {
+                console.error('❌ Error cargando datos:', error);
             }
         }
 
@@ -680,7 +1051,9 @@
         }
 
         async function logout() {
+            console.log('👋 Cerrando sesión...');
             await supabaseClient.auth.signOut();
+            localStorage.clear();
             window.location.href = 'index.html';
         }
 
@@ -694,7 +1067,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
-            initSupabase();
         });
     </script>
 </body>
