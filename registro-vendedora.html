@@ -34,7 +34,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            max-width: 550px;
+            max-width: 500px;
             width: 100%;
             padding: 3rem;
             position: relative;
@@ -63,7 +63,7 @@
         .form-title {
             text-align: center;
             color: var(--dark-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-size: 1.5rem;
             font-weight: 600;
         }
@@ -71,39 +71,8 @@
         .form-subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-size: 0.95rem;
-        }
-
-        .benefits {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-        }
-
-        .benefits h3 {
-            font-size: 1rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .benefits ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .benefits li {
-            padding: 0.5rem 0;
-            color: #666;
-            font-size: 0.85rem;
-        }
-
-        .benefits li i {
-            color: var(--primary-color);
-            margin-right: 0.5rem;
         }
 
         .form-group {
@@ -289,10 +258,6 @@
             .form-title {
                 font-size: 1.2rem;
             }
-
-            .benefits {
-                padding: 1rem;
-            }
         }
     </style>
 </head>
@@ -314,263 +279,220 @@
 
         <div class="logo">
             <h1>🔥 ZONAPANTYS</h1>
-            <p data-i18n="registerSeller.subtitle">Lencería Premium con Esencia Latina</p>
+            <p data-i18n="subtitle">Lencería Premium con Esencia Latina</p>
         </div>
 
-        <h2 class="form-title" data-i18n="registerSeller.title">Registro de Vendedora</h2>
-        <p class="form-subtitle" data-i18n="registerSeller.subtitle2">Comienza a ganar dinero vendiendo contenido sensual</p>
-
-        <div class="benefits">
-            <h3 data-i18n="registerSeller.benefitsTitle">✨ Beneficios:</h3>
-            <ul>
-                <li><i class="fas fa-check-circle"></i> <span data-i18n="registerSeller.benefit1">Solo $10 USD/mes - Sin comisiones</span></li>
-                <li><i class="fas fa-check-circle"></i> <span data-i18n="registerSeller.benefit2">Gana $300-$1500 USD mensuales</span></li>
-                <li><i class="fas fa-check-circle"></i> <span data-i18n="registerSeller.benefit3">100% de ganancias para ti</span></li>
-                <li><i class="fas fa-check-circle"></i> <span data-i18n="registerSeller.benefit4">Trabajo flexible desde casa</span></li>
-            </ul>
-        </div>
+        <h2 class="form-title" data-i18n="title">Registro de Vendedora</h2>
+        <p class="form-subtitle" data-i18n="subtitle2">Comienza a vender tu contenido exclusivo</p>
 
         <form id="registerForm">
             <div class="form-group">
-                <label class="form-label" data-i18n="registerSeller.name">Nombre Artístico</label>
-                <input type="text" class="form-control" required data-i18n-placeholder="registerSeller.namePlaceholder">
+                <label class="form-label" data-i18n="stageName">Nombre Artístico</label>
+                <input type="text" class="form-control" id="stageName" required data-i18n-placeholder="stageNamePlaceholder">
             </div>
 
             <div class="form-group">
-                <label class="form-label" data-i18n="registerSeller.age">Edad</label>
-                <input type="number" class="form-control" min="18" max="99" required data-i18n-placeholder="registerSeller.agePlaceholder">
+                <label class="form-label" data-i18n="email">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" required data-i18n-placeholder="emailPlaceholder">
             </div>
 
             <div class="form-group">
-                <label class="form-label" data-i18n="registerSeller.country">País</label>
-                <select class="form-control" required>
-                    <option value="" data-i18n="registerSeller.selectCountry">Selecciona tu país</option>
-                    <option value="CO">🇨🇴 Colombia</option>
-                    <option value="AR">🇦🇷 Argentina</option>
-                    <option value="MX">🇲🇽 México</option>
-                    <option value="BR">🇧🇷 Brasil</option>
-                    <option value="CL">🇨🇱 Chile</option>
-                    <option value="UY">🇺🇾 Uruguay</option>
-                    <option value="PE">🇵🇪 Perú</option>
-                    <option value="EC">🇪🇨 Ecuador</option>
-                    <option value="VE">🇻🇪 Venezuela</option>
+                <label class="form-label" data-i18n="country">País</label>
+                <select class="form-control" id="country" required>
+                    <option value="">Selecciona tu país</option>
+                    <option value="Venezuela">🇻🇪 Venezuela</option>
+                    <option value="Colombia">🇨🇴 Colombia</option>
+                    <option value="México">🇲🇽 México</option>
+                    <option value="Argentina">🇦🇷 Argentina</option>
+                    <option value="Chile">🇨🇱 Chile</option>
+                    <option value="Perú">🇵🇪 Perú</option>
+                    <option value="Ecuador">🇪🇨 Ecuador</option>
+                    <option value="Brasil">🇧🇷 Brasil</option>
+                    <option value="Otro">🌎 Otro</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label class="form-label" data-i18n="registerSeller.email">Correo Electrónico</label>
-                <input type="email" class="form-control" required data-i18n-placeholder="registerSeller.emailPlaceholder">
+                <label class="form-label" data-i18n="password">Contraseña</label>
+                <input type="password" class="form-control" id="password" required data-i18n-placeholder="passwordPlaceholder">
             </div>
 
             <div class="form-group">
-                <label class="form-label" data-i18n="registerSeller.password">Contraseña</label>
-                <input type="password" class="form-control" required data-i18n-placeholder="registerSeller.passwordPlaceholder">
+                <label class="form-label" data-i18n="confirmPassword">Confirmar Contraseña</label>
+                <input type="password" class="form-control" id="confirmPassword" required data-i18n-placeholder="confirmPasswordPlaceholder">
             </div>
 
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="terms" required>
                 <label class="form-check-label" for="terms">
-                    <span data-i18n="registerSeller.confirm18">Confirmo que tengo 18+ años y acepto los</span> <a href="terminos.html" data-i18n="registerSeller.terms">Términos de Servicio</a>
+                    <span data-i18n="acceptTerms">Acepto los</span> <a href="terminos.html" data-i18n="terms">Términos de Servicio</a> <span data-i18n="and">y</span> <a href="privacidad.html" data-i18n="privacy">Política de Privacidad</a>
                 </label>
             </div>
 
-            <button type="submit" class="btn-primary-custom" data-i18n="registerSeller.button">Empezar a Vender</button>
+            <button type="submit" class="btn-primary-custom" data-i18n="button">Crear Cuenta de Vendedora</button>
         </form>
 
         <div class="divider">
-            <span data-i18n="registerSeller.or">O</span>
+            <span data-i18n="or">O</span>
         </div>
 
         <div class="login-link">
-            <p><span data-i18n="registerSeller.haveAccount">¿Ya tienes cuenta?</span> <a href="login.html" data-i18n="registerSeller.login">Inicia sesión aquí</a></p>
+            <p><span data-i18n="haveAccount">¿Ya tienes cuenta?</span> <a href="login.html" data-i18n="login">Inicia sesión aquí</a></p>
         </div>
 
         <div class="back-home">
             <a href="index.html">
-                <i class="fas fa-arrow-left"></i> <span data-i18n="registerSeller.backHome">Volver al inicio</span>
+                <i class="fas fa-arrow-left"></i> <span data-i18n="backHome">Volver al inicio</span>
             </a>
         </div>
     </div>
 
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
     <script>
         const translations = {
             es: {
-                registerSeller: {
-                    subtitle: "Lencería Premium con Esencia Latina",
-                    title: "Registro de Vendedora",
-                    subtitle2: "Comienza a ganar dinero vendiendo contenido sensual",
-                    benefitsTitle: "✨ Beneficios:",
-                    benefit1: "Solo $10 USD/mes - Sin comisiones",
-                    benefit2: "Gana $300-$1500 USD mensuales",
-                    benefit3: "100% de ganancias para ti",
-                    benefit4: "Trabajo flexible desde casa",
-                    name: "Nombre Artístico",
-                    namePlaceholder: "Cómo quieres que te conozcan",
-                    age: "Edad",
-                    agePlaceholder: "Debes ser mayor de 18",
-                    country: "País",
-                    selectCountry: "Selecciona tu país",
-                    email: "Correo Electrónico",
-                    emailPlaceholder: "tu@email.com",
-                    password: "Contraseña",
-                    passwordPlaceholder: "Crea una contraseña segura",
-                    confirm18: "Confirmo que tengo 18+ años y acepto los",
-                    terms: "Términos de Servicio",
-                    button: "Empezar a Vender",
-                    or: "O",
-                    haveAccount: "¿Ya tienes cuenta?",
-                    login: "Inicia sesión aquí",
-                    backHome: "Volver al inicio"
-                }
+                subtitle: "Lencería Premium con Esencia Latina",
+                title: "Registro de Vendedora",
+                subtitle2: "Comienza a vender tu contenido exclusivo",
+                stageName: "Nombre Artístico",
+                stageNamePlaceholder: "Tu nombre artístico",
+                email: "Correo Electrónico",
+                emailPlaceholder: "tu@email.com",
+                country: "País",
+                password: "Contraseña",
+                passwordPlaceholder: "Crea una contraseña segura",
+                confirmPassword: "Confirmar Contraseña",
+                confirmPasswordPlaceholder: "Confirma tu contraseña",
+                acceptTerms: "Acepto los",
+                terms: "Términos de Servicio",
+                and: "y",
+                privacy: "Política de Privacidad",
+                button: "Crear Cuenta de Vendedora",
+                or: "O",
+                haveAccount: "¿Ya tienes cuenta?",
+                login: "Inicia sesión aquí",
+                backHome: "Volver al inicio"
             },
             en: {
-                registerSeller: {
-                    subtitle: "Premium Lingerie with Latin Essence",
-                    title: "Seller Registration",
-                    subtitle2: "Start earning money selling sensual content",
-                    benefitsTitle: "✨ Benefits:",
-                    benefit1: "Only $10 USD/month - No commissions",
-                    benefit2: "Earn $300-$1500 USD monthly",
-                    benefit3: "100% earnings for you",
-                    benefit4: "Flexible work from home",
-                    name: "Stage Name",
-                    namePlaceholder: "How you want to be known",
-                    age: "Age",
-                    agePlaceholder: "Must be 18+",
-                    country: "Country",
-                    selectCountry: "Select your country",
-                    email: "Email Address",
-                    emailPlaceholder: "your@email.com",
-                    password: "Password",
-                    passwordPlaceholder: "Create a secure password",
-                    confirm18: "I confirm I'm 18+ and accept the",
-                    terms: "Terms of Service",
-                    button: "Start Selling",
-                    or: "Or",
-                    haveAccount: "Already have an account?",
-                    login: "Log in here",
-                    backHome: "Back to home"
-                }
+                subtitle: "Premium Lingerie with Latin Essence",
+                title: "Seller Registration",
+                subtitle2: "Start selling your exclusive content",
+                stageName: "Stage Name",
+                stageNamePlaceholder: "Your stage name",
+                email: "Email Address",
+                emailPlaceholder: "your@email.com",
+                country: "Country",
+                password: "Password",
+                passwordPlaceholder: "Create a secure password",
+                confirmPassword: "Confirm Password",
+                confirmPasswordPlaceholder: "Confirm your password",
+                acceptTerms: "I accept the",
+                terms: "Terms of Service",
+                and: "and",
+                privacy: "Privacy Policy",
+                button: "Create Seller Account",
+                or: "Or",
+                haveAccount: "Already have an account?",
+                login: "Log in here",
+                backHome: "Back to home"
             },
             pt: {
-                registerSeller: {
-                    subtitle: "Lingerie Premium com Essência Latina",
-                    title: "Cadastro de Vendedora",
-                    subtitle2: "Comece a ganhar dinheiro vendendo conteúdo sensual",
-                    benefitsTitle: "✨ Benefícios:",
-                    benefit1: "Apenas $10 USD/mês - Sem comissões",
-                    benefit2: "Ganhe $300-$1500 USD mensais",
-                    benefit3: "100% de ganhos para você",
-                    benefit4: "Trabalho flexível de casa",
-                    name: "Nome Artístico",
-                    namePlaceholder: "Como você quer ser conhecida",
-                    age: "Idade",
-                    agePlaceholder: "Deve ter 18+",
-                    country: "País",
-                    selectCountry: "Selecione seu país",
-                    email: "Endereço de Email",
-                    emailPlaceholder: "seu@email.com",
-                    password: "Senha",
-                    passwordPlaceholder: "Crie uma senha segura",
-                    confirm18: "Confirmo que tenho 18+ anos e aceito os",
-                    terms: "Termos de Serviço",
-                    button: "Começar a Vender",
-                    or: "Ou",
-                    haveAccount: "Já tem uma conta?",
-                    login: "Entre aqui",
-                    backHome: "Voltar ao início"
-                }
+                subtitle: "Lingerie Premium com Essência Latina",
+                title: "Cadastro de Vendedora",
+                subtitle2: "Comece a vender seu conteúdo exclusivo",
+                stageName: "Nome Artístico",
+                stageNamePlaceholder: "Seu nome artístico",
+                email: "Endereço de Email",
+                emailPlaceholder: "seu@email.com",
+                country: "País",
+                password: "Senha",
+                passwordPlaceholder: "Crie uma senha segura",
+                confirmPassword: "Confirmar Senha",
+                confirmPasswordPlaceholder: "Confirme sua senha",
+                acceptTerms: "Aceito os",
+                terms: "Termos de Serviço",
+                and: "e",
+                privacy: "Política de Privacidade",
+                button: "Criar Conta de Vendedora",
+                or: "Ou",
+                haveAccount: "Já tem uma conta?",
+                login: "Entre aqui",
+                backHome: "Voltar ao início"
             },
             fr: {
-                registerSeller: {
-                    subtitle: "Lingerie Premium avec Essence Latine",
-                    title: "Inscription Vendeuse",
-                    subtitle2: "Commencez à gagner de l'argent en vendant du contenu sensuel",
-                    benefitsTitle: "✨ Avantages:",
-                    benefit1: "Seulement 10 $ USD/mois - Sans commissions",
-                    benefit2: "Gagnez 300-1500 $ USD par mois",
-                    benefit3: "100% des gains pour vous",
-                    benefit4: "Travail flexible depuis chez vous",
-                    name: "Nom de Scène",
-                    namePlaceholder: "Comment vous voulez être connue",
-                    age: "Âge",
-                    agePlaceholder: "Doit avoir 18+",
-                    country: "Pays",
-                    selectCountry: "Sélectionnez votre pays",
-                    email: "Adresse Email",
-                    emailPlaceholder: "votre@email.com",
-                    password: "Mot de Passe",
-                    passwordPlaceholder: "Créez un mot de passe sécurisé",
-                    confirm18: "Je confirme avoir 18+ ans et accepte les",
-                    terms: "Conditions de Service",
-                    button: "Commencer à Vendre",
-                    or: "Ou",
-                    haveAccount: "Vous avez déjà un compte?",
-                    login: "Connectez-vous ici",
-                    backHome: "Retour à l'accueil"
-                }
+                subtitle: "Lingerie Premium avec Essence Latine",
+                title: "Inscription Vendeuse",
+                subtitle2: "Commencez à vendre votre contenu exclusif",
+                stageName: "Nom de Scène",
+                stageNamePlaceholder: "Votre nom de scène",
+                email: "Adresse Email",
+                emailPlaceholder: "votre@email.com",
+                country: "Pays",
+                password: "Mot de Passe",
+                passwordPlaceholder: "Créez un mot de passe sécurisé",
+                confirmPassword: "Confirmer le Mot de Passe",
+                confirmPasswordPlaceholder: "Confirmez votre mot de passe",
+                acceptTerms: "J'accepte les",
+                terms: "Conditions de Service",
+                and: "et",
+                privacy: "Politique de Confidentialité",
+                button: "Créer Compte Vendeuse",
+                or: "Ou",
+                haveAccount: "Vous avez déjà un compte?",
+                login: "Connectez-vous ici",
+                backHome: "Retour à l'accueil"
             },
             de: {
-                registerSeller: {
-                    subtitle: "Premium Dessous mit Lateinamerikanischem Flair",
-                    title: "Verkäuferin Registrierung",
-                    subtitle2: "Beginnen Sie Geld zu verdienen mit dem Verkauf von sinnlichen Inhalten",
-                    benefitsTitle: "✨ Vorteile:",
-                    benefit1: "Nur 10 $ USD/Monat - Keine Provisionen",
-                    benefit2: "Verdienen Sie 300-1500 $ USD monatlich",
-                    benefit3: "100% Einnahmen für Sie",
-                    benefit4: "Flexible Arbeit von zu Hause",
-                    name: "Künstlername",
-                    namePlaceholder: "Wie Sie bekannt sein möchten",
-                    age: "Alter",
-                    agePlaceholder: "Muss 18+ sein",
-                    country: "Land",
-                    selectCountry: "Wählen Sie Ihr Land",
-                    email: "E-Mail-Adresse",
-                    emailPlaceholder: "ihre@email.com",
-                    password: "Passwort",
-                    passwordPlaceholder: "Erstellen Sie ein sicheres Passwort",
-                    confirm18: "Ich bestätige, dass ich 18+ bin und akzeptiere die",
-                    terms: "Nutzungsbedingungen",
-                    button: "Mit dem Verkauf Beginnen",
-                    or: "Oder",
-                    haveAccount: "Haben Sie bereits ein Konto?",
-                    login: "Hier anmelden",
-                    backHome: "Zurück zur Startseite"
-                }
+                subtitle: "Premium Dessous mit Lateinamerikanischem Flair",
+                title: "Verkäuferin Registrierung",
+                subtitle2: "Beginnen Sie, Ihre exklusiven Inhalte zu verkaufen",
+                stageName: "Künstlername",
+                stageNamePlaceholder: "Ihr Künstlername",
+                email: "E-Mail-Adresse",
+                emailPlaceholder: "ihre@email.com",
+                country: "Land",
+                password: "Passwort",
+                passwordPlaceholder: "Erstellen Sie ein sicheres Passwort",
+                confirmPassword: "Passwort Bestätigen",
+                confirmPasswordPlaceholder: "Bestätigen Sie Ihr Passwort",
+                acceptTerms: "Ich akzeptiere die",
+                terms: "Nutzungsbedingungen",
+                and: "und",
+                privacy: "Datenschutz",
+                button: "Verkäuferin-Konto Erstellen",
+                or: "Oder",
+                haveAccount: "Haben Sie bereits ein Konto?",
+                login: "Hier anmelden",
+                backHome: "Zurück zur Startseite"
             },
             it: {
-                registerSeller: {
-                    subtitle: "Lingerie Premium con Essenza Latina",
-                    title: "Registrazione Venditrice",
-                    subtitle2: "Inizia a guadagnare vendendo contenuti sensuali",
-                    benefitsTitle: "✨ Vantaggi:",
-                    benefit1: "Solo 10 $ USD/mese - Nessuna commissione",
-                    benefit2: "Guadagna 300-1500 $ USD mensili",
-                    benefit3: "100% di guadagni per te",
-                    benefit4: "Lavoro flessibile da casa",
-                    name: "Nome d'Arte",
-                    namePlaceholder: "Come vuoi essere conosciuta",
-                    age: "Età",
-                    agePlaceholder: "Devi avere 18+",
-                    country: "Paese",
-                    selectCountry: "Seleziona il tuo paese",
-                    email: "Indirizzo Email",
-                    emailPlaceholder: "tua@email.com",
-                    password: "Password",
-                    passwordPlaceholder: "Crea una password sicura",
-                    confirm18: "Confermo di avere 18+ anni e accetto i",
-                    terms: "Termini di Servizio",
-                    button: "Inizia a Vendere",
-                    or: "O",
-                    haveAccount: "Hai già un account?",
-                    login: "Accedi qui",
-                    backHome: "Torna alla home"
-                }
+                subtitle: "Lingerie Premium con Essenza Latina",
+                title: "Registrazione Venditrice",
+                subtitle2: "Inizia a vendere i tuoi contenuti esclusivi",
+                stageName: "Nome d'Arte",
+                stageNamePlaceholder: "Il tuo nome d'arte",
+                email: "Indirizzo Email",
+                emailPlaceholder: "tua@email.com",
+                country: "Paese",
+                password: "Password",
+                passwordPlaceholder: "Crea una password sicura",
+                confirmPassword: "Conferma Password",
+                confirmPasswordPlaceholder: "Conferma la tua password",
+                acceptTerms: "Accetto i",
+                terms: "Termini di Servizio",
+                and: "e",
+                privacy: "Privacy Policy",
+                button: "Crea Account Venditrice",
+                or: "O",
+                haveAccount: "Hai già un account?",
+                login: "Accedi qui",
+                backHome: "Torna alla home"
             }
         };
 
         let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+        let supabaseClient;
 
         function changeLanguage(lang) {
             currentLang = lang;
@@ -585,29 +507,15 @@
             
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
-                const keys = key.split('.');
-                let value = t;
-                
-                for (let k of keys) {
-                    value = value[k];
-                }
-                
-                if (value) {
-                    element.textContent = value;
+                if (t[key]) {
+                    element.textContent = t[key];
                 }
             });
 
             document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
                 const key = element.getAttribute('data-i18n-placeholder');
-                const keys = key.split('.');
-                let value = t;
-                
-                for (let k of keys) {
-                    value = value[k];
-                }
-                
-                if (value) {
-                    element.placeholder = value;
+                if (t[key]) {
+                    element.placeholder = t[key];
                 }
             });
         }
@@ -625,22 +533,22 @@
             document.getElementById('currentLang').textContent = currentLang.toUpperCase();
             updateContent();
         });
-    </script>
 
-    <!-- Supabase JS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <script>
-        // Configuración de Supabase
-        const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-        
-        let supabaseClient;
-        
         function initSupabase() {
-            if (typeof window.supabase !== 'undefined') {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Supabase inicializado correctamente');
+            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+                supabaseClient = window.supabase.createClient(
+                    'https://djycvnfdaugxmshbahzh.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI',
+                    {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true,
+                            storage: window.localStorage
+                        }
+                    }
+                );
+                console.log('✅ Cliente Supabase creado');
             } else {
                 setTimeout(initSupabase, 100);
             }
@@ -651,20 +559,24 @@
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const stageName = document.querySelector('input[type="text"]').value.trim();
-            const age = parseInt(document.querySelector('input[type="number"]').value);
-            const country = document.querySelector('select').value;
-            const email = document.querySelector('input[type="email"]').value.trim();
-            const password = document.querySelector('input[type="password"]').value;
+            console.log('📝 Formulario de vendedora enviado');
+            
+            const stageName = document.getElementById('stageName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const country = document.getElementById('country').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             const terms = document.getElementById('terms').checked;
 
-            if (!stageName || !age || !country || !email || !password) {
+            console.log('Datos:', { stageName, email, country, passwordLength: password.length, terms });
+
+            if (!stageName || !email || !country || !password || !confirmPassword) {
                 alert('❌ Por favor completa todos los campos');
                 return;
             }
 
-            if (age < 18) {
-                alert('❌ Debes ser mayor de 18 años');
+            if (password !== confirmPassword) {
+                alert('❌ Las contraseñas no coinciden');
                 return;
             }
 
@@ -683,38 +595,53 @@
             btn.textContent = 'Creando cuenta...';
 
             try {
+                console.log('🔐 Creando usuario en Auth...');
+                
                 const { data: authData, error: authError } = await supabaseClient.auth.signUp({
                     email: email,
                     password: password
                 });
 
-                if (authError) throw authError;
+                console.log('📊 Respuesta Auth:', authData, authError);
 
-                const birthYear = new Date().getFullYear() - age;
+                if (authError) {
+                    console.error('❌ Error en Auth:', authError);
+                    alert('Error: ' + authError.message);
+                    throw authError;
+                }
+
+                console.log('✅ Usuario creado en Auth');
+                console.log('📝 Insertando en tabla sellers...');
+
+                const username = email.split('@')[0] + '_seller';
+
                 const { error: sellerError } = await supabaseClient
                     .from('sellers')
                     .insert([{
-                        username: email.split('@')[0],
+                        username: username,
                         email: email,
                         password_hash: 'handled_by_auth',
                         stage_name: stageName,
-                        date_of_birth: birthYear + '-01-01',
                         country: country,
-                        membership_status: 'active',
-                        membership_type: 'monthly',
                         is_active: true
                     }]);
 
-                if (sellerError) throw sellerError;
+                console.log('📊 Resultado insert sellers:', sellerError);
 
-                alert('✅ ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión');
+                if (sellerError) {
+                    console.error('❌ Error al insertar seller:', sellerError);
+                    throw sellerError;
+                }
+
+                console.log('✅ ¡Registro de vendedora completado!');
+                alert('✅ ¡Cuenta de vendedora creada exitosamente! Ahora puedes iniciar sesión');
                 window.location.href = 'login.html';
 
             } catch (error) {
-                console.error(error);
+                console.error('❌ Error general:', error);
                 alert('❌ Error: ' + error.message);
                 btn.disabled = false;
-                btn.textContent = 'Empezar a Vender';
+                btn.textContent = 'Crear Cuenta de Vendedora';
             }
         });
     </script>
