@@ -642,30 +642,28 @@
         </div>
 
         <!-- MENSAJES -->
-        <div id="mensajes" class="content-section">
-            <h2 class="section-title" data-i18n="messages.title">Mensajes</h2>
-            <div class="empty-state">
-                <i class="fas fa-envelope-open"></i>
-                <h3 data-i18n="messages.empty">No tienes mensajes</h3>
-                <p data-i18n="messages.emptyDesc">Los compradores podrán contactarte aquí</p>
-            </div>
-        </div>
+        function initSupabase() {
+    if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(
+            'https://djycvnfdaugxmshbahzh.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI',
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true,
+                    detectSessionInUrl: true,
+                    storage: window.localStorage
+                }
+            }
+        );
+        console.log('✅ Cliente Supabase creado correctamente');
+        checkAuth();
+    } else {
+        setTimeout(initSupabase, 100);
+    }
+}
 
-        <!-- PERFIL -->
-        <div id="perfil" class="content-section">
-            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
-            
-            <div class="content-card">
-                <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee;">
-                    <div class="user-avatar" style="width: 100px; height: 100px; font-size: 3rem;" id="profileAvatar">V</div>
-                    <div>
-                        <h2 id="profileName" style="margin: 0 0 0.5rem;">Nombre de la Vendedora</h2>
-                        <p id="profileEmail" style="color: #666; margin: 0;">email@vendedora.com</p>
-                        <p style="color: var(--primary-color); margin-top: 0.5rem;">
-                            <i class="fas fa-check-circle"></i> <span data-i18n="profile.verified">Cuenta Verificada</span>
-                        </p>
-                    </div>
-                </div>
+initSupabase();
                 <div class="stats-container">
                     <div class="stat-card">
                         <div class="stat-card-label" data-i18n="profile.username">Nombre Artístico</div>
