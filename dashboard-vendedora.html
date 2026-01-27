@@ -1,494 +1,92 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Vendedora | ZonaPantys</title>
+    <title>Dashboard Vendedora | ZonaPantys</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #e91e63;
-            --secondary-color: #9c27b0;
-            --dark-color: #1a1a1a;
-            --light-color: #f8f9fa;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light-color);
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 260px;
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            padding: 2rem 0;
-            z-index: 1000;
-            transition: all 0.3s;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            padding: 0 1.5rem 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .sidebar-logo {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .sidebar-menu {
-            padding: 2rem 0;
-        }
-
-        .menu-item {
-            padding: 0.75rem 1.5rem;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .menu-item:hover,
-        .menu-item.active {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
-
-        .menu-item i {
-            font-size: 1.2rem;
-            width: 24px;
-        }
-
-        .main-content {
-            margin-left: 260px;
-            padding: 2rem;
-            min-height: 100vh;
-        }
-
-        .dashboard-header {
-            background: white;
-            padding: 1.5rem 2rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .user-details h3 {
-            margin: 0;
-            font-size: 1.1rem;
-            color: var(--dark-color);
-        }
-
-        .user-details p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .language-selector {
-            position: relative;
-        }
-
-        .language-btn {
-            background: var(--light-color);
-            color: var(--dark-color);
-            border: 1px solid #e0e0e0;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .language-btn:hover {
-            background: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-        }
-
-        .language-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            margin-top: 0.5rem;
-            min-width: 150px;
-            z-index: 1000;
-        }
-
-        .language-dropdown.active {
-            display: block;
-        }
-
-        .language-option {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #333;
-        }
-
-        .language-option:hover {
-            background: var(--light-color);
-        }
-
-        .btn-logout {
-            background: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .stat-card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .stat-card-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--dark-color);
-        }
-
-        .stat-card-label {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .content-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .upload-zone {
-            border: 2px dashed #ccc;
-            border-radius: 15px;
-            padding: 3rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: var(--light-color);
-        }
-
-        .upload-zone:hover {
-            border-color: var(--primary-color);
-            background: rgba(233, 30, 99, 0.05);
-        }
-
-        .upload-zone i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .upload-zone h3 {
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-zone p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .media-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-        }
-
-        .media-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .media-preview {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-            background: #f0f0f0;
-        }
-
-        .media-info {
-            padding: 1rem;
-        }
-
-        .media-title {
-            font-weight: bold;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .media-date {
-            color: #666;
-            font-size: 0.85rem;
-        }
-
-        .media-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn-delete {
-            background: #f44336;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .btn-delete:hover {
-            background: #d32f2f;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .empty-state i {
-            font-size: 4rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state h3 {
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .empty-state p {
-            color: #666;
-        }
-
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading.active {
-            display: flex;
-        }
-
-        .loading-spinner {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .loading-spinner i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: center;
-            }
-        }
+        :root{--primary-color:#e91e63;--secondary-color:#9c27b0;--dark-color:#1a1a1a;--light-color:#f8f9fa}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--light-color)}
+        .sidebar{position:fixed;left:0;top:0;height:100vh;width:260px;background:linear-gradient(135deg,var(--secondary-color),var(--primary-color));padding:2rem 0;z-index:1000;overflow-y:auto}
+        .sidebar-header{padding:0 1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,.2)}
+        .sidebar-logo{color:white;font-size:1.5rem;font-weight:bold;text-decoration:none;display:flex;align-items:center;gap:.5rem}
+        .sidebar-menu{padding:2rem 0}
+        .menu-item{padding:.75rem 1.5rem;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:1rem;cursor:pointer;transition:all .3s}
+        .menu-item:hover,.menu-item.active{background:rgba(255,255,255,.1);color:white}
+        .menu-item i{font-size:1.2rem;width:24px}
+        .main-content{margin-left:260px;padding:2rem;min-height:100vh}
+        .dashboard-header{background:white;padding:1.5rem 2rem;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:2rem;display:flex;justify-content:space-between;align-items:center}
+        .user-info{display:flex;align-items:center;gap:1rem}
+        .user-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--secondary-color),var(--primary-color));display:flex;align-items:center;justify-content:center;color:white;font-size:1.5rem;font-weight:bold}
+        .user-details h3{margin:0;font-size:1.1rem;color:var(--dark-color)}
+        .user-details p{margin:0;font-size:.85rem;color:#666}
+        .header-actions{display:flex;align-items:center;gap:1rem}
+        .language-selector{position:relative}
+        .language-btn{background:var(--light-color);color:var(--dark-color);border:1px solid #e0e0e0;padding:.5rem 1rem;border-radius:25px;cursor:pointer;font-weight:500;font-size:.85rem;transition:all .3s}
+        .language-btn:hover{background:var(--secondary-color);color:white}
+        .language-dropdown{display:none;position:absolute;top:100%;right:0;background:white;border-radius:10px;box-shadow:0 5px 25px rgba(0,0,0,.2);margin-top:.5rem;min-width:150px;z-index:1000}
+        .language-dropdown.active{display:block}
+        .language-option{padding:.75rem 1rem;cursor:pointer;color:#333}
+        .language-option:hover{background:var(--light-color)}
+        .btn-logout{background:var(--secondary-color);color:white;border:none;padding:.5rem 1.5rem;border-radius:25px;cursor:pointer}
+        .btn-logout:hover{background:var(--primary-color)}
+        .content-section{display:none}
+        .content-section.active{display:block}
+        .section-title{font-size:1.8rem;color:var(--dark-color);margin-bottom:1.5rem}
+        .stats-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .stat-card{background:white;padding:1.5rem;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+        .stat-card-icon{width:50px;height:50px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+        .stat-card-value{font-size:2rem;font-weight:bold;color:var(--dark-color)}
+        .stat-card-label{color:#666;font-size:.9rem}
+        .content-card{background:white;padding:2rem;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:2rem}
+        .upload-zone{border:2px dashed #ccc;border-radius:15px;padding:3rem;text-align:center;cursor:pointer;transition:all .3s;background:var(--light-color)}
+        .upload-zone:hover{border-color:var(--primary-color);background:rgba(233,30,99,.05)}
+        .upload-zone i{font-size:3rem;color:var(--primary-color);margin-bottom:1rem}
+        .upload-zone h3{color:var(--dark-color);margin-bottom:.5rem}
+        .upload-zone p{color:#666;font-size:.9rem}
+        .file-input{display:none}
+        .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;margin-top:2rem}
+        .media-card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:all .3s}
+        .media-card:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,0,0,.1)}
+        .media-preview{height:200px;width:100%;object-fit:cover;background:#f0f0f0}
+        .media-info{padding:1rem}
+        .media-title{font-weight:bold;color:var(--dark-color);margin-bottom:.5rem}
+        .media-date{color:#666;font-size:.85rem}
+        .media-actions{display:flex;gap:.5rem;margin-top:.5rem}
+        .btn-delete{background:#f44336;color:white;border:none;padding:.5rem 1rem;border-radius:8px;cursor:pointer;font-size:.85rem}
+        .btn-delete:hover{background:#d32f2f}
+        .empty-state{text-align:center;padding:4rem 2rem;background:white;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+        .empty-state i{font-size:4rem;color:#ccc;margin-bottom:1rem}
+        .empty-state h3{color:var(--dark-color);margin-bottom:.5rem}
+        .empty-state p{color:#666}
+        .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:9999}
+        .loading.active{display:flex}
+        .loading-spinner{background:white;padding:2rem;border-radius:15px;text-align:center}
+        .loading-spinner i{font-size:3rem;color:var(--primary-color);animation:spin 1s linear infinite}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        @media(max-width:768px){.sidebar{transform:translateX(-100%)}.main-content{margin-left:0;padding:1rem}.dashboard-header{flex-direction:column;gap:1rem}}
     </style>
 </head>
 <body>
     <div class="loading" id="loading">
         <div class="loading-spinner">
             <i class="fas fa-spinner fa-spin"></i>
-            <p style="margin-top: 1rem; color: var(--dark-color);" data-i18n="uploading">Subiendo archivo...</p>
+            <p style="margin-top:1rem;color:var(--dark-color)" data-i18n="uploading">Subiendo...</p>
         </div>
     </div>
-
-    <div class="sidebar" id="sidebar">
+    
+    <div class="sidebar">
         <div class="sidebar-header">
-            <a href="index.html" class="sidebar-logo">
-                <span>🔥</span>
-                <span>ZONAPANTYS</span>
-            </a>
+            <a href="index.html" class="sidebar-logo"><span>🔥</span><span>ZONAPANTYS</span></a>
         </div>
         <div class="sidebar-menu">
-            <div class="menu-item active" onclick="showSection('resumen')">
-                <i class="fas fa-chart-line"></i>
-                <span data-i18n="menu.overview">Resumen</span>
-            </div>
-            <div class="menu-item" onclick="showSection('productos')">
-                <i class="fas fa-box"></i>
-                <span data-i18n="menu.products">Mis Productos</span>
-            </div>
-            <div class="menu-item" onclick="showSection('contenido')">
-                <i class="fas fa-photo-video"></i>
-                <span data-i18n="menu.content">Mi Contenido</span>
-            </div>
-            <div class="menu-item" onclick="showSection('ventas')">
-                <i class="fas fa-dollar-sign"></i>
-                <span data-i18n="menu.sales">Ventas</span>
-            </div>
-            <div class="menu-item" onclick="showSection('resenas')">
-                <i class="fas fa-star"></i>
-                <span data-i18n="menu.reviews">Reseñas</span>
-            </div>
-            <div class="menu-item" onclick="showSection('mensajes')">
-                <i class="fas fa-envelope"></i>
-                <span data-i18n="menu.messages">Mensajes</span>
-            </div>
-            <div class="menu-item" onclick="showSection('perfil')">
-                <i class="fas fa-user"></i>
-                <span data-i18n="menu.profile">Mi Perfil</span>
-            </div>
-            <div class="menu-item" onclick="showSection('configuracion')">
-                <i class="fas fa-cog"></i>
-                <span data-i18n="menu.settings">Configuración</span>
-            </div>
+            <div class="menu-item active" onclick="showSection('resumen')"><i class="fas fa-chart-line"></i><span data-i18n="menu.overview">Resumen</span></div>
+            <div class="menu-item" onclick="showSection('contenido')"><i class="fas fa-photo-video"></i><span data-i18n="menu.content">Mi Contenido</span></div>
+            <div class="menu-item" onclick="showSection('perfil')"><i class="fas fa-user"></i><span data-i18n="menu.profile">Mi Perfil</span></div>
         </div>
     </div>
 
@@ -503,9 +101,7 @@
             </div>
             <div class="header-actions">
                 <div class="language-selector">
-                    <button class="language-btn" id="languageBtn">
-                        🌐 <span id="currentLang">ES</span>
-                    </button>
+                    <button class="language-btn" id="languageBtn">🌐 <span id="currentLang">ES</span></button>
                     <div class="language-dropdown" id="languageDropdown">
                         <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
                         <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
@@ -515,629 +111,198 @@
                         <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
                     </div>
                 </div>
-                <button class="btn-logout" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> <span data-i18n="header.logout">Cerrar Sesión</span>
-                </button>
+                <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-i18n="header.logout">Cerrar Sesión</span></button>
             </div>
         </div>
 
-        <!-- RESUMEN -->
         <div id="resumen" class="content-section active">
             <h2 class="section-title" data-i18n="overview.title">Resumen General</h2>
             <div class="stats-container">
                 <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-card-value" id="statProducts">0</div>
-                    <div class="stat-card-label" data-i18n="overview.productsActive">Productos Activos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
-                        <i class="fas fa-photo-video"></i>
-                    </div>
+                    <div class="stat-card-icon" style="background:#fce4ec;color:#c2185b"><i class="fas fa-photo-video"></i></div>
                     <div class="stat-card-value" id="statMedia">0</div>
-                    <div class="stat-card-label" data-i18n="overview.mediaCount">Contenido Multimedia</div>
+                    <div class="stat-card-label" data-i18n="overview.media">Contenido</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
+                    <div class="stat-card-icon" style="background:#e8f5e9;color:#388e3c"><i class="fas fa-dollar-sign"></i></div>
                     <div class="stat-card-value">$0</div>
                     <div class="stat-card-label" data-i18n="overview.earnings">Ganancias</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #fff3e0; color: #f57c00;">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-card-value">5.0</div>
-                    <div class="stat-card-label" data-i18n="overview.rating">Rating</div>
-                </div>
-            </div>
-            <div class="empty-state">
-                <i class="fas fa-chart-line"></i>
-                <h3 data-i18n="overview.welcome">¡Bienvenida a tu Dashboard!</h3>
-                <p data-i18n="overview.welcomeDesc">Gestiona tu tienda, productos y ventas desde aquí</p>
             </div>
         </div>
 
-        <!-- PRODUCTOS -->
-        <div id="productos" class="content-section">
-            <h2 class="section-title" data-i18n="products.title">Mis Productos</h2>
-            <div class="empty-state">
-                <i class="fas fa-box-open"></i>
-                <h3 data-i18n="products.empty">No tienes productos aún</h3>
-                <p data-i18n="products.emptyDesc">Próximamente podrás crear y gestionar productos</p>
-            </div>
-        </div>
-
-        <!-- CONTENIDO -->
         <div id="contenido" class="content-section">
             <h2 class="section-title" data-i18n="content.title">Mi Contenido</h2>
-            
             <div class="content-card">
-                <h3 style="margin-bottom: 1.5rem;">
-                    <i class="fas fa-images"></i> <span data-i18n="content.photos">Subir Fotos</span>
-                </h3>
+                <h3 style="margin-bottom:1.5rem"><i class="fas fa-images"></i> <span data-i18n="content.photos">Subir Fotos</span></h3>
                 <input type="file" id="photoInput" class="file-input" accept="image/*" multiple>
                 <div class="upload-zone" onclick="document.getElementById('photoInput').click()">
                     <i class="fas fa-images"></i>
                     <h3 data-i18n="content.uploadPhoto">Subir Fotos</h3>
-                    <p data-i18n="content.uploadPhotoDesc">Click para seleccionar fotos (JPG, PNG, WEBP)</p>
+                    <p data-i18n="content.uploadPhotoDesc">Click para seleccionar fotos</p>
                 </div>
             </div>
-
             <div class="content-card">
-                <h3 style="margin-bottom: 1.5rem;">
-                    <i class="fas fa-video"></i> <span data-i18n="content.videos">Subir Videos</span>
-                </h3>
+                <h3 style="margin-bottom:1.5rem"><i class="fas fa-video"></i> <span data-i18n="content.videos">Subir Videos</span></h3>
                 <input type="file" id="videoInput" class="file-input" accept="video/*">
                 <div class="upload-zone" onclick="document.getElementById('videoInput').click()">
                     <i class="fas fa-video"></i>
                     <h3 data-i18n="content.uploadVideo">Subir Video</h3>
-                    <p data-i18n="content.uploadVideoDesc">Click para seleccionar un video (MP4, MOV, AVI)</p>
+                    <p data-i18n="content.uploadVideoDesc">Click para seleccionar video</p>
                 </div>
             </div>
-
-            <h3 style="margin: 2rem 0 1rem;">
-                <i class="fas fa-photo-video"></i> <span data-i18n="content.gallery">Galería de Contenido</span>
-            </h3>
+            <h3 style="margin:2rem 0 1rem"><i class="fas fa-photo-video"></i> <span data-i18n="content.gallery">Galería</span></h3>
             <div class="media-grid" id="mediaGrid"></div>
         </div>
 
-        <!-- VENTAS -->
-        <div id="ventas" class="content-section">
-            <h2 class="section-title" data-i18n="sales.title">Ventas y Ganancias</h2>
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-card-value">$0</div>
-                    <div class="stat-card-label" data-i18n="sales.thisMonth">Este Mes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-card-value">$0</div>
-                    <div class="stat-card-label" data-i18n="sales.total">Total Acumulado</div>
-                </div>
-            </div>
-            <div class="empty-state">
-                <i class="fas fa-receipt"></i>
-                <h3 data-i18n="sales.empty">No tienes ventas aún</h3>
-                <p data-i18n="sales.emptyDesc">Tus ventas aparecerán aquí</p>
-            </div>
-        </div>
-
-        <!-- RESEÑAS -->
-        <div id="resenas" class="content-section">
-            <h2 class="section-title" data-i18n="reviews.title">Reseñas de Compradores</h2>
-            <div class="empty-state">
-                <i class="fas fa-star"></i>
-                <h3 data-i18n="reviews.empty">No tienes reseñas aún</h3>
-                <p data-i18n="reviews.emptyDesc">Las valoraciones aparecerán aquí</p>
-            </div>
-        </div>
-
-        <!-- MENSAJES -->
-        function initSupabase() {
-    if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
-        supabaseClient = window.supabase.createClient(
-            'https://djycvnfdaugxmshbahzh.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI',
-            {
-                auth: {
-                    persistSession: true,
-                    autoRefreshToken: true,
-                    detectSessionInUrl: true,
-                    storage: window.localStorage
-                }
-            }
-        );
-        console.log('✅ Cliente Supabase creado correctamente');
-        checkAuth();
-    } else {
-        setTimeout(initSupabase, 100);
-    }
-}
-
-initSupabase();
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-card-label" data-i18n="profile.username">Nombre Artístico</div>
-                        <div class="stat-card-value" style="font-size: 1.2rem;" id="profileUsername">@vendedora</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-label" data-i18n="profile.memberSince">Miembro desde</div>
-                        <div class="stat-card-value" style="font-size: 1.2rem;" id="profileMemberSince">Enero 2026</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-label" data-i18n="profile.accountType">Tipo de Cuenta</div>
-                        <div class="stat-card-value" style="font-size: 1.2rem;"><i class="fas fa-store"></i> <span data-i18n="profile.seller">Vendedora</span></div>
+        <div id="perfil" class="content-section">
+            <h2 class="section-title" data-i18n="profile.title">Mi Perfil</h2>
+            <div class="content-card">
+                <div style="display:flex;align-items:center;gap:2rem">
+                    <div class="user-avatar" style="width:100px;height:100px;font-size:3rem" id="profileAvatar">V</div>
+                    <div>
+                        <h2 id="profileName">Nombre</h2>
+                        <p id="profileEmail">email</p>
+                        <p style="color:var(--primary-color);margin-top:.5rem"><i class="fas fa-check-circle"></i> <span data-i18n="profile.verified">Verificada</span></p>
                     </div>
                 </div>
-            </div>
-
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e3f2fd; color: #1976d2;">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <div class="stat-card-value" id="profileProducts">0</div>
-                    <div class="stat-card-label" data-i18n="profile.products">Productos</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #fce4ec; color: #c2185b;">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="stat-card-value">0</div>
-                    <div class="stat-card-label" data-i18n="profile.sales">Ventas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-card-value">5.0</div>
-                    <div class="stat-card-label" data-i18n="profile.rating">Rating</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CONFIGURACIÓN -->
-        <div id="configuracion" class="content-section">
-            <h2 class="section-title" data-i18n="settings.title">Configuración</h2>
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #f3e5f5; color: #7b1fa2;">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <div class="stat-card-value" data-i18n="settings.membership">Membresía</div>
-                    <div class="stat-card-label">$10 USD/mes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-icon" style="background: #e8f5e9; color: #388e3c;">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-card-value" data-i18n="settings.active">Activa</div>
-                    <div class="stat-card-label" data-i18n="settings.status">Estado</div>
-                </div>
-            </div>
-            <div class="empty-state">
-                <i class="fas fa-cog"></i>
-                <h3 data-i18n="settings.options">Opciones de Configuración</h3>
-                <p data-i18n="settings.optionsDesc">Gestión de membresía próximamente</p>
             </div>
         </div>
     </div>
 
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    
     <script>
-        const translations = {
-            es: {
-                menu: { overview: "Resumen", products: "Mis Productos", content: "Mi Contenido", sales: "Ventas", reviews: "Reseñas", messages: "Mensajes", profile: "Mi Perfil", settings: "Configuración" },
-                header: { loading: "Cargando...", logout: "Cerrar Sesión" },
-                uploading: "Subiendo archivo...",
-                overview: { title: "Resumen General", productsActive: "Productos Activos", mediaCount: "Contenido Multimedia", earnings: "Ganancias", rating: "Rating", welcome: "¡Bienvenida a tu Dashboard!", welcomeDesc: "Gestiona tu tienda, productos y ventas desde aquí" },
-                products: { title: "Mis Productos", empty: "No tienes productos aún", emptyDesc: "Próximamente podrás crear y gestionar productos" },
-                content: { title: "Mi Contenido", photos: "Subir Fotos", uploadPhoto: "Subir Fotos", uploadPhotoDesc: "Click para seleccionar fotos (JPG, PNG, WEBP)", videos: "Subir Videos", uploadVideo: "Subir Video", uploadVideoDesc: "Click para seleccionar un video (MP4, MOV, AVI)", gallery: "Galería de Contenido" },
-                sales: { title: "Ventas y Ganancias", thisMonth: "Este Mes", total: "Total Acumulado", empty: "No tienes ventas aún", emptyDesc: "Tus ventas aparecerán aquí" },
-                reviews: { title: "Reseñas de Compradores", empty: "No tienes reseñas aún", emptyDesc: "Las valoraciones aparecerán aquí" },
-                messages: { title: "Mensajes", empty: "No tienes mensajes", emptyDesc: "Los compradores podrán contactarte aquí" },
-                profile: { title: "Mi Perfil", verified: "Cuenta Verificada", username: "Nombre Artístico", memberSince: "Miembro desde", accountType: "Tipo de Cuenta", seller: "Vendedora", products: "Productos", sales: "Ventas", rating: "Rating" },
-                settings: { title: "Configuración", membership: "Membresía", active: "Activa", status: "Estado", options: "Opciones de Configuración", optionsDesc: "Gestión de membresía próximamente" }
-            },
-            en: {
-                menu: { overview: "Overview", products: "My Products", content: "My Content", sales: "Sales", reviews: "Reviews", messages: "Messages", profile: "My Profile", settings: "Settings" },
-                header: { loading: "Loading...", logout: "Logout" },
-                uploading: "Uploading file...",
-                overview: { title: "Overview", productsActive: "Active Products", mediaCount: "Multimedia Content", earnings: "Earnings", rating: "Rating", welcome: "Welcome to your Dashboard!", welcomeDesc: "Manage your store, products and sales from here" },
-                products: { title: "My Products", empty: "You have no products yet", emptyDesc: "Coming soon: create and manage products" },
-                content: { title: "My Content", photos: "Upload Photos", uploadPhoto: "Upload Photos", uploadPhotoDesc: "Click to select photos (JPG, PNG, WEBP)", videos: "Upload Videos", uploadVideo: "Upload Video", uploadVideoDesc: "Click to select a video (MP4, MOV, AVI)", gallery: "Content Gallery" },
-                sales: { title: "Sales & Earnings", thisMonth: "This Month", total: "Total Accumulated", empty: "You have no sales yet", emptyDesc: "Your sales will appear here" },
-                reviews: { title: "Buyer Reviews", empty: "You have no reviews yet", emptyDesc: "Ratings will appear here" },
-                messages: { title: "Messages", empty: "You have no messages", emptyDesc: "Buyers will be able to contact you here" },
-                profile: { title: "My Profile", verified: "Verified Account", username: "Stage Name", memberSince: "Member since", accountType: "Account Type", seller: "Seller", products: "Products", sales: "Sales", rating: "Rating" },
-                settings: { title: "Settings", membership: "Membership", active: "Active", status: "Status", options: "Configuration Options", optionsDesc: "Membership management coming soon" }
-            },
-            pt: {
-                menu: { overview: "Resumo", products: "Meus Produtos", content: "Meu Conteúdo", sales: "Vendas", reviews: "Avaliações", messages: "Mensagens", profile: "Meu Perfil", settings: "Configurações" },
-                header: { loading: "Carregando...", logout: "Sair" },
-                uploading: "Enviando arquivo...",
-                overview: { title: "Resumo Geral", productsActive: "Produtos Ativos", mediaCount: "Conteúdo Multimídia", earnings: "Ganhos", rating: "Avaliação", welcome: "Bem-vinda ao seu Dashboard!", welcomeDesc: "Gerencie sua loja, produtos e vendas daqui" },
-                products: { title: "Meus Produtos", empty: "Você ainda não tem produtos", emptyDesc: "Em breve: criar e gerenciar produtos" },
-                content: { title: "Meu Conteúdo", photos: "Enviar Fotos", uploadPhoto: "Enviar Fotos", uploadPhotoDesc: "Clique para selecionar fotos (JPG, PNG, WEBP)", videos: "Enviar Vídeos", uploadVideo: "Enviar Vídeo", uploadVideoDesc: "Clique para selecionar um vídeo (MP4, MOV, AVI)", gallery: "Galeria de Conteúdo" },
-                sales: { title: "Vendas e Ganhos", thisMonth: "Este Mês", total: "Total Acumulado", empty: "Você ainda não tem vendas", emptyDesc: "Suas vendas aparecerão aqui" },
-                reviews: { title: "Avaliações dos Compradores", empty: "Você ainda não tem avaliações", emptyDesc: "As avaliações aparecerão aqui" },
-                messages: { title: "Mensagens", empty: "Você não tem mensagens", emptyDesc: "Os compradores poderão entrar em contato aqui" },
-                profile: { title: "Meu Perfil", verified: "Conta Verificada", username: "Nome Artístico", memberSince: "Membro desde", accountType: "Tipo de Conta", seller: "Vendedora", products: "Produtos", sales: "Vendas", rating: "Avaliação" },
-                settings: { title: "Configurações", membership: "Assinatura", active: "Ativa", status: "Status", options: "Opções de Configuração", optionsDesc: "Gerenciamento de assinatura em breve" }
-            },
-            fr: {
-                menu: { overview: "Aperçu", products: "Mes Produits", content: "Mon Contenu", sales: "Ventes", reviews: "Avis", messages: "Messages", profile: "Mon Profil", settings: "Paramètres" },
-                header: { loading: "Chargement...", logout: "Déconnexion" },
-                uploading: "Téléchargement du fichier...",
-                overview: { title: "Aperçu Général", productsActive: "Produits Actifs", mediaCount: "Contenu Multimédia", earnings: "Revenus", rating: "Note", welcome: "Bienvenue sur votre Dashboard!", welcomeDesc: "Gérez votre boutique, produits et ventes d'ici" },
-                products: { title: "Mes Produits", empty: "Vous n'avez pas encore de produits", emptyDesc: "Bientôt: créer et gérer des produits" },
-                content: { title: "Mon Contenu", photos: "Télécharger Photos", uploadPhoto: "Télécharger Photos", uploadPhotoDesc: "Cliquez pour sélectionner des photos", videos: "Télécharger Vidéos", uploadVideo: "Télécharger Vidéo", uploadVideoDesc: "Cliquez pour sélectionner une vidéo", gallery: "Galerie de Contenu" },
-                sales: { title: "Ventes et Revenus", thisMonth: "Ce Mois-ci", total: "Total Accumulé", empty: "Vous n'avez pas encore de ventes", emptyDesc: "Vos ventes apparaîtront ici" },
-                reviews: { title: "Avis des Acheteurs", empty: "Vous n'avez pas encore d'avis", emptyDesc: "Les évaluations apparaîtront ici" },
-                messages: { title: "Messages", empty: "Vous n'avez pas de messages", emptyDesc: "Les acheteurs pourront vous contacter ici" },
-                profile: { title: "Mon Profil", verified: "Compte Vérifié", username: "Nom de Scène", memberSince: "Membre depuis", accountType: "Type de Compte", seller: "Vendeuse", products: "Produits", sales: "Ventes", rating: "Note" },
-                settings: { title: "Paramètres", membership: "Abonnement", active: "Actif", status: "Statut", options: "Options de Configuration", optionsDesc: "Gestion de l'abonnement à venir" }
-            },
-            de: {
-                menu: { overview: "Übersicht", products: "Meine Produkte", content: "Mein Inhalt", sales: "Verkäufe", reviews: "Bewertungen", messages: "Nachrichten", profile: "Mein Profil", settings: "Einstellungen" },
-                header: { loading: "Laden...", logout: "Abmelden" },
-                uploading: "Datei wird hochgeladen...",
-                overview: { title: "Gesamtübersicht", productsActive: "Aktive Produkte", mediaCount: "Multimedia-Inhalte", earnings: "Einnahmen", rating: "Bewertung", welcome: "Willkommen in Ihrem Dashboard!", welcomeDesc: "Verwalten Sie Ihren Shop, Produkte und Verkäufe von hier" },
-                products: { title: "Meine Produkte", empty: "Sie haben noch keine Produkte", emptyDesc: "Demnächst: Produkte erstellen und verwalten" },
-                content: { title: "Mein Inhalt", photos: "Fotos Hochladen", uploadPhoto: "Fotos Hochladen", uploadPhotoDesc: "Klicken Sie, um Fotos auszuwählen", videos: "Videos Hochladen", uploadVideo: "Video Hochladen", uploadVideoDesc: "Klicken Sie, um ein Video auszuwählen", gallery: "Inhaltsgalerie" },
-                sales: { title: "Verkäufe & Einnahmen", thisMonth: "Diesen Monat", total: "Gesamt Akkumuliert", empty: "Sie haben noch keine Verkäufe", emptyDesc: "Ihre Verkäufe erscheinen hier" },
-                reviews: { title: "Käuferbewertungen", empty: "Sie haben noch keine Bewertungen", emptyDesc: "Bewertungen erscheinen hier" },
-                messages: { title: "Nachrichten", empty: "Sie haben keine Nachrichten", emptyDesc: "Käufer können Sie hier kontaktieren" },
-                profile: { title: "Mein Profil", verified: "Verifiziertes Konto", username: "Künstlername", memberSince: "Mitglied seit", accountType: "Kontotyp", seller: "Verkäuferin", products: "Produkte", sales: "Verkäufe", rating: "Bewertung" },
-                settings: { title: "Einstellungen", membership: "Mitgliedschaft", active: "Aktiv", status: "Status", options: "Konfigurationsoptionen", optionsDesc: "Mitgliedschaftsverwaltung in Kürze" }
-            },
-            it: {
-                menu: { overview: "Panoramica", products: "I Miei Prodotti", content: "I Miei Contenuti", sales: "Vendite", reviews: "Recensioni", messages: "Messaggi", profile: "Il Mio Profilo", settings: "Impostazioni" },
-                header: { loading: "Caricamento...", logout: "Esci" },
-                uploading: "Caricamento file...",
-                overview: { title: "Panoramica Generale", productsActive: "Prodotti Attivi", mediaCount: "Contenuto Multimediale", earnings: "Guadagni", rating: "Valutazione", welcome: "Benvenuta nella tua Dashboard!", welcomeDesc: "Gestisci il tuo negozio, prodotti e vendite da qui" },
-                products: { title: "I Miei Prodotti", empty: "Non hai ancora prodotti", emptyDesc: "Prossimamente: crea e gestisci prodotti" },
-                content: { title: "I Miei Contenuti", photos: "Carica Foto", uploadPhoto: "Carica Foto", uploadPhotoDesc: "Clicca per selezionare foto", videos: "Carica Video", uploadVideo: "Carica Video", uploadVideoDesc: "Clicca per selezionare un video", gallery: "Galleria Contenuti" },
-                sales: { title: "Vendite e Guadagni", thisMonth: "Questo Mese", total: "Totale Accumulato", empty: "Non hai ancora vendite", emptyDesc: "Le tue vendite appariranno qui" },
-                reviews: { title: "Recensioni degli Acquirenti", empty: "Non hai ancora recensioni", emptyDesc: "Le valutazioni appariranno qui" },
-                messages: { title: "Messaggi", empty: "Non hai messaggi", emptyDesc: "Gli acquirenti potranno contattarti qui" },
-                profile: { title: "Il Mio Profilo", verified: "Account Verificato", username: "Nome d'Arte", memberSince: "Membro dal", accountType: "Tipo di Account", seller: "Venditrice", products: "Prodotti", sales: "Vendite", rating: "Valutazione" },
-                settings: { title: "Impostazioni", membership: "Abbonamento", active: "Attivo", status: "Stato", options: "Opzioni di Configurazione", optionsDesc: "Gestione abbonamento in arrivo" }
-            }
-        };
+const t={es:{menu:{overview:"Resumen",content:"Mi Contenido",profile:"Mi Perfil"},header:{loading:"Cargando...",logout:"Cerrar Sesión"},uploading:"Subiendo...",overview:{title:"Resumen General",media:"Contenido",earnings:"Ganancias"},content:{title:"Mi Contenido",photos:"Subir Fotos",uploadPhoto:"Subir Fotos",uploadPhotoDesc:"Click para seleccionar fotos (JPG, PNG, WEBP)",videos:"Subir Videos",uploadVideo:"Subir Video",uploadVideoDesc:"Click para seleccionar video (MP4, MOV)",gallery:"Galería"},profile:{title:"Mi Perfil",verified:"Verificada"}},en:{menu:{overview:"Overview",content:"My Content",profile:"My Profile"},header:{loading:"Loading...",logout:"Logout"},uploading:"Uploading...",overview:{title:"Overview",media:"Content",earnings:"Earnings"},content:{title:"My Content",photos:"Upload Photos",uploadPhoto:"Upload Photos",uploadPhotoDesc:"Click to select photos (JPG, PNG, WEBP)",videos:"Upload Videos",uploadVideo:"Upload Video",uploadVideoDesc:"Click to select video (MP4, MOV)",gallery:"Gallery"},profile:{title:"My Profile",verified:"Verified"}},pt:{menu:{overview:"Resumo",content:"Meu Conteúdo",profile:"Meu Perfil"},header:{loading:"Carregando...",logout:"Sair"},uploading:"Enviando...",overview:{title:"Resumo Geral",media:"Conteúdo",earnings:"Ganhos"},content:{title:"Meu Conteúdo",photos:"Enviar Fotos",uploadPhoto:"Enviar Fotos",uploadPhotoDesc:"Clique para selecionar fotos",videos:"Enviar Vídeos",uploadVideo:"Enviar Vídeo",uploadVideoDesc:"Clique para selecionar vídeo",gallery:"Galeria"},profile:{title:"Meu Perfil",verified:"Verificada"}},fr:{menu:{overview:"Aperçu",content:"Mon Contenu",profile:"Mon Profil"},header:{loading:"Chargement...",logout:"Déconnexion"},uploading:"Téléchargement...",overview:{title:"Aperçu",media:"Contenu",earnings:"Revenus"},content:{title:"Mon Contenu",photos:"Télécharger Photos",uploadPhoto:"Télécharger Photos",uploadPhotoDesc:"Cliquez pour sélectionner",videos:"Télécharger Vidéos",uploadVideo:"Télécharger Vidéo",uploadVideoDesc:"Cliquez pour sélectionner",gallery:"Galerie"},profile:{title:"Mon Profil",verified:"Vérifiée"}},de:{menu:{overview:"Übersicht",content:"Mein Inhalt",profile:"Mein Profil"},header:{loading:"Laden...",logout:"Abmelden"},uploading:"Hochladen...",overview:{title:"Übersicht",media:"Inhalt",earnings:"Einnahmen"},content:{title:"Mein Inhalt",photos:"Fotos Hochladen",uploadPhoto:"Fotos Hochladen",uploadPhotoDesc:"Klicken zum Auswählen",videos:"Videos Hochladen",uploadVideo:"Video Hochladen",uploadVideoDesc:"Klicken zum Auswählen",gallery:"Galerie"},profile:{title:"Mein Profil",verified:"Verifiziert"}},it:{menu:{overview:"Panoramica",content:"I Miei Contenuti",profile:"Il Mio Profilo"},header:{loading:"Caricamento...",logout:"Esci"},uploading:"Caricamento...",overview:{title:"Panoramica",media:"Contenuto",earnings:"Guadagni"},content:{title:"I Miei Contenuti",photos:"Carica Foto",uploadPhoto:"Carica Foto",uploadPhotoDesc:"Clicca per selezionare",videos:"Carica Video",uploadVideo:"Carica Video",uploadVideoDesc:"Clicca per selezionare",gallery:"Galleria"},profile:{title:"Il Mio Profilo",verified:"Verificata"}}};
+let lang=localStorage.getItem('zonapantys_lang')||'es',sb,cu=null,cs=null;
 
-        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
-        let supabaseClient;
-        let currentUser = null;
-        let currentSeller = null;
-        
-        console.log('🎯 Dashboard Vendedora cargando...');
-        
-        function initSupabase() {
-            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
-                const SUPABASE_URL = 'https://djycvnfdaugxmshbahzh.supabase.co';
-               const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI';
-           
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-                    auth: {
-                        persistSession: true,
-                        autoRefreshToken: true,
-                        detectSessionInUrl: true,
-                        storage: window.localStorage
-                    }
-                });
-                console.log('✅ Cliente Supabase creado en dashboard vendedora');
-                checkAuth();
-            } else {
-                console.log('⏳ SDK aún no cargado, reintentando...');
-                setTimeout(initSupabase, 100);
-            }
+function initSupabase(){
+    if(typeof window.supabase!=='undefined'){
+        sb=window.supabase.createClient('https://djycvnfdaugxmshbahzh.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI',{auth:{persistSession:true,autoRefreshToken:true,storage:window.localStorage}});
+        console.log('✅ Supabase OK');
+        checkAuth();
+    }else setTimeout(initSupabase,100);
+}
+initSupabase();
+
+async function checkAuth(){
+    try{
+        const{data:{session}}=await sb.auth.getSession();
+        if(!session?.user){window.location.href='login.html';return}
+        cu=session.user;
+        await loadUserData(session.user.email);
+        await loadStats();
+        await loadMedia();
+    }catch(e){window.location.href='login.html'}
+}
+
+async function loadUserData(e){
+    try{
+        const{data:s}=await sb.from('sellers').select('*').eq('email',e).single();
+        if(s){
+            cs=s;
+            const n=s.stage_name||s.username,i=n.charAt(0).toUpperCase();
+            document.getElementById('userName').textContent=n;
+            document.getElementById('userEmail').textContent=s.email;
+            document.getElementById('userAvatar').textContent=i;
+            document.getElementById('profileName').textContent=n;
+            document.getElementById('profileEmail').textContent=s.email;
+            document.getElementById('profileAvatar').textContent=i;
+            console.log('✅ Seller:',s.seller_id);
         }
-        
-        initSupabase();
+    }catch(err){console.error('Error:',err)}
+}
 
-        async function checkAuth() {
-            try {
-                console.log('🔐 Verificando autenticación...');
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                
-                console.log('📊 Sesión:', session);
-                
-                if (!session || !session.user) {
-                    console.error('❌ No hay sesión, redirigiendo a login...');
-                    window.location.href = 'login.html';
-                    return;
-                }
+async function loadStats(){
+    try{
+        const{data:m}=await sb.from('seller_media').select('*').eq('seller_id',cs.seller_id);
+        document.getElementById('statMedia').textContent=m?.length||0;
+    }catch(e){}
+}
 
-                console.log('✅ Sesión válida encontrada!');
-                currentUser = session.user;
-                await loadUserData(session.user.email);
-                await loadStats();
-                await loadMedia();
-            } catch (error) {
-                console.error('❌ Error verificando auth:', error);
-                window.location.href = 'login.html';
-            }
+async function loadMedia(){
+    try{
+        const{data:m}=await sb.from('seller_media').select('*').eq('seller_id',cs.seller_id).order('created_at',{ascending:false});
+        const g=document.getElementById('mediaGrid');
+        if(!m||!m.length){g.innerHTML='<div class="empty-state"><i class="fas fa-photo-video"></i><h3>No hay contenido</h3><p>Sube tu primera foto o video</p></div>';return}
+        g.innerHTML=m.map(i=>'<div class="media-card">'+(i.media_type==='photo'?'<img src="'+i.media_url+'" class="media-preview">':'<video src="'+i.media_url+'" class="media-preview" controls></video>')+'<div class="media-info"><div class="media-title">'+(i.title||'Media')+'</div><div class="media-date">'+new Date(i.created_at).toLocaleDateString()+'</div><div class="media-actions"><button class="btn-delete" onclick="deleteMedia('+i.media_id+',\''+i.media_url+'\')"><i class="fas fa-trash"></i> Eliminar</button></div></div></div>').join('');
+    }catch(e){}
+}
+
+document.getElementById('photoInput').addEventListener('change',async(e)=>{
+    if(!e.target.files.length||!cs)return;
+    document.getElementById('loading').classList.add('active');
+    for(let f of e.target.files){
+        const fn=cs.seller_id+'_'+Date.now()+'.'+f.name.split('.').pop();
+        const{error:ue}=await sb.storage.from('media').upload('photos/'+fn,f);
+        if(!ue){
+            const{data:u}=sb.storage.from('media').getPublicUrl('photos/'+fn);
+            await sb.from('seller_media').insert({seller_id:cs.seller_id,media_type:'photo',media_url:u.publicUrl,title:f.name});
         }
+    }
+    document.getElementById('loading').classList.remove('active');
+    e.target.value='';
+    await loadStats();await loadMedia();
+    alert('✅ Fotos subidas');
+});
 
-        async function loadUserData(email) {
-            try {
-                console.log('📝 Cargando datos para:', email);
-                const { data: seller, error } = await supabaseClient
-                    .from('sellers')
-                    .select('*')
-                    .eq('email', email)
-                    .single();
+document.getElementById('videoInput').addEventListener('change',async(e)=>{
+    const f=e.target.files[0];
+    if(!f||!cs)return;
+    document.getElementById('loading').classList.add('active');
+    const fn=cs.seller_id+'_'+Date.now()+'.'+f.name.split('.').pop();
+    const{error:ue}=await sb.storage.from('media').upload('videos/'+fn,f);
+    if(!ue){
+        const{data:u}=sb.storage.from('media').getPublicUrl('videos/'+fn);
+        await sb.from('seller_media').insert({seller_id:cs.seller_id,media_type:'video',media_url:u.publicUrl,title:f.name});
+    }
+    document.getElementById('loading').classList.remove('active');
+    e.target.value='';
+    await loadStats();await loadMedia();
+    alert('✅ Video subido');
+});
 
-                console.log('👤 Datos del seller:', seller, error);
+async function deleteMedia(id,url){
+    if(!confirm('¿Eliminar?'))return;
+    await sb.storage.from('media').remove([url.split('/media/')[1]]);
+    await sb.from('seller_media').delete().eq('media_id',id);
+    await loadStats();await loadMedia();
+    alert('✅ Eliminado');
+}
 
-                if (seller) {
-                    currentSeller = seller;
-                    const name = seller.stage_name || seller.username;
-                    const initial = name.charAt(0).toUpperCase();
-                    
-                    document.getElementById('userName').textContent = name;
-                    document.getElementById('userEmail').textContent = seller.email;
-                    document.getElementById('userAvatar').textContent = initial;
-                    
-                    document.getElementById('profileName').textContent = name;
-                    document.getElementById('profileEmail').textContent = seller.email;
-                    document.getElementById('profileAvatar').textContent = initial;
-                    document.getElementById('profileUsername').textContent = '@' + seller.username;
-                    
-                    const createdDate = new Date(seller.created_at);
-                    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-                    document.getElementById('profileMemberSince').textContent = monthNames[createdDate.getMonth()] + ' ' + createdDate.getFullYear();
-                    
-                    console.log('✅ Datos del usuario cargados correctamente');
-                } else {
-                    console.log('⚠️ Usuario no encontrado en tabla sellers');
-                }
-            } catch (error) {
-                console.error('❌ Error cargando datos:', error);
-            }
-        }
+function changeLanguage(l){
+    lang=l;
+    localStorage.setItem('zonapantys_lang',l);
+    updateContent();
+    document.getElementById('currentLang').textContent=l.toUpperCase();
+    document.getElementById('languageDropdown').classList.remove('active');
+}
 
-        async function loadStats() {
-            try {
-                const { data: media } = await supabaseClient
-                    .from('seller_media')
-                    .select('*')
-                    .eq('seller_id', currentSeller.seller_id);
+function updateContent(){
+    const tr=t[lang];
+    document.querySelectorAll('[data-i18n]').forEach(e=>{
+        const k=e.getAttribute('data-i18n').split('.');
+        let v=tr;
+        for(let key of k)v=v[key];
+        if(v)e.textContent=v;
+    });
+}
 
-                const { data: products } = await supabaseClient
-                    .from('products')
-                    .select('*')
-                    .eq('seller_id', currentSeller.seller_id);
+function showSection(id){
+    document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.closest('.menu-item').classList.add('active');
+}
 
-                document.getElementById('statMedia').textContent = media?.length || 0;
-                document.getElementById('statProducts').textContent = products?.length || 0;
-                document.getElementById('profileProducts').textContent = products?.length || 0;
-            } catch (error) {
-                console.error('❌ Error cargando stats:', error);
-            }
-        }
+async function logout(){
+    await sb.auth.signOut();
+    localStorage.clear();
+    window.location.href='index.html';
+}
 
-        async function loadMedia() {
-            try {
-                const { data: media } = await supabaseClient
-                    .from('seller_media')
-                    .select('*')
-                    .eq('seller_id', currentSeller.seller_id)
-                    .order('created_at', { ascending: false });
-
-                const grid = document.getElementById('mediaGrid');
-                
-                if (!media || media.length === 0) {
-                    grid.innerHTML = '<div class="empty-state"><i class="fas fa-photo-video"></i><h3>No tienes contenido aún</h3><p>Sube tu primera foto o video</p></div>';
-                    return;
-                }
-
-                grid.innerHTML = media.map(item => `
-                    <div class="media-card">
-                        ${item.media_type === 'photo' ? 
-                            `<img src="${item.media_url}" class="media-preview" alt="${item.title || 'Foto'}">` :
-                            `<video src="${item.media_url}" class="media-preview" controls></video>`
-                        }
-                        <div class="media-info">
-                            <div class="media-title">${item.title || (item.media_type === 'photo' ? 'Foto' : 'Video')}</div>
-                            <div class="media-date">${new Date(item.created_at).toLocaleDateString()}</div>
-                            <div class="media-actions">
-                                <button class="btn-delete" onclick="deleteMedia(${item.media_id}, '${item.media_url}')">
-                                    <i class="fas fa-trash"></i> Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('❌ Error cargando media:', error);
-            }
-        }
-
-        // SUBIR FOTOS
-        document.getElementById('photoInput').addEventListener('change', async (e) => {
-            const files = e.target.files;
-            if (!files || files.length === 0) return;
-
-            document.getElementById('loading').classList.add('active');
-
-            for (let file of files) {
-                try {
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${currentSeller.seller_id}_${Date.now()}.${fileExt}`;
-                    const filePath = `photos/${fileName}`;
-
-                    console.log('📤 Subiendo foto:', fileName);
-
-                    const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                        .from('media')
-                        .upload(filePath, file);
-
-                    if (uploadError) throw uploadError;
-
-                    const { data: urlData } = supabaseClient.storage
-                        .from('media')
-                        .getPublicUrl(filePath);
-
-                    const { error: insertError } = await supabaseClient
-                        .from('seller_media')
-                        .insert([{
-                            seller_id: currentSeller.seller_id,
-                            media_type: 'photo',
-                            media_url: urlData.publicUrl,
-                            title: file.name
-                        }]);
-
-                    if (insertError) throw insertError;
-
-                    console.log('✅ Foto subida:', fileName);
-                } catch (error) {
-                    console.error('❌ Error subiendo archivo:', error);
-                    alert('Error subiendo archivo: ' + error.message);
-                }
-            }
-
-            document.getElementById('loading').classList.remove('active');
-            document.getElementById('photoInput').value = '';
-            await loadStats();
-            await loadMedia();
-            alert('✅ Fotos subidas correctamente');
-        });
-
-        // SUBIR VIDEO
-        document.getElementById('videoInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            document.getElementById('loading').classList.add('active');
-
-            try {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${currentSeller.seller_id}_${Date.now()}.${fileExt}`;
-                const filePath = `videos/${fileName}`;
-
-                console.log('📤 Subiendo video:', fileName);
-
-                const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                    .from('media')
-                    .upload(filePath, file);
-
-                if (uploadError) throw uploadError;
-
-                const { data: urlData } = supabaseClient.storage
-                    .from('media')
-                    .getPublicUrl(filePath);
-
-                const { error: insertError } = await supabaseClient
-                    .from('seller_media')
-                    .insert([{
-                        seller_id: currentSeller.seller_id,
-                        media_type: 'video',
-                        media_url: urlData.publicUrl,
-                        title: file.name
-                    }]);
-
-                if (insertError) throw insertError;
-
-                console.log('✅ Video subido:', fileName);
-
-                document.getElementById('loading').classList.remove('active');
-                document.getElementById('videoInput').value = '';
-                await loadStats();
-                await loadMedia();
-                alert('✅ Video subido correctamente');
-            } catch (error) {
-                document.getElementById('loading').classList.remove('active');
-                console.error('❌ Error subiendo video:', error);
-                alert('Error subiendo video: ' + error.message);
-            }
-        });
-
-        // ELIMINAR MEDIA
-        async function deleteMedia(mediaId, mediaUrl) {
-            if (!confirm('¿Estás segura de eliminar este contenido?')) return;
-
-            try {
-                const filePath = mediaUrl.split('/media/')[1];
-                
-                console.log('🗑️ Eliminando archivo:', filePath);
-
-                await supabaseClient.storage
-                    .from('media')
-                    .remove([filePath]);
-
-                const { error } = await supabaseClient
-                    .from('seller_media')
-                    .delete()
-                    .eq('media_id', mediaId);
-
-                if (error) throw error;
-
-                console.log('✅ Contenido eliminado');
-
-                await loadStats();
-                await loadMedia();
-                alert('✅ Contenido eliminado correctamente');
-            } catch (error) {
-                console.error('❌ Error eliminando:', error);
-                alert('Error eliminando: ' + error.message);
-            }
-        }
-
-        function changeLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('zonapantys_lang', lang);
-            updateContent();
-            document.getElementById('currentLang').textContent = lang.toUpperCase();
-            document.getElementById('languageDropdown').classList.remove('active');
-        }
-
-        function updateContent() {
-            const t = translations[currentLang];
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const keys = element.getAttribute('data-i18n').split('.');
-                let value = t;
-                for (let k of keys) value = value[k];
-                if (value) element.textContent = value;
-            });
-        }
-
-        function showSection(sectionId) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            event.target.closest('.menu-item').classList.add('active');
-        }
-
-        async function logout() {
-            console.log('👋 Cerrando sesión...');
-            await supabaseClient.auth.signOut();
-            localStorage.clear();
-            window.location.href = 'index.html';
-        }
-
-        document.getElementById('languageBtn').addEventListener('click', e => {
-            e.stopPropagation();
-            document.getElementById('languageDropdown').classList.toggle('active');
-        });
-
-        document.addEventListener('click', () => document.getElementById('languageDropdown').classList.remove('active'));
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
-            updateContent();
-        });
+document.getElementById('languageBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('languageDropdown').classList.toggle('active')});
+document.addEventListener('click',()=>document.getElementById('languageDropdown').classList.remove('active'));
+document.addEventListener('DOMContentLoaded',()=>{document.getElementById('currentLang').textContent=lang.toUpperCase();updateContent()});
     </script>
 </body>
 </html>
