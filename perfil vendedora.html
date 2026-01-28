@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Vendedora | ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-color);
+            padding-top: 70px;
+        }
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-link {
+            color: #fff !important;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        .language-selector {
+            position: relative;
+        }
+        .language-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .language-btn:hover {
+            background: var(--secondary-color);
+        }
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+        .language-dropdown.active {
+            display: block;
+        }
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #333;
+        }
+        .language-option:hover {
+            background: var(--light-color);
+        }
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .profile-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .profile-main {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+        }
+        .profile-gallery {
+            position: relative;
+        }
+        .main-photo {
+            width: 100%;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .main-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        .thumbnail {
+            width: 100%;
+            height: 90px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .thumbnail:hover {
+            border-color: var(--primary-color);
+        }
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .profile-title h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .verified-badge {
+            background: #00c853;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .profile-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        .detail-content {
+            flex: 1;
+        }
+        .detail-label {
+            font-size: 0.85rem;
+            color: #999;
+        }
+        .detail-value {
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+        .btn-action {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-message {
+            background: var(--primary-color);
+            color: white;
+        }
+        .btn-message:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .btn-tip {
+            background: #ffc107;
+            color: var(--dark-color);
+        }
+        .btn-tip:hover {
+            background: #ff9800;
+            transform: translateY(-2px);
+        }
+        .profile-tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid var(--light-color);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        .tab-badge {
+            background: var(--light-color);
+            color: #666;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        .tab-btn.active .tab-badge {
+            background: var(--primary-color);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding: 2rem;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            background: var(--light-color);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 1rem;
+        }
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 2px solid var(--light-color);
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+        }
+        .modal-title {
+            font-size: 2rem;
+            text-align: center;
+            margin: 0;
+        }
+        .modal-title span {
+            color: var(--primary-color);
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .tip-section-title {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        .tip-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .tip-amount-btn {
+            padding: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            background: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tip-amount-btn:hover {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.1);
+        }
+        .tip-amount-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+        .custom-amount {
+            margin-bottom: 2rem;
+        }
+        .custom-amount-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .custom-amount-input button {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            background: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .custom-amount-input button:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .custom-amount-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        .btn-send-tip {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-send-tip:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .profile-main {
+                grid-template-columns: 1fr;
+            }
+            .main-photo {
+                height: 400px;
+            }
+            .profile-details {
+                grid-template-columns: 1fr;
+            }
+            .profile-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span>🔥</span> ZONAPANTYS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendedoras.html" data-i18n="nav.sellers">Vendedoras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html" data-i18n="nav.login">Iniciar Sesión</a></li>
+                    <li class="nav-item">
+                        <div class="language-selector">
+                            <button class="language-btn" id="languageBtn">
+                                🌐 <span id="currentLang">ES</span>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-main">
+                <div class="profile-gallery">
+                    <div class="main-photo" id="mainPhoto">V</div>
+                    <div class="photo-thumbnails" id="photoThumbnails"></div>
+                </div>
+
+                <div class="profile-info">
+                    <div class="profile-title">
+                        <h1 id="sellerName" data-i18n="loading">Cargando...</h1>
+                        <span class="verified-badge" id="verifiedBadge" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-i18n="verified">Perfil Verificado</span>
+                        </span>
+                    </div>
+
+                    <div class="profile-description" id="sellerDescription"></div>
+
+                    <div class="profile-details" id="sellerDetails"></div>
+
+                    <div class="profile-actions">
+                        <button class="btn-action btn-message" onclick="sendMessage()">
+                            <i class="fas fa-envelope"></i>
+                            <span data-i18n="actions.message">Mensaje</span>
+                        </button>
+                        <button class="btn-action btn-tip" onclick="openTipModal()">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span data-i18n="actions.tip">Tip Me</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="showTab('products')">
+                    <span data-i18n="tabs.products">Productos</span> <span class="tab-badge" id="productsCount">0</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('reviews')">
+                    <span data-i18n="tabs.reviews">Comentarios</span> <span class="tab-badge" id="reviewsCount">0</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('interview')">
+                    <span data-i18n="tabs.interview">Entrevista</span>
+                </button>
+            </div>
+
+            <div class="tab-content active" id="products-tab">
+                <div class="products-grid" id="productsGrid">
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3 data-i18n="empty.products.title">No hay productos aún</h3>
+                        <p data-i18n="empty.products.desc">Esta vendedora subirá productos pronto</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="reviews-tab">
+                <div class="empty-state">
+                    <i class="fas fa-star"></i>
+                    <h3 data-i18n="empty.reviews.title">No hay comentarios aún</h3>
+                    <p data-i18n="empty.reviews.desc">Sé el primero en dejar una reseña</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="interview-tab">
+                <div class="empty-state">
+                    <i class="fas fa-microphone"></i>
+                    <h3 data-i18n="empty.interview.title">Entrevista próximamente</h3>
+                    <p data-i18n="empty.interview.desc">Conoce más sobre esta vendedora</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="tipModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeTipModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">
+                    <span data-i18n="tip.title">Tip</span> <span id="tipSellerName">Vendedora</span>
+                </h2>
+            </div>
+            <div class="modal-body">
+                <p class="tip-section-title" data-i18n="tip.selectAmount">Seleccionar cantidad</p>
+                <div class="tip-amounts">
+                    <button class="tip-amount-btn" onclick="selectTipAmount(10)">$10.00</button>
+                    <button class="tip-amount-btn" onclick="selectTipAmount(20)">$20.00</button>
+                    <button class="tip-amount-btn" onclick="selectTipAmount(30)">$30.00</button>
+                    <button class="tip-amount-btn" onclick="selectTipAmount(50)">$50.00</button>
+                    <button class="tip-amount-btn" onclick="selectTipAmount(75)">$75.00</button>
+                    <button class="tip-amount-btn" onclick="selectTipAmount(100)">$100.00</button>
+                </div>
+
+                <p class="tip-section-title" data-i18n="tip.customAmount">Cantidad personalizada</p>
+                <div class="custom-amount">
+                    <div class="custom-amount-input">
+                        <button onclick="decrementTip()">−</button>
+                        <input type="number" id="customTipAmount" value="10" min="1" onchange="validateTipAmount()">
+                        <button onclick="incrementTip()">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-send-tip" onclick="sendTip()">
+                    <span data-i18n="tip.sendButton">Llama Su Atención</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const translations = {
+            es: {
+                nav: { home: "Inicio", sellers: "Vendedoras", login: "Iniciar Sesión" },
+                loading: "Cargando...",
+                verified: "Perfil Verificado",
+                actions: { message: "Mensaje", tip: "Tip Me" },
+                tabs: { products: "Productos", reviews: "Comentarios", interview: "Entrevista" },
+                details: { country: "País", age: "Edad", bodyType: "Tipo de Cuerpo", ethnicity: "Etnicidad", followers: "Seguidores", joined: "Unida", years: "años" },
+                empty: {
+                    products: { title: "No hay productos aún", desc: "Esta vendedora subirá productos pronto" },
+                    reviews: { title: "No hay comentarios aún", desc: "Sé el primero en dejar una reseña" },
+                    interview: { title: "Entrevista próximamente", desc: "Conoce más sobre esta vendedora" }
+                },
+                tip: { title: "Tip", selectAmount: "Seleccionar cantidad", customAmount: "Cantidad personalizada", sendButton: "Llama Su Atención" }
+            },
+            en: {
+                nav: { home: "Home", sellers: "Sellers", login: "Login" },
+                loading: "Loading...",
+                verified: "Verified Profile",
+                actions: { message: "Message", tip: "Tip Me" },
+                tabs: { products: "Products", reviews: "Reviews", interview: "Interview" },
+                details: { country: "Country", age: "Age", bodyType: "Body Type", ethnicity: "Ethnicity", followers: "Followers", joined: "Joined", years: "years old" },
+                empty: {
+                    products: { title: "No products yet", desc: "This seller will upload products soon" },
+                    reviews: { title: "No reviews yet", desc: "Be the first to leave a review" },
+                    interview: { title: "Interview coming soon", desc: "Learn more about this seller" }
+                },
+                tip: { title: "Tip", selectAmount: "Select amount", customAmount: "Custom amount", sendButton: "Get Their Attention" }
+            },
+            pt: {
+                nav: { home: "Início", sellers: "Vendedoras", login: "Entrar" },
+                loading: "Carregando...",
+                verified: "Perfil Verificado",
+                actions: { message: "Mensagem", tip: "Dar Gorjeta" },
+                tabs: { products: "Produtos", reviews: "Avaliações", interview: "Entrevista" },
+                details: { country: "País", age: "Idade", bodyType: "Tipo de Corpo", ethnicity: "Etnia", followers: "Seguidores", joined: "Entrou", years: "anos" },
+                empty: {
+                    products: { title: "Sem produtos ainda", desc: "Esta vendedora subirá produtos em breve" },
+                    reviews: { title: "Sem avaliações ainda", desc: "Seja o primeiro a deixar uma avaliação" },
+                    interview: { title: "Entrevista em breve", desc: "Saiba mais sobre esta vendedora" }
+                },
+                tip: { title: "Gorjeta", selectAmount: "Selecionar quantidade", customAmount: "Quantidade personalizada", sendButton: "Chame a Atenção Dela" }
+            },
+            fr: {
+                nav: { home: "Accueil", sellers: "Vendeuses", login: "Connexion" },
+                loading: "Chargement...",
+                verified: "Profil Vérifié",
+                actions: { message: "Message", tip: "Pourboire" },
+                tabs: { products: "Produits", reviews: "Avis", interview: "Entretien" },
+                details: { country: "Pays", age: "Âge", bodyType: "Type de Corps", ethnicity: "Ethnicité", followers: "Abonnés", joined: "Inscrit", years: "ans" },
+                empty: {
+                    products: { title: "Pas encore de produits", desc: "Cette vendeuse téléchargera bientôt des produits" },
+                    reviews: { title: "Pas encore d'avis", desc: "Soyez le premier à laisser un avis" },
+                    interview: { title: "Entretien à venir", desc: "En savoir plus sur cette vendeuse" }
+                },
+                tip: { title: "Pourboire", selectAmount: "Sélectionner le montant", customAmount: "Montant personnalisé", sendButton: "Attirez Son Attention" }
+            },
+            de: {
+                nav: { home: "Startseite", sellers: "Verkäuferinnen", login: "Anmelden" },
+                loading: "Laden...",
+                verified: "Verifiziertes Profil",
+                actions: { message: "Nachricht", tip: "Trinkgeld" },
+                tabs: { products: "Produkte", reviews: "Bewertungen", interview: "Interview" },
+                details: { country: "Land", age: "Alter", bodyType: "Körpertyp", ethnicity: "Ethnizität", followers: "Follower", joined: "Beigetreten", years: "Jahre alt" },
+                empty: {
+                    products: { title: "Noch keine Produkte", desc: "Diese Verkäuferin wird bald Produkte hochladen" },
+                    reviews: { title: "Noch keine Bewertungen", desc: "Seien Sie der Erste, der eine Bewertung hinterlässt" },
+                    interview: { title: "Interview bald verfügbar", desc: "Erfahren Sie mehr über diese Verkäuferin" }
+                },
+                tip: { title: "Trinkgeld", selectAmount: "Betrag auswählen", customAmount: "Benutzerdefinierter Betrag", sendButton: "Erregen Sie Ihre Aufmerksamkeit" }
+            },
+            it: {
+                nav: { home: "Home", sellers: "Venditrici", login: "Accedi" },
+                loading: "Caricamento...",
+                verified: "Profilo Verificato",
+                actions: { message: "Messaggio", tip: "Mancia" },
+                tabs: { products: "Prodotti", reviews: "Recensioni", interview: "Intervista" },
+                details: { country: "Paese", age: "Età", bodyType: "Tipo di Corpo", ethnicity: "Etnia", followers: "Follower", joined: "Iscritta", years: "anni" },
+                empty: {
+                    products: { title: "Nessun prodotto ancora", desc: "Questa venditrice caricherà prodotti presto" },
+                    reviews: { title: "Nessuna recensione ancora", desc: "Sii il primo a lasciare una recensione" },
+                    interview: { title: "Intervista in arrivo", desc: "Scopri di più su questa venditrice" }
+                },
+                tip: { title: "Mancia", selectAmount: "Seleziona importo", customAmount: "Importo personalizzato", sendButton: "Attira La Sua Attenzione" }
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+        let sb;
+        let currentSeller = null;
+        let selectedTipAmount = 10;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sellerId = urlParams.get('id');
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+            if (currentSeller) displayProfile(currentSeller);
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = t;
+                for (let k of keys) value = value[k];
+                if (value) el.textContent = value;
+            });
+        }
+
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                sb = window.supabase.createClient(
+                    'https://djycvnfdaugxmshbahzh.supabase.co',
+                    'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+                );
+                if (sellerId) {
+                    loadSellerProfile(sellerId);
+                } else {
+                    window.location.href = 'vendedoras.html';
+                }
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+
+        async function loadSellerProfile(id) {
+            try {
+                const { data: seller, error } = await sb
+                    .from('sellers')
+                    .select('*')
+                    .eq('seller_id', id)
+                    .single();
+
+                if (error) throw error;
+
+                currentSeller = seller;
+                displayProfile(seller);
+                await loadSellerMedia(id);
+                await loadSellerProducts(id);
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Error al cargar el perfil');
+                window.location.href = 'vendedoras.html';
+            }
+        }
+
+        function displayProfile(seller) {
+            const t = translations[currentLang];
+            const name = seller.stage_name || seller.username || 'Vendedora';
+            const initial = name.charAt(0).toUpperCase();
+
+            document.getElementById('sellerName').textContent = name;
+            document.getElementById('tipSellerName').textContent = name;
+            
+            if (seller.verified) {
+                document.getElementById('verifiedBadge').style.display = 'inline-flex';
+            }
+
+            document.getElementById('sellerDescription').textContent = 
+                seller.description || 'Bienvenido a mi tienda. Aquí encontrarás contenido exclusivo y auténtico.';
+
+            const details = `
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.country}</div>
+                        <div class="detail-value">${seller.country || 'Latinoamérica'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-birthday-cake"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.age}</div>
+                        <div class="detail-value">${seller.age || '25'} ${t.details.years}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-user"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.bodyType}</div>
+                        <div class="detail-value">${seller.body_type || 'Curvy'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-globe"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.ethnicity}</div>
+                        <div class="detail-value">${seller.ethnicity || 'Latina'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-users"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.followers}</div>
+                        <div class="detail-value">${seller.followers || 0}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon"><i class="fas fa-calendar"></i></div>
+                    <div class="detail-content">
+                        <div class="detail-label">${t.details.joined}</div>
+                        <div class="detail-value">${new Date(seller.created_at).toLocaleDateString()}</div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('sellerDetails').innerHTML = details;
+
+            if (seller.profile_image_url) {
+                document.getElementById('mainPhoto').innerHTML = 
+                    `<img src="${seller.profile_image_url}" alt="${name}">`;
+            } else {
+                document.getElementById('mainPhoto').textContent = initial;
+            }
+        }
+
+        async function loadSellerMedia(id) {
+            try {
+                const { data: media, error } = await sb
+                    .from('seller_media')
+                    .select('*')
+                    .eq('seller_id', id)
+                    .eq('media_type', 'photo')
+                    .limit(4);
+
+                if (media && media.length > 0) {
+                    const thumbnails = media.map(m => 
+                        `<div class="thumbnail" onclick="changeMainPhoto('${m.media_url}')">
+                            <img src="${m.media_url}" alt="Foto">
+                        </div>`
+                    ).join('');
+                    document.getElementById('photoThumbnails').innerHTML = thumbnails;
+                }
+            } catch (error) {
+                console.error('Error loading media:', error);
+            }
+        }
+
+        async function loadSellerProducts(id) {
+            try {
+                const { data: products, error } = await sb
+                    .from('products')
+                    .select('*')
+                    .eq('seller_id', id);
+
+                document.getElementById('productsCount').textContent = products?.length || 0;
+
+                if (products && products.length > 0) {
+                    const grid = products.map(p => `
+                        <div class="product-card">
+                            <div class="product-image">
+                                ${p.image_url ? `<img src="${p.image_url}" alt="${p.title}">` : '📦'}
+                            </div>
+                            <div class="product-info">
+                                <div class="product-title">${p.title || 'Producto'}</div>
+                                <div class="product-price">$${p.price || '0.00'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('productsGrid').innerHTML = grid;
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        function changeMainPhoto(url) {
+            document.getElementById('mainPhoto').innerHTML = `<img src="${url}" alt="Foto">`;
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.closest('.tab-btn').classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function sendMessage() {
+            if (!currentSeller) return;
+            alert('Sistema de mensajería próximamente');
+        }
+
+        function openTipModal() {
+            document.getElementById('tipModal').classList.add('active');
+        }
+
+        function closeTipModal() {
+            document.getElementById('tipModal').classList.remove('active');
+        }
+
+        function selectTipAmount(amount) {
+            document.querySelectorAll('.tip-amount-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            selectedTipAmount = amount;
+            document.getElementById('customTipAmount').value = amount;
+        }
+
+        function incrementTip() {
+            const input = document.getElementById('customTipAmount');
+            input.value = parseInt(input.value) + 1;
+            selectedTipAmount = parseInt(input.value);
+        }
+
+        function decrementTip() {
+            const input = document.getElementById('customTipAmount');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                selectedTipAmount = parseInt(input.value);
+            }
+        }
+
+        function validateTipAmount() {
+            const input = document.getElementById('customTipAmount');
+            if (parseInt(input.value) < 1) {
+                input.value = 1;
+            }
+            selectedTipAmount = parseInt(input.value);
+        }
+
+        function sendTip() {
+            if (!currentSeller) return;
+            const amount = document.getElementById('customTipAmount').value;
+            alert(`Próximamente: Enviar $${amount} a ${currentSeller.stage_name || currentSeller.username}`);
+            closeTipModal();
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+        document.addEventListener('click', () => document.getElementById('languageDropdown').classList.remove('active'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+        });
+
+        initSupabase();
+    </script>
+</body>
+</html>
