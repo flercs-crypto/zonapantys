@@ -284,38 +284,92 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">
-                <span>🔥</span> ZONAPANTYS
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="vendedoras.html" data-i18n="nav.sellers">Vendedoras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html" data-i18n="nav.login">Iniciar Sesión</a></li>
-                    <li class="nav-item">
-                        <div class="language-selector">
-                            <button class="language-btn" id="languageBtn">
-                                🌐 <span id="currentLang">ES</span>
-                            </button>
-                            <div class="language-dropdown" id="languageDropdown">
-                                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
-                                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
-                                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
-                                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
-                                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
-                                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
-                            </div>
+   <!-- Navbar Mejorado con Usuario Logueado -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">
+            <span>🔥</span> ZONAPANTYS
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="vendedoras.html" data-i18n="nav.sellers">Vendedoras</a></li>
+                
+                <!-- Selector de idioma -->
+                <li class="nav-item">
+                    <div class="language-selector">
+                        <button class="language-btn" id="languageBtn">
+                            🌐 <span id="currentLang">ES</span>
+                        </button>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                            <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                            <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                            <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                            <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                            <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </li>
+                
+                <!-- Usuario NO logueado -->
+                <li class="nav-item" id="navLogin">
+                    <a class="nav-link" href="login.html" data-i18n="nav.login">Iniciar Sesión</a>
+                </li>
+                
+                <!-- Usuario LOGUEADO (oculto por defecto) -->
+                <li class="nav-item dropdown" id="navUser" style="display: none;">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar-nav" id="navUserAvatar">U</div>
+                        <span id="navUserName" class="ms-2">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" id="navDashboardLink" href="#">
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            <span data-i18n="nav.myDashboard">Mi Dashboard</span>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="logoutUser()">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            <span data-i18n="nav.logout">Cerrar Sesión</span>
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
+<style>
+/* Estilos para avatar del usuario en navbar */
+.user-avatar-nav {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.dropdown-menu {
+    background: rgba(26, 26, 26, 0.95);
+    border: 1px solid rgba(233, 30, 99, 0.3);
+}
+.dropdown-item {
+    color: white !important;
+    transition: all 0.3s;
+}
+.dropdown-item:hover {
+    background: var(--primary-color) !important;
+    color: white !important;
+}
+</style>
 
     <div class="page-hero" style="margin-top: 70px;">
         <h1 data-i18n="hero.title">Explora Nuestras Vendedoras</h1>
