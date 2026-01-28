@@ -290,7 +290,7 @@
 
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     
-    <script>
+     <script>
         const translations = {
             es: {
                 subtitle: "Lencería Premium con Esencia Latina", title: "Iniciar Sesión", email: "Correo Electrónico", password: "Contraseña",
@@ -442,19 +442,30 @@
                 console.log('✅ Login exitoso, verificando tipo de usuario...');
                 console.log('💾 Sesión guardada en localStorage');
 
+                // Buscar en buyers
                 const { data: buyer } = await supabaseClient.from('buyers').select('*').eq('email', email).single();
+                // Buscar en sellers
                 const { data: seller } = await supabaseClient.from('sellers').select('*').eq('email', email).single();
 
-                console.log('👤 Usuario:', { buyer, seller });
+                console.log('👤 Usuario encontrado:', { buyer, seller });
 
+                // 🔥 CRÍTICO: GUARDAR EL ROL EN LOCALSTORAGE
                 if (buyer) {
-                    console.log('✅ Redirigiendo a dashboard comprador');
+                    console.log('🛒 Usuario es COMPRADOR');
+                    localStorage.setItem('zonapantys_user_role', 'buyer');
+                    console.log('💾 Rol BUYER guardado en localStorage');
+                    console.log('✅ Verificación:', localStorage.getItem('zonapantys_user_role'));
+                    console.log('🚀 Redirigiendo a dashboard comprador...');
                     window.location.href = 'dashboard-comprador.html';
                 } else if (seller) {
-                    console.log('✅ Redirigiendo a dashboard vendedora');
+                    console.log('👩 Usuario es VENDEDORA');
+                    localStorage.setItem('zonapantys_user_role', 'seller');
+                    console.log('💾 Rol SELLER guardado en localStorage');
+                    console.log('✅ Verificación:', localStorage.getItem('zonapantys_user_role'));
+                    console.log('🚀 Redirigiendo a dashboard vendedora...');
                     window.location.href = 'dashboard-vendedora.html';
                 } else {
-                    console.error('❌ Usuario no encontrado en tablas');
+                    console.error('❌ Usuario no encontrado en ninguna tabla');
                     showError(t.userNotFound);
                 }
 
