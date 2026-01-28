@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Vendedoras | ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-color);
+        }
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-link {
+            color: #fff !important;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        .language-selector {
+            position: relative;
+        }
+        .language-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .language-btn:hover {
+            background: var(--secondary-color);
+        }
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            margin-top: 0.5rem;
+            min-width: 150px;
+            z-index: 1000;
+        }
+        .language-dropdown.active {
+            display: block;
+        }
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: #333;
+        }
+        .language-option:hover {
+            background: var(--light-color);
+        }
+        .page-hero {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+        .page-hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .page-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .filters-section {
+            background: white;
+            padding: 1.5rem;
+            margin: -2rem auto 2rem;
+            max-width: 1200px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .search-box {
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        .filter-btn {
+            background: var(--light-color);
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .sellers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .seller-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .seller-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .seller-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .seller-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .verified-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,200,0,0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .seller-info {
+            padding: 1.5rem;
+        }
+        .seller-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .seller-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .seller-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 1rem;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .btn-visit {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn-visit:hover {
+            background: var(--secondary-color);
+        }
+        .load-more {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .btn-load-more {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-load-more:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .loading i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-state i {
+            font-size: 5rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .sellers-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            .page-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span>🔥</span> ZONAPANTYS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav.home">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vendedoras.html" data-i18n="nav.sellers">Vendedoras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html" data-i18n="nav.login">Iniciar Sesión</a></li>
+                    <li class="nav-item">
+                        <div class="language-selector">
+                            <button class="language-btn" id="languageBtn">
+                                🌐 <span id="currentLang">ES</span>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <div class="language-option" onclick="changeLanguage('es')">🇪🇸 Español</div>
+                                <div class="language-option" onclick="changeLanguage('en')">🇺🇸 English</div>
+                                <div class="language-option" onclick="changeLanguage('pt')">🇧🇷 Português</div>
+                                <div class="language-option" onclick="changeLanguage('fr')">🇫🇷 Français</div>
+                                <div class="language-option" onclick="changeLanguage('de')">🇩🇪 Deutsch</div>
+                                <div class="language-option" onclick="changeLanguage('it')">🇮🇹 Italiano</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-hero" style="margin-top: 70px;">
+        <h1 data-i18n="hero.title">Explora Nuestras Vendedoras</h1>
+        <p data-i18n="hero.subtitle">Descubre perfiles reales de las mujeres latinas más hermosas</p>
+    </div>
+
+    <div class="filters-section">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" data-i18n-placeholder="search.placeholder" placeholder="Buscar por nombre..." onkeyup="searchSellers()">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="filter-btn" onclick="sortBy('recent')">
+                        <i class="fas fa-clock"></i> <span data-i18n="filters.recent">Recientes</span>
+                    </button>
+                    <button class="filter-btn" onclick="sortBy('popular')">
+                        <i class="fas fa-fire"></i> <span data-i18n="filters.popular">Populares</span>
+                    </button>
+                    <button class="filter-btn" onclick="sortBy('rating')">
+                        <i class="fas fa-star"></i> <span data-i18n="filters.topRated">Mejor Rated</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sellers-grid" id="sellersGrid">
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p data-i18n="loading">Cargando vendedoras...</p>
+        </div>
+    </div>
+
+    <div class="load-more" id="loadMoreSection" style="display: none;">
+        <button class="btn-load-more" onclick="loadMore()">
+            <i class="fas fa-plus-circle"></i> <span data-i18n="loadMore">Ver Más Vendedoras</span>
+        </button>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const translations = {
+            es: {
+                nav: { home: "Inicio", sellers: "Vendedoras", login: "Iniciar Sesión" },
+                hero: { title: "Explora Nuestras Vendedoras", subtitle: "Descubre perfiles reales de las mujeres latinas más hermosas" },
+                search: { placeholder: "Buscar por nombre..." },
+                filters: { recent: "Recientes", popular: "Populares", topRated: "Mejor Rated" },
+                stats: { items: "Items", rating: "Rating", reviews: "Reviews", years: "años" },
+                verified: "Verificada",
+                viewStore: "Ver Tienda",
+                loading: "Cargando vendedoras...",
+                loadMore: "Ver Más Vendedoras",
+                empty: { title: "No hay vendedoras disponibles", desc: "Próximamente nuevas vendedoras se unirán" },
+                error: { title: "Error al cargar vendedoras", desc: "Por favor intenta de nuevo más tarde" }
+            },
+            en: {
+                nav: { home: "Home", sellers: "Sellers", login: "Login" },
+                hero: { title: "Explore Our Sellers", subtitle: "Discover real profiles of the most beautiful Latina women" },
+                search: { placeholder: "Search by name..." },
+                filters: { recent: "Recent", popular: "Popular", topRated: "Top Rated" },
+                stats: { items: "Items", rating: "Rating", reviews: "Reviews", years: "years old" },
+                verified: "Verified",
+                viewStore: "Visit Store",
+                loading: "Loading sellers...",
+                loadMore: "See More Sellers",
+                empty: { title: "No sellers available", desc: "New sellers will join soon" },
+                error: { title: "Error loading sellers", desc: "Please try again later" }
+            },
+            pt: {
+                nav: { home: "Início", sellers: "Vendedoras", login: "Entrar" },
+                hero: { title: "Explore Nossas Vendedoras", subtitle: "Descubra perfis reais das mulheres latinas mais bonitas" },
+                search: { placeholder: "Buscar por nome..." },
+                filters: { recent: "Recentes", popular: "Populares", topRated: "Melhor Avaliadas" },
+                stats: { items: "Itens", rating: "Avaliação", reviews: "Avaliações", years: "anos" },
+                verified: "Verificada",
+                viewStore: "Visitar Loja",
+                loading: "Carregando vendedoras...",
+                loadMore: "Ver Mais Vendedoras",
+                empty: { title: "Sem vendedoras disponíveis", desc: "Novas vendedoras se juntarão em breve" },
+                error: { title: "Erro ao carregar vendedoras", desc: "Por favor tente novamente mais tarde" }
+            },
+            fr: {
+                nav: { home: "Accueil", sellers: "Vendeuses", login: "Connexion" },
+                hero: { title: "Explorez Nos Vendeuses", subtitle: "Découvrez de vrais profils des plus belles femmes latines" },
+                search: { placeholder: "Rechercher par nom..." },
+                filters: { recent: "Récentes", popular: "Populaires", topRated: "Mieux Notées" },
+                stats: { items: "Articles", rating: "Note", reviews: "Avis", years: "ans" },
+                verified: "Vérifiée",
+                viewStore: "Visiter Boutique",
+                loading: "Chargement des vendeuses...",
+                loadMore: "Voir Plus de Vendeuses",
+                empty: { title: "Aucune vendeuse disponible", desc: "De nouvelles vendeuses rejoindront bientôt" },
+                error: { title: "Erreur de chargement", desc: "Veuillez réessayer plus tard" }
+            },
+            de: {
+                nav: { home: "Startseite", sellers: "Verkäuferinnen", login: "Anmelden" },
+                hero: { title: "Entdecken Sie Unsere Verkäuferinnen", subtitle: "Entdecken Sie echte Profile der schönsten lateinamerikanischen Frauen" },
+                search: { placeholder: "Nach Namen suchen..." },
+                filters: { recent: "Neueste", popular: "Beliebt", topRated: "Bestbewertet" },
+                stats: { items: "Artikel", rating: "Bewertung", reviews: "Bewertungen", years: "Jahre alt" },
+                verified: "Verifiziert",
+                viewStore: "Shop Besuchen",
+                loading: "Verkäuferinnen laden...",
+                loadMore: "Mehr Verkäuferinnen Sehen",
+                empty: { title: "Keine Verkäuferinnen verfügbar", desc: "Neue Verkäuferinnen werden bald beitreten" },
+                error: { title: "Fehler beim Laden", desc: "Bitte versuchen Sie es später erneut" }
+            },
+            it: {
+                nav: { home: "Home", sellers: "Venditrici", login: "Accedi" },
+                hero: { title: "Esplora Le Nostre Venditrici", subtitle: "Scopri profili reali delle più belle donne latine" },
+                search: { placeholder: "Cerca per nome..." },
+                filters: { recent: "Recenti", popular: "Popolari", topRated: "Migliori Valutate" },
+                stats: { items: "Articoli", rating: "Valutazione", reviews: "Recensioni", years: "anni" },
+                verified: "Verificata",
+                viewStore: "Visita Negozio",
+                loading: "Caricamento venditrici...",
+                loadMore: "Vedi Più Venditrici",
+                empty: { title: "Nessuna venditrice disponibile", desc: "Nuove venditrici si uniranno presto" },
+                error: { title: "Errore di caricamento", desc: "Riprova più tardi" }
+            }
+        };
+
+        let currentLang = localStorage.getItem('zonapantys_lang') || 'es';
+        let sb;
+        let allSellers = [];
+        let displayedCount = 12;
+        const perPage = 12;
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('zonapantys_lang', lang);
+            updateContent();
+            document.getElementById('currentLang').textContent = lang.toUpperCase();
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        function updateContent() {
+            const t = translations[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = t;
+                for (let k of keys) value = value[k];
+                if (value) el.textContent = value;
+            });
+            const searchInput = document.querySelector('[data-i18n-placeholder]');
+            if (searchInput) searchInput.placeholder = t.search.placeholder;
+        }
+
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                sb = window.supabase.createClient(
+                    'https://djycvnfdaugxmshbahzh.supabase.co',
+                    'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+                );
+                loadSellers();
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+
+        async function loadSellers() {
+            try {
+                const { data: sellers, error } = await sb
+                    .from('sellers')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allSellers = sellers || [];
+                displaySellers();
+            } catch (error) {
+                console.error('Error loading sellers:', error);
+                const t = translations[currentLang];
+                document.getElementById('sellersGrid').innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>${t.error.title}</h3>
+                        <p>${t.error.desc}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySellers(sellers = allSellers.slice(0, displayedCount)) {
+            const grid = document.getElementById('sellersGrid');
+            const t = translations[currentLang];
+
+            if (!sellers || sellers.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-user-slash"></i>
+                        <h3>${t.empty.title}</h3>
+                        <p>${t.empty.desc}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = sellers.map(seller => {
+                const initial = (seller.stage_name || seller.username || 'V').charAt(0).toUpperCase();
+                const name = seller.stage_name || seller.username || 'Vendedora';
+                const country = seller.country || 'Latinoamérica';
+                const age = seller.age || '25';
+                
+                return `
+                    <div class="seller-card" onclick="viewProfile(${seller.seller_id})">
+                        <div class="seller-image">
+                            ${seller.profile_image_url ? 
+                                `<img src="${seller.profile_image_url}" alt="${name}">` : 
+                                initial
+                            }
+                            ${seller.verified ? `<div class="verified-badge"><i class="fas fa-check-circle"></i> ${t.verified}</div>` : ''}
+                        </div>
+                        <div class="seller-info">
+                            <div class="seller-name">
+                                ${name} <span>${getCountryFlag(country)}</span>
+                            </div>
+                            <div class="seller-location">${country}, ${age} ${t.stats.years}</div>
+                            <div class="seller-stats">
+                                <div class="stat">
+                                    <div class="stat-value">0</div>
+                                    <div class="stat-label">${t.stats.items}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5.0★</div>
+                                    <div class="stat-label">${t.stats.rating}</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">0</div>
+                                    <div class="stat-label">${t.stats.reviews}</div>
+                                </div>
+                            </div>
+                            <button class="btn-visit">${t.viewStore}</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('loadMoreSection').style.display = 
+                displayedCount < allSellers.length ? 'block' : 'none';
+        }
+
+        function getCountryFlag(country) {
+            const flags = {
+                'Colombia': '🇨🇴', 'Argentina': '🇦🇷', 'México': '🇲🇽',
+                'Brasil': '🇧🇷', 'Chile': '🇨🇱', 'Perú': '🇵🇪',
+                'Venezuela': '🇻🇪', 'Ecuador': '🇪🇨'
+            };
+            return flags[country] || '🌎';
+        }
+
+        function viewProfile(sellerId) {
+            window.location.href = `perfil-vendedora.html?id=${sellerId}`;
+        }
+
+        function loadMore() {
+            displayedCount += perPage;
+            displaySellers();
+        }
+
+        function searchSellers() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allSellers.filter(s => 
+                (s.stage_name || s.username || '').toLowerCase().includes(query) ||
+                (s.country || '').toLowerCase().includes(query)
+            );
+            displaySellers(filtered);
+        }
+
+        function sortBy(type) {
+            let sorted = [...allSellers];
+            if (type === 'recent') {
+                sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            } else if (type === 'popular') {
+                sorted.sort((a, b) => (b.followers || 0) - (a.followers || 0));
+            } else if (type === 'rating') {
+                sorted.sort((a, b) => (b.rating || 5) - (a.rating || 5));
+            }
+            allSellers = sorted;
+            displayedCount = perPage;
+            displaySellers();
+        }
+
+        document.getElementById('languageBtn').addEventListener('click', e => {
+            e.stopPropagation();
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+        document.addEventListener('click', () => document.getElementById('languageDropdown').classList.remove('active'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentLang').textContent = currentLang.toUpperCase();
+            updateContent();
+        });
+
+        initSupabase();
+    </script>
+</body>
+</html>
