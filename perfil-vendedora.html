@@ -1154,5 +1154,96 @@
     }
 })();
 </script>
+    <!-- Session Check & Update Navbar -->
+<script>
+(async function checkSessionAndUpdateNavbar() {
+    if (typeof window.supabase === 'undefined') {
+        setTimeout(checkSessionAndUpdateNavbar, 100);
+        return;
+    }
+    
+    const sbClient = window.supabase.createClient(
+        'https://djycvnfdaugxmshbahzh.supabase.co',
+        'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3',
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                storage: window.localStorage
+            }
+        }
+    );
+
+    const { data: { session } } = await sbClient.auth.getSession();
+    
+    if (session?.user) {
+        const userEmail = session.user.email;
+        const userRole = localStorage.getItem('zonapantys_user_role');
+        
+        console.log('✅ SESIÓN ACTIVA | Email:', userEmail, '| Rol:', userRole);
+        
+        // Determinar dashboard
+        const dashboardUrl = userRole === 'seller' ? 'dashboard-vendedora.html' : 'dashboard-comprador.html';
+        
+        // Obtener datos del usuario desde BD
+        let userName = userEmail.split('@')[0]; // Fallback
+        
+        try {
+            if (userRole === 'seller') {
+                const { data: seller } = await sbClient
+                    .from('sellers')
+                    .select('stage_name, username')
+                    .eq('email', userEmail)
+                    .single();
+                
+                if (seller) {
+                    userName = seller.stage_name || seller.username || userName;
+                }
+            } else if (userRole === 'buyer') {
+                const { data: buyer } = await sbClient
+                    .from('buyers')
+                    .select('name, username')
+                    .eq('email', userEmail)
+                    .single();
+                
+                if (buyer) {
+                    userName = buyer.name || buyer.username || userName;
+                }
+            }
+        } catch (error) {
+            console.log('Usuario no encontrado en BD, usando email');
+        }
+        
+        // Obtener inicial
+        const initial = userName.charAt(0).toUpperCase();
+        
+        // Actualizar navbar
+        document.getElementById('navLogin').style.display = 'none';
+        document.getElementById('navUser').style.display = 'block';
+        document.getElementById('navUserAvatar').textContent = initial;
+        document.getElementById('navUserName').textContent = userName;
+        document.getElementById('navDashboardLink').href = dashboardUrl;
+        
+        console.log('✅ NAVBAR ACTUALIZADO | Usuario:', userName, '| Dashboard:', dashboardUrl);
+    } else {
+        console.log('❌ NO HAY SESIÓN ACTIVA');
+        document.getElementById('navLogin').style.display = 'block';
+        document.getElementById('navUser').style.display = 'none';
+    }
+})();
+
+// Función de logout
+function logoutUser() {
+    if (typeof window.supabase !== 'undefined') {
+        const sbClient = window.supabase.createClient(
+            'https://djycvnfdaugxmshbahzh.supabase.co',
+            'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+        );
+        sbClient.auth.signOut();
+    }
+    localStorage.clear();
+    window.location.href = 'index.html';
+}
+</script>
 </body>
 </html>
