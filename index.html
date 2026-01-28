@@ -1024,9 +1024,9 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
 (async function loadSellers() {
-    const sb = window.supabase.createClient(
+   const sb = window.supabase.createClient(
         'https://djycvnfdaugxmshbahzh.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJhaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc5MjM0ODgsImV4cCI6MjA1MzQ5OTQ4OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI'
     );
 
     const { data: sellers, error } = await sb
@@ -3343,7 +3343,7 @@ window.addEventListener('load', function() {
         
         const sbClient = window.supabase.createClient(
             'https://djycvnfdaugxmshbahzh.supabase.co',
-            'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJi
             {
                 auth: {
                     persistSession: true,
@@ -3419,7 +3419,7 @@ function logoutUser() {
     if (typeof window.supabase !== 'undefined') {
         const sbClient = window.supabase.createClient(
             'https://djycvnfdaugxmshbahzh.supabase.co',
-            'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJi
         );
         sbClient.auth.signOut();
     }
