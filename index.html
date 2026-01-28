@@ -3373,26 +3373,49 @@ window.addEventListener('scroll', () => {
     }
 });
     </script>  
-  <!-- Session Check & Update Navbar -->
+    <!-- Cargar Supabase JS -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+ <!-- Cargar Supabase JS -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<!-- Session Check & Update Navbar + Auto Logout -->
 <script>
-// Esperar a que TODO se cargue (incluyendo Supabase)
+// Variables globales para inactividad
+let inactivityTimer;
+const INACTIVITY_TIME = 15 * 60 * 1000; // 15 minutos
+
+// Función para reiniciar el timer de inactividad
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        console.log('⏰ 15 minutos de inactividad - Cerrando sesión...');
+        logoutUser();
+    }, INACTIVITY_TIME);
+}
+
+// Detectar actividad del usuario
+['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer, true);
+});
+
+// Verificar sesión cuando carga la página
 window.addEventListener('load', function() {
-    console.log('🔄 Página cargada completamente, verificando sesión...');
+    console.log('🔄 Página cargada, verificando sesión...');
     
     (async function checkSessionAndUpdateNavbar() {
-        // Esperar hasta 5 segundos a que Supabase se cargue
         let attempts = 0;
-        while (typeof window.supabase === 'undefined' && attempts < 50) {
+        while (typeof window.supabase === 'undefined' && attempts < 100) {
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
         }
         
         if (typeof window.supabase === 'undefined') {
-            console.error('❌ ERROR: Supabase no se cargó después de 5 segundos');
+            console.error('❌ Supabase no cargó');
             return;
         }
         
-        console.log('✅ Supabase cargado, creando cliente...');
+        console.log('✅ Supabase cargado');
         
         const sbClient = window.supabase.createClient(
             'https://djycvnfdaugxmshbahzh.supabase.co',
@@ -3414,8 +3437,11 @@ window.addEventListener('load', function() {
             
             console.log('✅ SESIÓN ACTIVA | Email:', userEmail, '| Rol:', userRole);
             
-            const dashboardUrl = userRole === 'seller' ? 'dashboard-vendedora.html' : 'dashboard-comprador.html';
+            // Iniciar timer de inactividad
+            resetInactivityTimer();
+            console.log('⏰ Timer de 15 min iniciado');
             
+            const dashboardUrl = userRole === 'seller' ? 'dashboard-vendedora.html' : 'dashboard-comprador.html';
             let userName = userEmail.split('@')[0];
             
             try {
@@ -3441,11 +3467,10 @@ window.addEventListener('load', function() {
                     }
                 }
             } catch (error) {
-                console.log('⚠️ Usuario no encontrado en BD, usando email');
+                console.log('⚠️ Usuario no en BD');
             }
             
             const initial = userName.charAt(0).toUpperCase();
-            
             const navLogin = document.getElementById('navLogin');
             const navUser = document.getElementById('navUser');
             
@@ -3456,23 +3481,17 @@ window.addEventListener('load', function() {
                 document.getElementById('navUserName').textContent = userName;
                 document.getElementById('navDashboardLink').href = dashboardUrl;
                 
-                console.log('✅ NAVBAR ACTUALIZADO | Usuario:', userName, '| Dashboard:', dashboardUrl);
-            } else {
-                console.error('❌ ERROR: Elementos navLogin o navUser no encontrados en el DOM');
+                console.log('✅ NAVBAR OK | Usuario:', userName);
             }
         } else {
-            console.log('❌ NO HAY SESIÓN ACTIVA');
-            const navLogin = document.getElementById('navLogin');
-            const navUser = document.getElementById('navUser');
-            if (navLogin && navUser) {
-                navLogin.style.display = 'block';
-                navUser.style.display = 'none';
-            }
+            console.log('❌ Sin sesión');
         }
     })();
 });
 
 function logoutUser() {
+    console.log('🚪 Cerrando sesión...');
+    clearTimeout(inactivityTimer);
     if (typeof window.supabase !== 'undefined') {
         const sbClient = window.supabase.createClient(
             'https://djycvnfdaugxmshbahzh.supabase.co',
@@ -3481,7 +3500,13 @@ function logoutUser() {
         sbClient.auth.signOut();
     }
     localStorage.clear();
+    alert('Sesión cerrada por inactividad');
     window.location.href = 'index.html';
+}
+</script>
+
+</body>
+</html>
 }
 </script>
 
