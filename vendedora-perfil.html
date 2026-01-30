@@ -318,7 +318,7 @@
                     <div class="bio" id="sellerBio" data-i18n="profile.noBio">Sin descripción</div>
                     
                     <div class="profile-actions">
-                        <button class="btn-message">
+                        <button class="btn-message" onclick="startChat()">
                             <i class="fas fa-envelope"></i>
                             <span data-i18n="profile.message">Mensaje</span>
                         </button>
@@ -571,6 +571,15 @@
             event.target.classList.add('active');
             document.getElementById(tabName + '-tab').classList.add('active');
         }
+
+        function startChat() {
+            if (!sellerId) {
+                alert('Error: Vendedora no encontrada');
+                return;
+            }
+            window.location.href = 'chat.html?seller_id=' + sellerId;
+        }
     </script>
 </body>
 </html>
+
