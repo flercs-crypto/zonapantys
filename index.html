@@ -1039,7 +1039,7 @@
 
     const { data: sellers, error } = await sb
         .from('sellers')
-        .select('seller_id, stage_name, username, country, age, profile_picture')
+        .select('seller_id, stage_name, username, country, age, profile_picture_url)
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(6);
