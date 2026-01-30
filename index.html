@@ -1026,8 +1026,7 @@
 (async function loadSellers() {
     const sb = window.supabase.createClient(
         'https://djycvnfdaugxmshbahzh.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI'
-    );
+        'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
 
     const { data: sellers, error } = await sb
         .from('sellers')
@@ -3343,7 +3342,7 @@ window.addEventListener('load', function() {
         
         const sbClient = window.supabase.createClient(
             'https://djycvnfdaugxmshbahzh.supabase.co',
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqeWN2bmZkYXVneG1zaGJiaHpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Nzk3NDgsImV4cCI6MjA4NDQ1NTc0OH0.YZsqWlub2ek3zNmVv2ETzwR_ptDdoFhNZm1u9c1vghI',
+                        'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
 
             {
                 auth: {
