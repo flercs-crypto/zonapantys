@@ -1039,7 +1039,7 @@
 
     const { data: sellers, error } = await sb
         .from('sellers')
-        .select('seller_id, stage_name, username, country, age, profile_picture_url)
+        .select('seller_id, stage_name, username, country, date_of_birth, profile_picture_url')
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(6);
@@ -1060,8 +1060,7 @@
         const name = seller.stage_name || seller.username || 'Vendedora';
         const flag = countryFlags[seller.country] || '🌎';
         const initial = name.charAt(0).toUpperCase();
-        const profilePic = seller.profile_picture || null;
-
+        const profilePic = seller.profile_picture_url || null;
         // Contar productos de esta vendedora
         const { count: itemCount } = await sb.from('products').select('*', { count: 'exact', head: true }).eq('seller_id', seller.seller_id);
 
