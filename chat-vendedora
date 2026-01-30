@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes | ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .chat-container {
+            display: flex;
+            height: calc(100vh - 70px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .conversations-list {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+        .conversations-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .conversations-header h2 {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        .conversation-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .conversation-item:hover {
+            background: var(--light-color);
+        }
+        .conversation-item.active {
+            background: rgba(233, 30, 99, 0.1);
+            border-left: 3px solid var(--primary-color);
+        }
+        .conversation-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .conversation-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .conversation-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        .conversation-name {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+        .conversation-preview {
+            color: #666;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .conversation-time {
+            font-size: 0.75rem;
+            color: #999;
+        }
+        .unread-badge {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .chat-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        .chat-status {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .chat-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--light-color);
+            color: var(--dark-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .btn-icon:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            background: #f8f8f8;
+        }
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .message.sent {
+            justify-content: flex-end;
+        }
+        .message-bubble {
+            max-width: 60%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            position: relative;
+        }
+        .message.received .message-bubble {
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+        .message-text {
+            word-wrap: break-word;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+            opacity: 0.7;
+        }
+        .message.blocked {
+            opacity: 0.5;
+        }
+        .blocked-warning {
+            background: #ff5252;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            background: white;
+        }
+        .chat-input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+        .chat-input {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            resize: none;
+            max-height: 120px;
+            min-height: 44px;
+        }
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .btn-send {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-send:hover {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+        .warning-banner {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .warning-banner i {
+            color: #ffc107;
+            font-size: 1.5rem;
+        }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) {
+            .conversations-list {
+                width: 100%;
+                display: none;
+            }
+            .conversations-list.show {
+                display: block;
+            }
+            .chat-main {
+                display: none;
+            }
+            .chat-main.show {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">🔥 ZONAPANTYS</a>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="conversations-list" id="conversationsList">
+            <div class="conversations-header">
+                <h2 data-i18n="chat.messages">Mensajes</h2>
+            </div>
+            <div id="conversationsItems"></div>
+        </div>
+
+        <div class="chat-main" id="chatMain">
+            <div class="empty-state" id="emptyState">
+                <i class="fas fa-comments"></i>
+                <h3 data-i18n="chat.selectConversation">Selecciona una conversación</h3>
+            </div>
+
+            <div style="display: none; flex-direction: column; height: 100%;" id="chatView">
+                <div class="chat-header">
+                    <div class="chat-user-info">
+                        <div class="chat-avatar" id="chatAvatar">V</div>
+                        <div>
+                            <div class="chat-name" id="chatName">Usuario</div>
+                            <div class="chat-status" data-i18n="chat.online">En línea</div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="btn-icon" onclick="reportUser()" title="Reportar">
+                            <i class="fas fa-flag"></i>
+                        </button>
+                        <button class="btn-icon" onclick="blockUser()" title="Bloquear">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="warning-banner">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <strong data-i18n="chat.warning.title">⚠️ Importante:</strong>
+                        <span data-i18n="chat.warning.text">No compartas teléfonos, emails, cuentas bancarias o links externos. Los mensajes son monitoreados.</span>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messagesContainer"></div>
+
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="messageInput" 
+                            placeholder="Escribe un mensaje..."
+                            data-i18n-placeholder="chat.placeholder"
+                            rows="1"
+                        ></textarea>
+                        <button class="btn-send" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        const translations = {
+            es: {
+                chat: {
+                    messages: "Mensajes",
+                    selectConversation: "Selecciona una conversación",
+                    online: "En línea",
+                    placeholder: "Escribe un mensaje...",
+                    warning: {
+                        title: "⚠️ Importante:",
+                        text: "No compartas teléfonos, emails, cuentas bancarias o links externos. Los mensajes son monitoreados."
+                    },
+                    blocked: "Mensaje bloqueado por contener información prohibida",
+                    sent: "Mensaje enviado",
+                    error: "Error al enviar mensaje"
+                }
+            },
+            en: {
+                chat: {
+                    messages: "Messages",
+                    selectConversation: "Select a conversation",
+                    online: "Online",
+                    placeholder: "Type a message...",
+                    warning: {
+                        title: "⚠️ Important:",
+                        text: "Don't share phones, emails, bank accounts or external links. Messages are monitored."
+                    },
+                    blocked: "Message blocked for containing prohibited information",
+                    sent: "Message sent",
+                    error: "Error sending message"
+                }
+            },
+            pt: {
+                chat: {
+                    messages: "Mensagens",
+                    selectConversation: "Selecione uma conversa",
+                    online: "Online",
+                    placeholder: "Digite uma mensagem...",
+                    warning: {
+                        title: "⚠️ Importante:",
+                        text: "Não compartilhe telefones, emails, contas bancárias ou links externos. As mensagens são monitoradas."
+                    },
+                    blocked: "Mensagem bloqueada por conter informação proibida",
+                    sent: "Mensagem enviada",
+                    error: "Erro ao enviar mensagem"
+                }
+            },
+            fr: {
+                chat: {
+                    messages: "Messages",
+                    selectConversation: "Sélectionnez une conversation",
+                    online: "En ligne",
+                    placeholder: "Tapez un message...",
+                    warning: {
+                        title: "⚠️ Important:",
+                        text: "Ne partagez pas de téléphones, emails, comptes bancaires ou liens externes. Les messages sont surveillés."
+                    },
+                    blocked: "Message bloqué pour contenu interdit",
+                    sent: "Message envoyé",
+                    error: "Erreur d'envoi"
+                }
+            },
+            de: {
+                chat: {
+                    messages: "Nachrichten",
+                    selectConversation: "Wählen Sie eine Konversation",
+                    online: "Online",
+                    placeholder: "Nachricht eingeben...",
+                    warning: {
+                        title: "⚠️ Wichtig:",
+                        text: "Teilen Sie keine Telefonnummern, E-Mails, Bankkonten oder externe Links. Nachrichten werden überwacht."
+                    },
+                    blocked: "Nachricht wegen verbotener Inhalte blockiert",
+                    sent: "Nachricht gesendet",
+                    error: "Fehler beim Senden"
+                }
+            },
+            it: {
+                chat: {
+                    messages: "Messaggi",
+                    selectConversation: "Seleziona una conversazione",
+                    online: "Online",
+                    placeholder: "Scrivi un messaggio...",
+                    warning: {
+                        title: "⚠️ Importante:",
+                        text: "Non condividere telefoni, email, conti bancari o link esterni. I messaggi sono monitorati."
+                    },
+                    blocked: "Messaggio bloccato per contenuto proibito",
+                    sent: "Messaggio inviato",
+                    error: "Errore nell'invio"
+                }
+            }
+        };
+
+        let lang = localStorage.getItem('zonapantys_lang') || 'es';
+        let sb, currentUser, currentUserId, currentUserType, activeConversation;
+
+        // Patrones prohibidos para moderación
+        const blockedPatterns = [
+            // Teléfonos
+            /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g,
+            /\d{10,}/g,
+            /whatsapp/gi,
+            /wa\.me/gi,
+            /tel[eé]fono/gi,
+            /phone/gi,
+            /celular/gi,
+            /m[oó]vil/gi,
+            /call me/gi,
+            /ll[aá]mame/gi,
+            
+            // Emails
+            /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+            /correo/gi,
+            /email/gi,
+            /e-mail/gi,
+            /gmail/gi,
+            /hotmail/gi,
+            /yahoo/gi,
+            
+            // URLs y redes sociales
+            /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b/g,
+            /instagram/gi,
+            /facebook/gi,
+            /twitter/gi,
+            /telegram/gi,
+            /snapchat/gi,
+            /tiktok/gi,
+            /onlyfans/gi,
+            
+            // Cuentas bancarias y pagos
+            /cuenta bancaria/gi,
+            /bank account/gi,
+            /n[uú]mero de cuenta/gi,
+            /account number/gi,
+            /paypal/gi,
+            /venmo/gi,
+            /cashapp/gi,
+            /zelle/gi,
+            /transferencia/gi,
+            /wire transfer/gi,
+            /bitcoin/gi,
+            /crypto/gi,
+            
+            // QR y códigos
+            /codigo qr/gi,
+            /qr code/gi,
+            /escanea/gi,
+            /scan this/gi
+        ];
+
+        function checkBlockedContent(text) {
+            for (let pattern of blockedPatterns) {
+                if (pattern.test(text)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                sb = window.supabase.createClient(
+                    'https://djycvnfdaugxmshbahzh.supabase.co',
+                    'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3',
+                    {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            storage: window.localStorage
+                        }
+                    }
+                );
+                checkAuth();
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        initSupabase();
+
+        async function checkAuth() {
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session?.user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            currentUser = session.user;
+            
+            // Determinar tipo de usuario
+            const userRole = localStorage.getItem('zonapantys_user_role');
+            if (userRole === 'seller') {
+                currentUserType = 'seller';
+                const { data: seller } = await sb.from('sellers').select('seller_id').eq('email', currentUser.email).single();
+                currentUserId = seller?.seller_id;
+            } else {
+                currentUserType = 'buyer';
+                const { data: buyer } = await sb.from('buyers').select('buyer_id').eq('email', currentUser.email).single();
+                currentUserId = buyer?.buyer_id;
+            }
+            
+            if (!currentUserId) {
+                alert('Error: Usuario no encontrado');
+                return;
+            }
+            
+            loadConversations();
+            subscribeToMessages();
+            
+            // Si viene de un perfil, abrir conversación automáticamente
+            const params = new URLSearchParams(window.location.search);
+            const sellerId = params.get('seller_id');
+            const buyerId = params.get('buyer_id');
+            
+            if (sellerId && currentUserType === 'buyer') {
+                const name = await getUserName(sellerId, 'seller');
+                openConversation(parseInt(sellerId), 'seller', name);
+            } else if (buyerId && currentUserType === 'seller') {
+                const name = await getUserName(buyerId, 'buyer');
+                openConversation(parseInt(buyerId), 'buyer', name);
+            }
+        }
+
+        async function loadConversations() {
+            const { data: messages } = await sb
+                .from('messages')
+                .select('*')
+                .or(`sender_id.eq.${currentUserId},receiver_id.eq.${currentUserId}`)
+                .order('created_at', { ascending: false });
+
+            if (!messages || !messages.length) {
+                document.getElementById('conversationsItems').innerHTML = 
+                    '<div class="empty-state"><i class="fas fa-inbox"></i><h4>Sin conversaciones</h4></div>';
+                return;
+            }
+
+            // Agrupar por conversación
+            const conversations = new Map();
+            for (let msg of messages) {
+                const otherId = msg.sender_id === currentUserId ? msg.receiver_id : msg.sender_id;
+                const otherType = msg.sender_id === currentUserId ? msg.receiver_type : msg.sender_type;
+                const key = `${otherType}_${otherId}`;
+                
+                if (!conversations.has(key)) {
+                    conversations.set(key, {
+                        userId: otherId,
+                        userType: otherType,
+                        lastMessage: msg.message_text,
+                        lastTime: msg.created_at,
+                        unread: 0
+                    });
+                }
+            }
+
+            let html = '';
+            for (let [key, conv] of conversations) {
+                const name = await getUserName(conv.userId, conv.userType);
+                const time = new Date(conv.lastTime).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+                
+                html += `
+                    <div class="conversation-item" onclick="openConversation(${conv.userId}, '${conv.userType}', '${name}')">
+                        <div class="conversation-avatar">${name.charAt(0)}</div>
+                        <div class="conversation-info">
+                            <div class="conversation-name">${name}</div>
+                            <div class="conversation-preview">${conv.lastMessage}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="conversation-time">${time}</div>
+                            ${conv.unread > 0 ? '<div class="unread-badge">' + conv.unread + '</div>' : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('conversationsItems').innerHTML = html;
+        }
+
+        async function getUserName(userId, userType) {
+            if (userType === 'seller') {
+                const { data } = await sb.from('sellers').select('stage_name, username').eq('seller_id', userId).single();
+                return data?.stage_name || data?.username || 'Usuario';
+            } else {
+                const { data } = await sb.from('buyers').select('name, username').eq('buyer_id', userId).single();
+                return data?.name || data?.username || 'Usuario';
+            }
+        }
+
+        async function openConversation(userId, userType, userName) {
+            activeConversation = { userId, userType, userName };
+            
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('chatView').style.display = 'flex';
+            document.getElementById('chatName').textContent = userName;
+            document.getElementById('chatAvatar').textContent = userName.charAt(0);
+            
+            loadMessages();
+        }
+
+        async function loadMessages() {
+            if (!activeConversation) return;
+
+            const { data: messages } = await sb
+                .from('messages')
+                .select('*')
+                .or(`and(sender_id.eq.${currentUserId},sender_type.eq.${currentUserType},receiver_id.eq.${activeConversation.userId},receiver_type.eq.${activeConversation.userType}),and(sender_id.eq.${activeConversation.userId},sender_type.eq.${activeConversation.userType},receiver_id.eq.${currentUserId},receiver_type.eq.${currentUserType})`)
+                .order('created_at', { ascending: true });
+
+            let html = '';
+            if (messages && messages.length > 0) {
+                for (let msg of messages) {
+                    const isSent = msg.sender_id === currentUserId && msg.sender_type === currentUserType;
+                    const time = new Date(msg.created_at).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+                    
+                    html += `
+                        <div class="message ${isSent ? 'sent' : 'received'} ${msg.is_blocked ? 'blocked' : ''}">
+                            <div class="message-bubble">
+                                <div class="message-text">${msg.message_text}</div>
+                                <div class="message-time">${time}</div>
+                                ${msg.is_blocked ? '<div class="blocked-warning">⚠️ ' + translations[lang].chat.blocked + '</div>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            document.getElementById('messagesContainer').innerHTML = html;
+            document.getElementById('messagesContainer').scrollTop = document.getElementById('messagesContainer').scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text || !activeConversation) return;
+            
+            // Verificar contenido bloqueado
+            const isBlocked = checkBlockedContent(text);
+            
+            const { error } = await sb.from('messages').insert({
+                sender_id: currentUserId,
+                sender_type: currentUserType,
+                receiver_id: activeConversation.userId,
+                receiver_type: activeConversation.userType,
+                message_text: text,
+                is_blocked: isBlocked,
+                blocked_reason: isBlocked ? 'Prohibited content detected' : null
+            });
+            
+            if (error) {
+                alert(translations[lang].chat.error);
+                return;
+            }
+            
+            if (isBlocked) {
+                alert('⚠️ ' + translations[lang].chat.blocked);
+            }
+            
+            input.value = '';
+            loadMessages();
+        }
+
+        function subscribeToMessages() {
+            sb.channel('messages')
+                .on('postgres_changes', { 
+                    event: 'INSERT', 
+                    schema: 'public', 
+                    table: 'messages',
+                    filter: `receiver_id=eq.${currentUserId}`
+                }, payload => {
+                    if (activeConversation && 
+                        payload.new.sender_id === activeConversation.userId && 
+                        payload.new.sender_type === activeConversation.userType) {
+                        loadMessages();
+                    }
+                    loadConversations();
+                })
+                .subscribe();
+        }
+
+        function reportUser() {
+            if (confirm('¿Reportar a este usuario?')) {
+                alert('Usuario reportado. Nuestro equipo lo revisará.');
+            }
+        }
+
+        function blockUser() {
+            if (confirm('¿Bloquear a este usuario?')) {
+                alert('Usuario bloqueado.');
+                document.getElementById('chatView').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'flex';
+            }
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
