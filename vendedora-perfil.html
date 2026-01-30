@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Vendedora | ZonaPantys</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e91e63;
+            --secondary-color: #9c27b0;
+            --dark-color: #1a1a1a;
+            --light-color: #f8f9fa;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-color);
+        }
+        .navbar {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-link {
+            color: #fff !important;
+            margin: 0 1rem;
+        }
+        .profile-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .profile-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .profile-main {
+            display: grid;
+            grid-template-columns: 350px 1fr 300px;
+            gap: 2rem;
+        }
+        .profile-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .main-photo {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 6rem;
+        }
+        .main-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-thumbs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        .thumb {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #f0f0f0;
+            position: relative;
+        }
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .thumb.more {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .profile-info h1 {
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        .profile-info .bio {
+            color: #666;
+            line-height: 1.6;
+            margin: 1.5rem 0;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .btn-message {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-message:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .btn-tip {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .profile-stats {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4caf50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .tabs {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .tab-nav {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: var(--primary-color);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        .tab-content {
+            padding: 2rem;
+        }
+        .tab-pane {
+            display: none;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ccc;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 1rem;
+        }
+        .product-title {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 992px) {
+            .profile-main {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">🔥 ZONAPANTYS</a>
+            <div class="ms-auto">
+                <a href="index.html" class="nav-link">← <span data-i18n="nav.back">Volver</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-main">
+                <div class="profile-gallery">
+                    <div class="main-photo" id="mainPhoto">
+                        <span id="mainPhotoInitial">V</span>
+                    </div>
+                    <div class="photo-thumbs" id="photoThumbs"></div>
+                </div>
+
+                <div class="profile-info">
+                    <h1 id="sellerName" data-i18n="loading">Cargando...</h1>
+                    <p style="color: #666;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="sellerLocation">País</span>
+                    </p>
+                    <div class="bio" id="sellerBio" data-i18n="profile.noBio">Sin descripción</div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn-message">
+                            <i class="fas fa-envelope"></i>
+                            <span data-i18n="profile.message">Mensaje</span>
+                        </button>
+                        <button class="btn-tip">
+                            <i class="fas fa-gift"></i>
+                            <span data-i18n="profile.tip">Propina</span>
+                        </button>
+                    </div>
+
+                    <div class="verified-badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span data-i18n="profile.verified">Perfil Verificado</span>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="stats.country">País</div>
+                            <div class="stat-value" id="statCountry">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #fce4ec; color: #c2185b;">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="stats.age">Edad</div>
+                            <div class="stat-value" id="statAge">25</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #f3e5f5; color: #7b1fa2;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="stats.bodyType">Tipo de Cuerpo</div>
+                            <div class="stat-value" id="statBodyType">-</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #fff3e0; color: #f57c00;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="stats.followers">Seguidores</div>
+                            <div class="stat-value" id="statFollowers">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: #e8f5e9; color: #388e3c;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="stat-label" data-i18n="stats.rating">Rating</div>
+                            <div class="stat-value">5.0 ★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="showTab('products')">
+                    <i class="fas fa-box"></i>
+                    <span data-i18n="tabs.products">Productos</span>
+                    <span id="productCount">(0)</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('galleries')">
+                    <i class="fas fa-images"></i>
+                    <span data-i18n="tabs.galleries">Galerías</span>
+                    <span id="galleryCount">(0)</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('videos')">
+                    <i class="fas fa-video"></i>
+                    <span data-i18n="tabs.videos">Videos</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('reviews')">
+                    <i class="fas fa-comment"></i>
+                    <span data-i18n="tabs.reviews">Reseñas</span>
+                </button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="products-tab">
+                    <div class="products-grid" id="productsGrid"></div>
+                </div>
+                <div class="tab-pane" id="galleries-tab">
+                    <div class="products-grid" id="galleriesGrid"></div>
+                </div>
+                <div class="tab-pane" id="videos-tab">
+                    <div class="empty-state">
+                        <i class="fas fa-video"></i>
+                        <h3 data-i18n="empty.videos">No hay videos</h3>
+                    </div>
+                </div>
+                <div class="tab-pane" id="reviews-tab">
+                    <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <h3 data-i18n="empty.reviews">Sin reseñas aún</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        const translations = {
+            es: {
+                nav: { back: "Volver" },
+                loading: "Cargando...",
+                profile: { noBio: "Sin descripción", message: "Mensaje", tip: "Propina", verified: "Perfil Verificado" },
+                stats: { country: "País", age: "Edad", bodyType: "Tipo de Cuerpo", followers: "Seguidores", rating: "Rating" },
+                tabs: { products: "Productos", galleries: "Galerías", videos: "Videos", reviews: "Reseñas" },
+                empty: { products: "No hay productos", galleries: "No hay galerías", videos: "No hay videos", reviews: "Sin reseñas aún" }
+            },
+            en: {
+                nav: { back: "Back" },
+                loading: "Loading...",
+                profile: { noBio: "No description", message: "Message", tip: "Tip", verified: "Verified Profile" },
+                stats: { country: "Country", age: "Age", bodyType: "Body Type", followers: "Followers", rating: "Rating" },
+                tabs: { products: "Products", galleries: "Galleries", videos: "Videos", reviews: "Reviews" },
+                empty: { products: "No products", galleries: "No galleries", videos: "No videos", reviews: "No reviews yet" }
+            },
+            pt: {
+                nav: { back: "Voltar" },
+                loading: "Carregando...",
+                profile: { noBio: "Sem descrição", message: "Mensagem", tip: "Gorjeta", verified: "Perfil Verificado" },
+                stats: { country: "País", age: "Idade", bodyType: "Tipo de Corpo", followers: "Seguidores", rating: "Avaliação" },
+                tabs: { products: "Produtos", galleries: "Galerias", videos: "Vídeos", reviews: "Avaliações" },
+                empty: { products: "Sem produtos", galleries: "Sem galerias", videos: "Sem vídeos", reviews: "Sem avaliações" }
+            },
+            fr: {
+                nav: { back: "Retour" },
+                loading: "Chargement...",
+                profile: { noBio: "Sans description", message: "Message", tip: "Pourboire", verified: "Profil Vérifié" },
+                stats: { country: "Pays", age: "Âge", bodyType: "Type de Corps", followers: "Abonnés", rating: "Note" },
+                tabs: { products: "Produits", galleries: "Galeries", videos: "Vidéos", reviews: "Avis" },
+                empty: { products: "Pas de produits", galleries: "Pas de galeries", videos: "Pas de vidéos", reviews: "Pas encore d'avis" }
+            },
+            de: {
+                nav: { back: "Zurück" },
+                loading: "Laden...",
+                profile: { noBio: "Keine Beschreibung", message: "Nachricht", tip: "Trinkgeld", verified: "Verifiziertes Profil" },
+                stats: { country: "Land", age: "Alter", bodyType: "Körpertyp", followers: "Follower", rating: "Bewertung" },
+                tabs: { products: "Produkte", galleries: "Galerien", videos: "Videos", reviews: "Bewertungen" },
+                empty: { products: "Keine Produkte", galleries: "Keine Galerien", videos: "Keine Videos", reviews: "Noch keine Bewertungen" }
+            },
+            it: {
+                nav: { back: "Indietro" },
+                loading: "Caricamento...",
+                profile: { noBio: "Nessuna descrizione", message: "Messaggio", tip: "Mancia", verified: "Profilo Verificato" },
+                stats: { country: "Paese", age: "Età", bodyType: "Tipo di Corpo", followers: "Follower", rating: "Valutazione" },
+                tabs: { products: "Prodotti", galleries: "Gallerie", videos: "Video", reviews: "Recensioni" },
+                empty: { products: "Nessun prodotto", galleries: "Nessuna galleria", videos: "Nessun video", reviews: "Nessuna recensione" }
+            }
+        };
+
+        let lang = localStorage.getItem('zonapantys_lang') || 'es';
+        let sb, sellerId;
+
+        function initSupabase() {
+            if (typeof window.supabase !== 'undefined') {
+                sb = window.supabase.createClient('https://djycvnfdaugxmshbahzh.supabase.co', 'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3');
+                const params = new URLSearchParams(window.location.search);
+                sellerId = params.get('id');
+                if (sellerId) {
+                    loadSeller();
+                    loadProducts();
+                    loadMedia();
+                } else {
+                    alert('Vendedora no encontrada');
+                    window.location.href = 'index.html';
+                }
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        initSupabase();
+
+        async function loadSeller() {
+            const { data: seller } = await sb.from('sellers').select('*').eq('seller_id', sellerId).single();
+            if (!seller) {
+                alert('Vendedora no encontrada');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const name = seller.stage_name || seller.username;
+            document.getElementById('sellerName').textContent = name;
+            document.getElementById('sellerLocation').textContent = seller.country || 'País';
+            document.getElementById('sellerBio').textContent = seller.bio || translations[lang].profile.noBio;
+            document.getElementById('statCountry').textContent = seller.country || '-';
+            document.getElementById('statAge').textContent = seller.date_of_birth ? new Date().getFullYear() - new Date(seller.date_of_birth).getFullYear() : '25';
+            document.getElementById('statBodyType').textContent = seller.body_type || '-';
+            document.getElementById('statFollowers').textContent = seller.follower_count || '0';
+
+            if (seller.profile_picture_url) {
+                document.getElementById('mainPhoto').innerHTML = '<img src="' + seller.profile_picture_url + '">';
+            } else {
+                document.getElementById('mainPhotoInitial').textContent = name.charAt(0).toUpperCase();
+            }
+        }
+
+        async function loadProducts() {
+            const { data: products } = await sb.from('products').select('*').eq('seller_id', sellerId);
+            document.getElementById('productCount').textContent = '(' + (products?.length || 0) + ')';
+            
+            if (!products || !products.length) {
+                document.getElementById('productsGrid').innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i><h3>' + translations[lang].empty.products + '</h3></div>';
+                return;
+            }
+
+            document.getElementById('productsGrid').innerHTML = products.map(p => 
+                '<div class="product-card">' +
+                '<div class="product-image"><i class="fas fa-tshirt"></i></div>' +
+                '<div class="product-info">' +
+                '<div class="product-title">' + (p.product_name || 'Producto') + '</div>' +
+                '<div class="product-price">$' + (p.base_price || '0') + '</div>' +
+                '</div></div>'
+            ).join('');
+        }
+
+        async function loadMedia() {
+            const { data: media } = await sb.from('seller_media').select('*').eq('seller_id', sellerId).eq('media_type', 'photo').limit(8);
+            document.getElementById('galleryCount').textContent = '(' + (media?.length || 0) + ')';
+
+            if (media && media.length > 0) {
+                const thumbs = media.slice(0, 3).map(m => 
+                    '<div class="thumb"><img src="' + m.media_url + '"></div>'
+                ).join('');
+                const more = media.length > 3 ? '<div class="thumb more">+' + (media.length - 3) + '</div>' : '';
+                document.getElementById('photoThumbs').innerHTML = thumbs + more;
+
+                document.getElementById('galleriesGrid').innerHTML = media.map(m => 
+                    '<div class="product-card">' +
+                    '<div class="product-image"><img src="' + m.media_url + '"></div>' +
+                    '</div>'
+                ).join('');
+            }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+    </script>
+</body>
+</html>
