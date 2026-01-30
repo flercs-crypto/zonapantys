@@ -1024,9 +1024,17 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
 (async function loadSellers() {
-    const sb = window.supabase.createClient(
+       const sb = window.supabase.createClient(
         'https://djycvnfdaugxmshbahzh.supabase.co',
-        'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+        'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3',
+        {
+            db: {
+                schema: 'public'
+            },
+            auth: {
+                persistSession: false
+            }
+        }
     );
 
     const { data: sellers, error } = await sb
