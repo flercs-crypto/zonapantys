@@ -3426,34 +3426,23 @@ window.addEventListener('load', function() {
     })();
 });
 
-function logoutUser() {
+async function logoutUser() {
     console.log('🚪 Cerrando sesión...');
     clearTimeout(inactivityTimer);
-    if (typeof window.supabase !== 'undefined') {
-        function logoutUser() {
-    console.log('🚪 Cerrando sesión...');
-    clearTimeout(inactivityTimer);
-    if (typeof window.supabase !== 'undefined') {
-        const sbClient = window.supabase.createClient(
-            'https://djycvnfdaugxmshbahzh.supabase.co',
-            'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
-        );
-        sbClient.auth.signOut();
+    try {
+        if (typeof window.supabase !== 'undefined') {
+            const sbClient = window.supabase.createClient(
+                'https://djycvnfdaugxmshbahzh.supabase.co',
+                'sb_publishable_f-JnjZn1AWCwFjhgbQiYbQ_T4-1Nsm3'
+            );
+            await sbClient.auth.signOut();
+        }
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
     }
     localStorage.clear();
-    alert('Sesión cerrada por inactividad');
-    window.location.href = 'index.html';
-}
-        sbClient.auth.signOut();
-    }
-    localStorage.clear();
-    alert('Sesión cerrada por inactividad');
-    window.location.href = 'index.html';
-}
-</script>
-
-</body>
-</html>
+    sessionStorage.clear();
+    window.location.href = 'login.html';
 }
 </script>
 
