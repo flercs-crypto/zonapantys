@@ -825,7 +825,7 @@
 .feature-card:nth-child(5), .seller-card:nth-child(5), .why-item:nth-child(5) { animation-delay: 0.5s; }
 .feature-card:nth-child(6), .seller-card:nth-child(6), .why-item:nth-child(6) { animation-delay: 0.6s; }
 
-        @media (max-width: 576px) {
+            @media (max-width: 576px) {
             .why-side {
                 padding: 2rem 1.5rem;
             }
@@ -844,6 +844,14 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Logo responsive */
+        @media (max-width: 768px) {
+            .navbar-brand img {
+                height: 40px !important;
+                padding: 5px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -851,11 +859,8 @@
 <!-- Navbar Mejorado con Usuario Logueado -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-   <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap: 15px;">
-    <div style="background: rgba(26, 26, 26, 0.95); padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; min-width: 70px; height: 70px;">
-        <img src="https://files.easy-peasy.ai/be99c5b5-c820-4188-8f74-424e63cca997/2026-03-13T05-10-06-118Z_WhatsApp_Image_2026-03-13_at_01.05.21.jpeg" alt="ZonaPantys" style="width: 60px; height: 60px; object-fit: cover; object-position: 50% 30%;">
-    </div>
-    <span style="color: #e91e63; font-size: 2rem; font-weight: bold; text-transform: uppercase; letter-spacing: 4px;">ZONAPANTYS</span>
+  <a class="navbar-brand d-flex align-items-center" href="index.html" style="gap: 10px;">
+    <img src="https://files.easy-peasy.ai/be99c5b5-c820-4188-8f74-424e63cca997/2026-03-13T05-34-55-670Z_image__18_.png" alt="ZonaPantys" style="height: 50px; width: auto; background: rgba(26, 26, 26, 0.95); padding: 8px; border-radius: 8px;">
 </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
