@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@theme {
+	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+	--color-brand: #e65e19;
+	--color-brand-light: #fdeee6;
+	--color-brand-dark: #b54913;
+	--color-brand-soft: #fff7f2;
+	--radius-custom: 0.75rem;
+	--shadow-card: 0 18px 45px -28px rgb(15 23 42 / 0.35);
+}
+
+@layer base {
+	body {
+		font-family: var(--font-sans);
+		background-color: rgb(248 250 252);
+		color: rgb(15 23 42);
+	}
+
+	a {
+		transition: color 0.2s ease;
+	}
+
+	button {
+		cursor: pointer;
+	}
+
+	select,
+	input,
+	textarea {
+		font: inherit;
+	}
+
+	::selection {
+		background-color: rgb(230 94 25 / 0.18);
+	}
+}
