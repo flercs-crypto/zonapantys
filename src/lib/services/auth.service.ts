@@ -3,7 +3,11 @@ import { resolveRoleHome } from '$lib/auth/roles';
 import { auth, authPersistenceReady } from '$lib/firebase/client';
 import * as m from '$lib/paraglide/messages.js';
 import { clearServerSession, syncServerSession } from '$lib/services/auth-session.service';
-import { createProfileRegistration, getCurrentSessionProfile } from '$lib/services/profiles.service';
+import {
+	createProfileRegistration,
+	createSellerVerificationRegistration,
+	getCurrentSessionProfile
+} from '$lib/services/profiles.service';
 import type { RegistrationRole } from '$lib/types/database.types';
 import {
 	GoogleAuthProvider,
@@ -21,11 +25,16 @@ import { FirebaseError } from 'firebase/app';
 
 type RegistrationDetails = {
 	storeName?: string;
+	country?: string;
+	phone?: string;
+	description?: string;
+	selfieFile?: File | null;
 };
 
 type RegisterResult = {
 	status: 'created' | 'role-added-existing';
 	role: RegistrationRole;
+	redirectTo: string;
 };
 
 type CompleteRegistrationResult = {
@@ -110,6 +119,36 @@ const rollbackAuthenticatedUser = async () => {
 	}
 };
 
+const requiresSellerVerificationRegistration = (
+	role: RegistrationRole,
+	details?: RegistrationDetails
+) => role === 'seller' && Boolean(details?.storeName && details?.country && details?.phone && details?.selfieFile);
+
+const createRegistrationProfile = async (
+	user: User,
+	role: RegistrationRole,
+	displayName: string,
+	details?: RegistrationDetails
+) => {
+	if (requiresSellerVerificationRegistration(role, details)) {
+		return createSellerVerificationRegistration(user, {
+			displayName,
+			storeName: details?.storeName ?? '',
+			country: details?.country ?? '',
+			phone: details?.phone ?? '',
+			description: details?.description ?? '',
+			selfieFile: details?.selfieFile as File
+		});
+	}
+
+	return createProfileRegistration(user, {
+		role,
+		displayName,
+		avatarUrl: user.photoURL ?? null,
+		storeName: details?.storeName
+	});
+};
+
 export const register = async (
 	email: string,
 	password: string,
@@ -124,16 +163,13 @@ export const register = async (
 		credential = await createUserWithEmailAndPassword(auth, email, password);
 		await updateProfile(credential.user, { displayName });
 		await sendEmailVerification(credential.user);
-		await createProfileRegistration(credential.user, {
-			role,
-			displayName,
-			avatarUrl: credential.user.photoURL ?? null,
-			storeName: details?.storeName
-		});
+		await createRegistrationProfile(credential.user, role, displayName, details);
 		await syncAuthenticatedSession(credential.user);
 		return {
 			status: 'created',
-			role
+			role,
+			redirectTo:
+				role === 'seller' && credential.user.emailVerified ? '/dashboard/seller' : '/verify-email'
 		};
 	} catch (error) {
 		if (error instanceof FirebaseError && error.code === 'auth/email-already-in-use') {
@@ -154,19 +190,20 @@ export const register = async (
 					await updateProfile(existingCredential.user, { displayName: displayName.trim() });
 				}
 
-				const registrationResult = await createProfileRegistration(existingCredential.user, {
+				const registrationResult = await createRegistrationProfile(
+					existingCredential.user,
 					role,
 					displayName,
-					avatarUrl: existingCredential.user.photoURL ?? null,
-					storeName: details?.storeName
-				});
+					details
+				);
 
 				await rollbackAuthenticatedUser().catch(() => undefined);
 
 				if (registrationResult.action === 'role-added' && registrationResult.hadRoleBefore) {
 					return {
 						status: 'role-added-existing',
-						role
+						role,
+						redirectTo: `/login?message=role-added-${role}`
 					};
 				}
 
@@ -271,12 +308,12 @@ export const completeRegistration = async (
 			await updateProfile(user, { displayName: normalizedDisplayName });
 		}
 
-		const registrationResult = await createProfileRegistration(user, {
+		const registrationResult = await createRegistrationProfile(
+			user,
 			role,
-			displayName: normalizedDisplayName || user.displayName || null,
-			avatarUrl: user.photoURL ?? null,
-			storeName: details?.storeName
-		});
+			normalizedDisplayName || user.displayName || '',
+			details
+		);
 		const profile = registrationResult.profile;
 
 		if (registrationResult.action === 'role-added' && registrationResult.hadRoleBefore) {

@@ -3,7 +3,9 @@ import type { Order, OrderItem, Product, Profile, Seller } from '$lib/types/data
 import { sendEmail } from './resend';
 import { buildNewSaleEmail } from './emails/new-sale';
 import { buildPurchaseConfirmationEmail } from './emails/purchase-confirmation';
-import { buildSellerWelcomeEmail } from './emails/seller-welcome';
+import { buildSellerApprovedEmail } from './emails/seller-approved';
+import { buildSellerPendingEmail } from './emails/seller-pending';
+import { buildSellerRejectedEmail } from './emails/seller-rejected';
 import { buildAbsoluteUrl, buildOrderNumber } from './emails/shared';
 import { buildShippingNotificationEmail } from './emails/shipping-notification';
 
@@ -28,6 +30,10 @@ type OrderEmailContext = {
 
 type ProfileIdentity = Pick<Profile, 'id' | 'email' | 'display_name'>;
 type SellerIdentity = Pick<Seller, 'id' | 'profile_id' | 'store_name' | 'store_slug'>;
+type SellerEmailContext = {
+	profile: Pick<Profile, 'id' | 'email' | 'display_name'>;
+	seller: Pick<Seller, 'profile_id' | 'store_name' | 'store_slug'>;
+};
 
 const buildRecipientName = (preferredName: string | null | undefined, fallbackEmail: string | null) => {
 	const normalizedName = preferredName?.trim();
@@ -254,43 +260,97 @@ export const sendShippingNotificationEmail = async (orderId: string) => {
 	});
 };
 
-export const sendSellerWelcomeEmail = async (profileId: string) => {
-	await runSafeEmailTask('send-seller-welcome-email', async () => {
-		const { data: profileData, error: profileError } = await supabaseAdmin
-			.from('profiles')
-			.select('id, email, display_name')
-			.eq('id', profileId)
-			.maybeSingle();
+const loadSellerEmailContext = async (profileId: string): Promise<SellerEmailContext | null> => {
+	const { data: profileData, error: profileError } = await supabaseAdmin
+		.from('profiles')
+		.select('id, email, display_name')
+		.eq('id', profileId)
+		.maybeSingle();
 
-		if (profileError) {
-			throw profileError;
-		}
+	if (profileError) {
+		throw profileError;
+	}
 
-		const { data: sellerData, error: sellerError } = await supabaseAdmin
-			.from('sellers')
-			.select('profile_id, store_name, store_slug')
-			.eq('profile_id', profileId)
-			.maybeSingle();
+	const { data: sellerData, error: sellerError } = await supabaseAdmin
+		.from('sellers')
+		.select('profile_id, store_name, store_slug')
+		.eq('profile_id', profileId)
+		.maybeSingle();
 
-		if (sellerError) {
-			throw sellerError;
-		}
+	if (sellerError) {
+		throw sellerError;
+	}
 
-		const profile = (profileData ?? null) as Pick<Profile, 'id' | 'email' | 'display_name'> | null;
-		const seller = (sellerData ?? null) as Pick<Seller, 'profile_id' | 'store_name' | 'store_slug'> | null;
+	const profile = (profileData ?? null) as Pick<Profile, 'id' | 'email' | 'display_name'> | null;
+	const seller = (sellerData ?? null) as Pick<Seller, 'profile_id' | 'store_name' | 'store_slug'> | null;
 
-		if (!profile?.email || !seller?.store_slug) {
+	if (!profile?.email || !seller?.store_slug) {
+		return null;
+	}
+
+	return { profile, seller };
+};
+
+export const sendSellerPendingEmail = async (profileId: string) => {
+	await runSafeEmailTask('send-seller-pending-email', async () => {
+		const context = await loadSellerEmailContext(profileId);
+
+		if (!context) {
 			return;
 		}
 
-		const email = buildSellerWelcomeEmail({
-			sellerName: profile.display_name?.trim() || seller.store_name,
-			storeSlug: seller.store_slug,
+		const email = buildSellerPendingEmail({
+			sellerName: context.profile.display_name?.trim() || context.seller.store_name,
+			dashboardHref: buildAbsoluteUrl('/dashboard/seller'),
+			helpHref: buildAbsoluteUrl('/ayuda')
+		});
+
+		await sendEmail({
+			to: context.profile.email,
+			subject: email.subject,
+			html: email.html
+		});
+	});
+};
+
+export const sendSellerApprovedEmail = async (profileId: string) => {
+	await runSafeEmailTask('send-seller-approved-email', async () => {
+		const context = await loadSellerEmailContext(profileId);
+
+		if (!context) {
+			return;
+		}
+
+		const email = buildSellerApprovedEmail({
+			sellerName: context.profile.display_name?.trim() || context.seller.store_name,
+			storeSlug: context.seller.store_slug,
 			dashboardHref: buildAbsoluteUrl('/dashboard/seller')
 		});
 
 		await sendEmail({
-			to: profile.email,
+			to: context.profile.email,
+			subject: email.subject,
+			html: email.html
+		});
+	});
+};
+
+export const sendSellerRejectedEmail = async (profileId: string, rejectionReason: string) => {
+	await runSafeEmailTask('send-seller-rejected-email', async () => {
+		const context = await loadSellerEmailContext(profileId);
+
+		if (!context) {
+			return;
+		}
+
+		const email = buildSellerRejectedEmail({
+			sellerName: context.profile.display_name?.trim() || context.seller.store_name,
+			rejectionReason,
+			helpHref: buildAbsoluteUrl('/ayuda')
+		});
+
+		await sendEmail({
+			to: context.profile.email,
 			subject: email.subject,
 			html: email.html
 		});

@@ -2,6 +2,7 @@ import { supabaseAdmin } from '$lib/supabase/server';
 
 export const AVATARS_BUCKET = 'avatars';
 export const PRODUCTS_BUCKET = 'products';
+export const VERIFICATIONS_BUCKET = 'verifications';
 export const MAX_IMAGE_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
 const ALLOWED_IMAGE_MIME_TYPES = {
@@ -102,6 +103,9 @@ export const validateImageUpload = async (
 export const buildAvatarStoragePath = (firebaseUid: string, extension: string) =>
 	`avatars/${firebaseUid}/avatar.${extension}`;
 
+export const buildVerificationSelfieStoragePath = (firebaseUid: string, extension: string) =>
+	`${firebaseUid}/selfie.${extension}`;
+
 export const buildProductStoragePath = (
 	sellerId: string,
 	productId: string,
@@ -152,4 +156,44 @@ export const uploadPublicStorageObject = async (options: {
 		path: options.path,
 		publicUrl
 	};
+};
+
+export const uploadPrivateStorageObject = async (options: {
+	bucket: string;
+	path: string;
+	file: ValidatedImageUpload;
+	upsert?: boolean;
+}) => {
+	const { error } = await supabaseAdmin.storage.from(options.bucket).upload(options.path, options.file.bytes, {
+		contentType: options.file.contentType,
+		upsert: options.upsert ?? true
+	});
+
+	if (error) {
+		throw new StorageUploadError('storage/upload-failed', error.message);
+	}
+
+	return {
+		path: options.path
+	};
+};
+
+export const removeStorageObject = async (bucket: string, path: string) => {
+	await supabaseAdmin.storage.from(bucket).remove([path]);
+};
+
+export const createSignedStorageObjectUrl = async (
+	bucket: string,
+	path: string,
+	expiresInSeconds = 300
+) => {
+	const { data, error } = await supabaseAdmin.storage
+		.from(bucket)
+		.createSignedUrl(path, expiresInSeconds);
+
+	if (error || !data?.signedUrl) {
+		throw new StorageUploadError('storage/sign-url-failed', error?.message ?? 'Signed URL unavailable');
+	}
+
+	return data.signedUrl;
 };

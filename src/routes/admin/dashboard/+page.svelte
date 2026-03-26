@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { onDestroy } from 'svelte';
+	import ImageUploadField from '$lib/components/forms/ImageUploadField.svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import AdminNewSellers from '$lib/components/dashboard-admin/AdminNewSellers.svelte';
@@ -17,6 +21,7 @@
 		type AdminStat
 	} from '$lib/components/dashboard-admin/data';
 	import { resetPassword } from '$lib/services/auth.service';
+	import { AVATAR_IMAGE_COMPRESSION, compressImageFile } from '$lib/utils/image-upload';
 	import type { ActionData, PageData } from './$types';
 
 	type Props = {
@@ -29,9 +34,22 @@
 	let passwordResetMessage = $state('');
 	let passwordResetSuccess = $state(false);
 	let shippingDialog: HTMLDialogElement | null = null;
+	let verificationDialog: HTMLDialogElement | null = null;
+	let rejectionDialog: HTMLDialogElement | null = null;
 	let selectedShippingOrderId = $state<string | null>(null);
+	let selectedVerificationSellerId = $state<string | null>(null);
+	let signedSelfieUrl = $state('');
+	let signedSelfieLoading = $state(false);
+	let signedSelfieError = $state('');
+	let rejectionReason = $state('');
 	let shippingProvider = $state('');
 	let trackingNumber = $state('');
+	let adminAvatarFile = $state<File | null>(null);
+	let adminAvatarFileName = $state('');
+	let adminAvatarPreviewUrl = $state('');
+	let adminAvatarObjectUrl = $state<string | null>(null);
+	let isPreparingAdminAvatar = $state(false);
+	let isSavingAdminProfile = $state(false);
 
 	const adminNavItems = $derived.by(() => {
 		$currentLocale;
@@ -49,9 +67,26 @@
 	});
 
 	const feedback = $derived((form ?? null) as AdminDashboardFeedback | null);
+	const adminProfileAvatar = $derived(adminAvatarPreviewUrl || data.adminProfile.avatarUrl || '');
+	const adminProfileInitial = $derived(data.adminProfile.displayName.slice(0, 1).toUpperCase());
+	const adminAvatarUploadStatus = $derived.by(() => {
+		if (isPreparingAdminAvatar) {
+			return m.common_image_compressing();
+		}
+
+		if (isSavingAdminProfile && adminAvatarFile) {
+			return m.common_image_uploading();
+		}
+
+		return '';
+	});
 	const selectedShippingOrder = $derived.by(() =>
 		data.orders?.items.find((order) => order.id === selectedShippingOrderId) ?? null
 	);
+	const selectedVerificationSeller = $derived.by(() =>
+		data.sellers?.items.find((seller) => seller.id === selectedVerificationSellerId) ?? null
+	);
+	const currentSellerVerificationFilter = $derived(data.sellers?.verificationFilter ?? 'pending');
 	const currencyFormatter = $derived.by(
 		() =>
 			new Intl.NumberFormat($currentLocale, {
@@ -196,6 +231,65 @@
 		}
 	};
 
+	const revokeAdminAvatarPreview = () => {
+		if (adminAvatarObjectUrl) {
+			URL.revokeObjectURL(adminAvatarObjectUrl);
+			adminAvatarObjectUrl = null;
+		}
+	};
+
+	onDestroy(() => {
+		revokeAdminAvatarPreview();
+	});
+
+	const clearAdminAvatarSelection = () => {
+		revokeAdminAvatarPreview();
+		adminAvatarFile = null;
+		adminAvatarFileName = '';
+		adminAvatarPreviewUrl = '';
+	};
+
+	const handleAdminAvatarChange = (event: Event) => {
+		const input = event.currentTarget as HTMLInputElement;
+		const file = input.files?.[0] ?? null;
+
+		revokeAdminAvatarPreview();
+		adminAvatarFile = file;
+		adminAvatarFileName = file?.name ?? '';
+
+		if (!file) {
+			adminAvatarPreviewUrl = '';
+			return;
+		}
+
+		adminAvatarObjectUrl = URL.createObjectURL(file);
+		adminAvatarPreviewUrl = adminAvatarObjectUrl;
+	};
+
+	const enhanceAdminProfileForm: SubmitFunction = async ({ formData }) => {
+		if (adminAvatarFile) {
+			isPreparingAdminAvatar = true;
+			const { file } = await compressImageFile(adminAvatarFile, AVATAR_IMAGE_COMPRESSION);
+			formData.set('avatar', file);
+			isPreparingAdminAvatar = false;
+		}
+
+		isSavingAdminProfile = true;
+
+		return async ({ result, update }) => {
+			try {
+				await update();
+
+				if (result.type === 'success') {
+					clearAdminAvatarSelection();
+				}
+			} finally {
+				isPreparingAdminAvatar = false;
+				isSavingAdminProfile = false;
+			}
+		};
+	};
+
 	const openShippingDialog = (order: NonNullable<PageData['orders']>['items'][number]) => {
 		selectedShippingOrderId = order.id;
 		shippingProvider = order.shippingProvider ?? '';
@@ -211,6 +305,62 @@
 		selectedShippingOrderId = null;
 		shippingProvider = '';
 		trackingNumber = '';
+	};
+
+	const verificationTabClass = (tab: 'pending' | 'approved' | 'rejected') =>
+		currentSellerVerificationFilter === tab
+			? 'bg-slate-900 text-white'
+			: 'bg-slate-100 text-slate-700 hover:bg-slate-200';
+
+	const openVerificationDialog = async (sellerId: string) => {
+		selectedVerificationSellerId = sellerId;
+		signedSelfieUrl = '';
+		signedSelfieError = '';
+		signedSelfieLoading = true;
+		verificationDialog?.showModal();
+
+		try {
+			const response = await fetch(`/api/admin/sellers/${sellerId}/verification-selfie`);
+			const payload = (await response.json().catch(() => ({}))) as {
+				signedUrl?: string;
+				message?: string;
+			};
+
+			if (!response.ok || !payload.signedUrl) {
+				throw new Error(payload.message || m.dashboard_admin_verification_selfie_unavailable());
+			}
+
+			signedSelfieUrl = payload.signedUrl;
+		} catch (error) {
+			signedSelfieError =
+				error instanceof Error
+					? error.message
+					: m.dashboard_admin_verification_selfie_unavailable();
+		} finally {
+			signedSelfieLoading = false;
+		}
+	};
+
+	const handleVerificationDialogClose = () => {
+		selectedVerificationSellerId = null;
+		signedSelfieUrl = '';
+		signedSelfieError = '';
+		signedSelfieLoading = false;
+	};
+
+	const openRejectionDialog = (sellerId: string) => {
+		selectedVerificationSellerId = sellerId;
+		rejectionReason = '';
+		rejectionDialog?.showModal();
+	};
+
+	const closeRejectionDialog = () => {
+		rejectionDialog?.close();
+	};
+
+	const handleRejectionDialogClose = () => {
+		rejectionReason = '';
+		selectedVerificationSellerId = null;
 	};
 </script>
 
@@ -348,34 +498,36 @@
 								<h3 class="text-xl font-semibold text-slate-900">{m.dashboard_admin_sellers_title()}</h3>
 								<p class="mt-1 text-sm text-slate-500">{m.dashboard_admin_sellers_copy()}</p>
 							</div>
-							<form class="grid gap-3 sm:grid-cols-3" method="GET">
+							<form class="grid gap-3 sm:grid-cols-2" method="GET">
 								<input name="section" type="hidden" value="sellers" />
+								<input name="sellersVerification" type="hidden" value={currentSellerVerificationFilter} />
 								<input class="rounded-custom border border-slate-200 px-4 py-2 text-sm text-slate-700" name="sellersSearch" placeholder={m.dashboard_admin_search_store_or_slug()} value={data.sellers.search} />
-								<select class="rounded-custom border border-slate-200 px-4 py-2 text-sm text-slate-700" name="sellersStatus">
-									<option selected={data.sellers.statusFilter === 'all'} value="all">{m.dashboard_admin_filter_all_statuses()}</option>
-									<option selected={data.sellers.statusFilter === 'active'} value="active">{m.dashboard_admin_status_active()}</option>
-									<option selected={data.sellers.statusFilter === 'inactive'} value="inactive">{m.dashboard_admin_status_inactive()}</option>
-								</select>
 								<button class="rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_apply_filters()}</button>
 							</form>
 						</div>
 
+						<div class="mt-6 flex flex-wrap gap-2">
+							<a class={`rounded-full px-4 py-2 text-sm font-semibold ${verificationTabClass('pending')}`} href={buildHref({ section: 'sellers', sellersVerification: 'pending', sellersPage: 1 })}>{m.dashboard_admin_sellers_tab_pending()}</a>
+							<a class={`rounded-full px-4 py-2 text-sm font-semibold ${verificationTabClass('approved')}`} href={buildHref({ section: 'sellers', sellersVerification: 'approved', sellersPage: 1 })}>{m.dashboard_admin_sellers_tab_approved()}</a>
+							<a class={`rounded-full px-4 py-2 text-sm font-semibold ${verificationTabClass('rejected')}`} href={buildHref({ section: 'sellers', sellersVerification: 'rejected', sellersPage: 1 })}>{m.dashboard_admin_sellers_tab_rejected()}</a>
+						</div>
+
 						<div class="mt-6 overflow-x-auto">
-							<table class="w-full min-w-[980px] border-collapse text-left">
+							<table class="w-full min-w-[1100px] border-collapse text-left">
 								<thead>
 									<tr class="bg-slate-50 text-xs font-semibold tracking-wider text-slate-500 uppercase">
 										<th class="px-4 py-3">{m.dashboard_admin_table_logo()}</th>
 										<th class="px-4 py-3">{m.dashboard_admin_table_store()}</th>
-										<th class="px-4 py-3">slug</th>
-										<th class="px-4 py-3">{m.dashboard_admin_table_status()}</th>
+										<th class="px-4 py-3">{m.auth_register_country()}</th>
+										<th class="px-4 py-3">{m.auth_register_phone()}</th>
+										<th class="px-4 py-3">{currentSellerVerificationFilter === 'rejected' ? m.dashboard_admin_rejection_reason_label() : m.dashboard_admin_seller_description_label()}</th>
 										<th class="px-4 py-3">{m.dashboard_admin_table_registered_at()}</th>
-										<th class="px-4 py-3">{m.dashboard_admin_table_total_products()}</th>
-										<th class="px-4 py-3">{m.dashboard_admin_table_total_sales()}</th>
+										<th class="px-4 py-3">{m.dashboard_admin_table_status()}</th>
 										<th class="px-4 py-3">{m.dashboard_admin_table_actions()}</th>
 									</tr>
 								</thead>
 								<tbody class="divide-y divide-slate-100">
-									{#each data.sellers.items as seller}
+									{#each data.sellers.items as seller (seller.id)}
 										<tr class={seller.id === data.sellers.highlightSellerId ? 'bg-brand/5' : ''}>
 											<td class="px-4 py-4">
 												<div class="h-10 w-10 overflow-hidden rounded-full bg-slate-100">
@@ -387,20 +539,40 @@
 												</div>
 											</td>
 											<td class="px-4 py-4 text-sm font-semibold text-slate-900">{seller.storeName}</td>
-											<td class="px-4 py-4 text-sm text-slate-600">{seller.storeSlug}</td>
-											<td class="px-4 py-4"><span class={`${sellerStateClass(seller.isActive)} rounded-full px-2 py-1 text-xs font-semibold`}>{seller.isActive ? m.dashboard_admin_status_active() : m.dashboard_admin_status_inactive()}</span></td>
+											<td class="px-4 py-4 text-sm text-slate-600">{seller.country ?? '—'}</td>
+											<td class="px-4 py-4 text-sm text-slate-600">{seller.phone ?? '—'}</td>
+											<td class="px-4 py-4 text-sm text-slate-600">{currentSellerVerificationFilter === 'rejected' ? (seller.rejectionReason ?? '—') : (seller.description ?? '—')}</td>
 											<td class="px-4 py-4 text-sm text-slate-600">{dateFormatter.format(new Date(seller.createdAt))}</td>
-											<td class="px-4 py-4 text-sm text-slate-700">{seller.totalProducts}</td>
-											<td class="px-4 py-4 text-sm text-slate-700">{currencyFormatter.format(seller.totalSales)}</td>
+											<td class="px-4 py-4">
+												<div class="flex flex-col gap-2">
+													<span class={`${sellerStateClass(seller.isActive)} inline-flex w-fit rounded-full px-2 py-1 text-xs font-semibold`}>
+														{seller.verificationStatus === 'pending' ? m.dashboard_admin_status_pending() : seller.verificationStatus === 'approved' ? m.dashboard_admin_seller_status_approved() : m.dashboard_admin_seller_status_rejected()}
+													</span>
+													{#if seller.verifiedAt}
+														<span class="text-xs text-slate-500">{m.dashboard_admin_verified_at_label()} {dateFormatter.format(new Date(seller.verifiedAt))}</span>
+													{/if}
+												</div>
+											</td>
 											<td class="px-4 py-4">
 												<div class="flex flex-wrap gap-2">
-													<form method="POST">
-														<input name="intent" type="hidden" value="toggle-seller-active" />
-														<input name="section" type="hidden" value="sellers" />
-														<input name="sellerId" type="hidden" value={seller.id} />
-														<input name="nextActive" type="hidden" value={seller.isActive ? 'false' : 'true'} />
-														<button class={`rounded-custom px-3 py-2 text-xs font-semibold ${seller.isActive ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700'}`} type="submit">{seller.isActive ? m.dashboard_admin_deactivate_seller() : m.dashboard_admin_activate_seller()}</button>
-													</form>
+													<button class="rounded-custom bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700" onclick={() => openVerificationDialog(seller.id)} type="button">{m.dashboard_admin_view_selfie()}</button>
+													{#if seller.verificationStatus === 'pending'}
+														<form method="POST">
+															<input name="intent" type="hidden" value="approve-seller-verification" />
+															<input name="section" type="hidden" value="sellers" />
+															<input name="sellerId" type="hidden" value={seller.id} />
+															<button class="rounded-custom bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700" type="submit">{m.dashboard_admin_approve_seller()}</button>
+														</form>
+														<button class="rounded-custom bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700" onclick={() => openRejectionDialog(seller.id)} type="button">{m.dashboard_admin_reject_seller()}</button>
+													{:else if seller.verificationStatus === 'approved'}
+														<form method="POST">
+															<input name="intent" type="hidden" value="toggle-seller-active" />
+															<input name="section" type="hidden" value="sellers" />
+															<input name="sellerId" type="hidden" value={seller.id} />
+															<input name="nextActive" type="hidden" value={seller.isActive ? 'false' : 'true'} />
+															<button class={`rounded-custom px-3 py-2 text-xs font-semibold ${seller.isActive ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700'}`} type="submit">{seller.isActive ? m.dashboard_admin_deactivate_seller() : m.dashboard_admin_activate_seller()}</button>
+														</form>
+													{/if}
 													<a class="rounded-custom bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700" href={seller.storeHref}>{m.dashboard_admin_view_store()}</a>
 												</div>
 											</td>
@@ -413,8 +585,8 @@
 						<div class="mt-6 flex items-center justify-between text-sm text-slate-500">
 							<span>{m.dashboard_client_pagination_summary({ page: data.sellers.page, totalPages: data.sellers.totalPages })}</span>
 							<div class="flex gap-2">
-								<a class={`rounded-custom px-3 py-2 ${data.sellers.page === 1 ? 'pointer-events-none bg-slate-100 text-slate-400' : 'bg-white text-slate-700'}`} href={buildHref({ section: 'sellers', sellersPage: data.sellers.page - 1 })}>{m.dashboard_client_pagination_previous()}</a>
-								<a class={`rounded-custom px-3 py-2 ${data.sellers.page === data.sellers.totalPages ? 'pointer-events-none bg-slate-100 text-slate-400' : 'bg-white text-slate-700'}`} href={buildHref({ section: 'sellers', sellersPage: data.sellers.page + 1 })}>{m.dashboard_client_pagination_next()}</a>
+								<a class={`rounded-custom px-3 py-2 ${data.sellers.page === 1 ? 'pointer-events-none bg-slate-100 text-slate-400' : 'bg-white text-slate-700'}`} href={buildHref({ section: 'sellers', sellersVerification: currentSellerVerificationFilter, sellersPage: data.sellers.page - 1 })}>{m.dashboard_client_pagination_previous()}</a>
+								<a class={`rounded-custom px-3 py-2 ${data.sellers.page === data.sellers.totalPages ? 'pointer-events-none bg-slate-100 text-slate-400' : 'bg-white text-slate-700'}`} href={buildHref({ section: 'sellers', sellersVerification: currentSellerVerificationFilter, sellersPage: data.sellers.page + 1 })}>{m.dashboard_client_pagination_next()}</a>
 							</div>
 						</div>
 					</section>
@@ -653,20 +825,35 @@
 							<p class="mt-1 text-sm text-slate-500">{m.dashboard_admin_settings_copy()}</p>
 						</div>
 
-						<form class="mt-6 grid gap-6" enctype="multipart/form-data" method="POST">
+						<form class="mt-6 grid gap-6" enctype="multipart/form-data" method="POST" use:enhance={enhanceAdminProfileForm}>
 							<input name="intent" type="hidden" value="update-profile" />
 							<input name="section" type="hidden" value="settings" />
 							<div class="grid gap-6 md:grid-cols-[0.4fr_0.6fr]">
 								<div class="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-6">
 									<div class="h-24 w-24 overflow-hidden rounded-full bg-slate-200">
-										{#if data.adminProfile.avatarUrl}
-											<img alt={data.adminProfile.displayName} class="h-full w-full object-cover" src={data.adminProfile.avatarUrl} />
+										{#if adminProfileAvatar}
+											<img alt={data.adminProfile.displayName} class="h-full w-full object-cover" src={adminProfileAvatar} />
 										{:else}
-											<div class="flex h-full w-full items-center justify-center text-2xl font-semibold text-slate-600">{data.adminProfile.displayName.slice(0, 1).toUpperCase()}</div>
+											<div class="flex h-full w-full items-center justify-center text-2xl font-semibold text-slate-600">{adminProfileInitial}</div>
 										{/if}
 									</div>
-									<label class="mt-4 block text-sm font-medium text-slate-700" for="admin-avatar">{m.dashboard_admin_profile_photo()}</label>
-									<input accept="image/*" class="mt-2 block w-full text-sm text-slate-500" id="admin-avatar" name="avatar" type="file" />
+									<div class="mt-4">
+										<ImageUploadField
+											accept="image/jpeg,image/png,image/webp"
+											busy={isPreparingAdminAvatar || (isSavingAdminProfile && Boolean(adminAvatarFile))}
+											buttonLabel={m.common_select_image()}
+											fileName={adminAvatarFileName}
+											icon="camera"
+											id="admin-avatar"
+											label={m.dashboard_admin_profile_photo()}
+											name="avatar"
+											onchange={handleAdminAvatarChange}
+											previewAlt={data.adminProfile.displayName}
+											previewClass="h-48 w-full rounded-custom object-cover"
+											previewUrl={adminAvatarFileName ? adminAvatarPreviewUrl : ''}
+											statusText={adminAvatarUploadStatus}
+										/>
+									</div>
 								</div>
 
 								<div class="grid gap-4 rounded-[1.25rem] border border-slate-200 bg-slate-50 p-6">
@@ -680,7 +867,7 @@
 										<input class="rounded-custom border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500" readonly type="email" value={data.adminProfile.email} />
 									</label>
 
-									<button class="mt-2 w-fit rounded-custom bg-slate-900 px-4 py-3 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_save_profile()}</button>
+									<button class="mt-2 w-fit rounded-custom bg-slate-900 px-4 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300" disabled={isSavingAdminProfile} type="submit">{m.dashboard_admin_save_profile()}</button>
 								</div>
 							</div>
 						</form>
@@ -701,6 +888,53 @@
 					</section>
 				{/if}
 			</div>
+
+			<dialog bind:this={verificationDialog} class="backdrop:bg-slate-950/45 mx-auto w-full max-w-3xl rounded-[1.5rem] border border-slate-200 p-0 shadow-2xl" onclose={handleVerificationDialogClose}>
+				<div class="space-y-5 bg-white p-6">
+					<div class="flex items-start justify-between gap-4">
+						<div>
+							<h3 class="text-lg font-semibold text-slate-900">{m.dashboard_admin_verification_selfie_modal_title()}</h3>
+							{#if selectedVerificationSeller}
+								<p class="mt-1 text-sm text-slate-500">{selectedVerificationSeller.storeName}</p>
+							{/if}
+						</div>
+						<button class="rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-600" onclick={() => verificationDialog?.close()} type="button">{m.common_close()}</button>
+					</div>
+
+					{#if signedSelfieLoading}
+						<p class="text-sm text-slate-500">{m.dashboard_admin_verification_selfie_loading()}</p>
+					{:else if signedSelfieError}
+						<p class="rounded-custom border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{signedSelfieError}</p>
+					{:else if signedSelfieUrl}
+						<img alt={m.dashboard_admin_verification_selfie_modal_title()} class="max-h-[70vh] w-full rounded-[1.25rem] border border-slate-200 object-contain" src={signedSelfieUrl} />
+					{/if}
+				</div>
+			</dialog>
+
+			<dialog bind:this={rejectionDialog} class="backdrop:bg-slate-950/45 mx-auto w-full max-w-xl rounded-[1.5rem] border border-slate-200 p-0 shadow-2xl" onclose={handleRejectionDialogClose}>
+				<form class="space-y-5 bg-white p-6" method="POST">
+					<input name="intent" type="hidden" value="reject-seller-verification" />
+					<input name="section" type="hidden" value="sellers" />
+					<input name="sellerId" type="hidden" value={selectedVerificationSellerId ?? ''} />
+					<div class="flex items-start justify-between gap-4">
+						<div>
+							<h3 class="text-lg font-semibold text-slate-900">{m.dashboard_admin_reject_seller_modal_title()}</h3>
+							<p class="mt-1 text-sm text-slate-500">{m.dashboard_admin_reject_seller_modal_copy()}</p>
+						</div>
+						<button class="rounded-full bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-600" onclick={closeRejectionDialog} type="button">{m.common_close()}</button>
+					</div>
+
+					<div>
+						<label class="block text-sm font-medium text-slate-700" for="seller-rejection-reason">{m.dashboard_admin_rejection_reason_label()}</label>
+						<textarea bind:value={rejectionReason} class="mt-1 block w-full rounded-custom border-slate-300 bg-white px-4 py-3 focus:border-brand focus:ring-brand" id="seller-rejection-reason" maxlength="300" minlength="5" name="rejectionReason" required rows="5"></textarea>
+					</div>
+
+					<div class="flex justify-end gap-3">
+						<button class="rounded-custom bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700" onclick={closeRejectionDialog} type="button">{m.common_cancel()}</button>
+						<button class="rounded-custom bg-rose-600 px-4 py-3 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_reject_seller()}</button>
+					</div>
+				</form>
+			</dialog>
 
 			<dialog bind:this={shippingDialog} class="backdrop:bg-slate-950/45 mx-auto w-full max-w-lg rounded-[1.5rem] border border-slate-200 p-0 shadow-2xl" onclose={handleShippingDialogClose}>
 				{#if selectedShippingOrder}

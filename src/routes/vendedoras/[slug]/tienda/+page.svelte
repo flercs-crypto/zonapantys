@@ -41,22 +41,12 @@
 <SellerNavigation />
 
 <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8" data-locale={$currentLocale}>
-	<div class="mb-6 flex items-center justify-between gap-4 rounded-3xl border border-slate-100 bg-white px-6 py-5 shadow-card">
-		<div>
-			<p class="text-xs font-semibold tracking-[0.24em] text-slate-400 uppercase">
-				{m.seller_store_tag()}
-			</p>
-			<h1 class="mt-2 text-2xl font-bold text-slate-900">{seller.name}</h1>
-		</div>
-		<a
-			class="rounded-custom border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-			href={seller.profileHref}
-		>
-			{m.seller_back_to_profile()}
-		</a>
-	</div>
-
-	<SellerProfileHeader {seller} sellerSlug={seller.slug} />
+	<SellerProfileHeader
+		buttonHref={seller.profileHref}
+		buttonLabel={m.seller_back_to_profile()}
+		{seller}
+		sellerSlug={seller.slug}
+	/>
 	<SellerCatalogSection
 		{products}
 		{seller}

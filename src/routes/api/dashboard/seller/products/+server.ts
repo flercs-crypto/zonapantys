@@ -11,6 +11,7 @@ import { uploadRateLimit } from '$lib/services/rate-limit.server';
 import { supabaseAdmin } from '$lib/supabase/server';
 import * as m from '$lib/paraglide/messages.js';
 import type { Product } from '$lib/types/database.types';
+import { MAX_PRODUCT_IMAGES, MIN_PRODUCT_IMAGES } from '$lib/utils/product-images';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 const readTextField = (value: FormDataEntryValue | null) =>
@@ -57,8 +58,9 @@ export const POST: RequestHandler = async ({ locals, request, getClientAddress }
 	const description = readTextField(formData.get('description')).slice(0, 2000);
 	const priceValue = Number(readTextField(formData.get('price')));
 	const stockValue = Number(readTextField(formData.get('stock')));
-	const existingImageUrl = readTextField(formData.get('existingImageUrl'));
-	const imageField = formData.get('image');
+	const imageFields = formData
+		.getAll('images')
+		.filter((entry): entry is File => entry instanceof File && entry.size > 0);
 
 	if (
 		!sellerId ||
@@ -88,32 +90,56 @@ export const POST: RequestHandler = async ({ locals, request, getClientAddress }
 		return json({ message: m.api_seller_product_not_found() }, { status: 404 });
 	}
 
+	if (imageFields.length > MAX_PRODUCT_IMAGES) {
+		return json(
+			{ message: m.dashboard_seller_form_image_limit({ max: MAX_PRODUCT_IMAGES }) },
+			{ status: 400 }
+		);
+	}
+
 	const resolvedProductId = ownedProduct?.id ?? crypto.randomUUID();
-	let imageUrl = existingImageUrl || ownedProduct?.images[0] || '';
+	let imageUrls = ownedProduct?.images.filter(Boolean) ?? [];
 
 	try {
-		if (imageField instanceof File && imageField.size > 0) {
-			const validatedImage = await validateImageUpload(imageField);
+		if (imageFields.length > 0) {
+			const validatedImages = await Promise.all(
+				imageFields.map((image) => validateImageUpload(image))
+			);
 			const productFolder = `products/${sellerId}/${resolvedProductId}`;
 
 			await removeStorageFolderObjects(PRODUCTS_BUCKET, productFolder);
 
-			const upload = await uploadPublicStorageObject({
-				bucket: PRODUCTS_BUCKET,
-				path: buildProductStoragePath(sellerId, resolvedProductId, validatedImage.fileName),
-				file: validatedImage,
-				upsert: true
-			});
+			const uploads = await Promise.all(
+				validatedImages.map((validatedImage, index) =>
+					uploadPublicStorageObject({
+						bucket: PRODUCTS_BUCKET,
+						path: buildProductStoragePath(
+							sellerId,
+							resolvedProductId,
+							`${String(index + 1).padStart(2, '0')}-${validatedImage.fileName}`
+						),
+						file: validatedImage,
+						upsert: true
+					})
+				)
+			);
 
-			imageUrl = upload.publicUrl;
+			imageUrls = uploads.map((upload) => upload.publicUrl);
 		}
 	} catch (error) {
 		const response = getUploadErrorResponse(error);
 		return json({ message: response.message }, { status: response.status });
 	}
 
-	if (!imageUrl) {
+	if (imageUrls.length < MIN_PRODUCT_IMAGES) {
 		return json({ message: m.dashboard_seller_form_image_required() }, { status: 400 });
+	}
+
+	if (imageUrls.length > MAX_PRODUCT_IMAGES) {
+		return json(
+			{ message: m.dashboard_seller_form_image_limit({ max: MAX_PRODUCT_IMAGES }) },
+			{ status: 400 }
+		);
 	}
 
 	const isActive =
@@ -132,7 +158,7 @@ export const POST: RequestHandler = async ({ locals, request, getClientAddress }
 		description: description || null,
 		price: priceValue,
 		stock: stockValue,
-		images: [imageUrl],
+		images: imageUrls,
 		category: null,
 		is_active: isActive
 	};

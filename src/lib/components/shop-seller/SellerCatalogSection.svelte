@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { buildLoginHref, CART_REDIRECT_PATH } from '$lib/auth/login-redirect';
+	import { LOGIN_PATH } from '$lib/auth/login-redirect';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ClientDashboardFeedback } from '$lib/components/dashboard-client/data';
@@ -27,6 +29,7 @@
 	let selectedSort = $state<SellerSortOption>('recent');
 	let productNotes = $state<Record<string, string>>({});
 	let justAddedProductId = $state<string | null>(null);
+	let productImageIndexes = $state<Record<string, number>>({});
 
 	const sellerSortOptions = $derived.by(() => {
 		$currentLocale;
@@ -75,18 +78,29 @@
 	const loginHref = $derived(
 		buildLoginHref(cartStore.totalItems > 0 ? CART_REDIRECT_PATH : null)
 	);
+	const loginHrefSuffix = $derived(
+		loginHref.startsWith(LOGIN_PATH) ? loginHref.slice(LOGIN_PATH.length) : ''
+	);
 
 	const favoriteLabel = (productId: string) =>
 		favoriteIdSet.has(productId)
 			? m.dashboard_client_saved_remove()
 			: m.dashboard_client_storefront_save();
+
+	const getVisibleImage = (product: SellerStoreProduct) =>
+		product.images[productImageIndexes[product.id] ?? 0] ?? product.image;
+
+	const setVisibleImage = (productId: string, index: number) => {
+		productImageIndexes[productId] = index;
+	};
 </script>
 
 <section id="catalog" data-locale={$currentLocale}>
 	<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 		<div>
 			<h2 class="text-xl font-bold text-slate-900">
-				{m.seller_catalog_title()} <span class="font-normal text-slate-400">({products.length})</span>
+				{m.seller_catalog_title()}
+				<span class="font-normal text-slate-400">({products.length})</span>
 			</h2>
 			<p class="mt-2 text-sm text-slate-500">{m.seller_storefront({ sellerId: seller.slug })}</p>
 		</div>
@@ -112,10 +126,33 @@
 	{:else}
 		<div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 			{#each sortedProducts as product (product.id)}
-				<article class="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-card transition hover:shadow-lg">
+				<article
+					class="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-card transition hover:shadow-lg"
+				>
 					<div class="aspect-4/5 overflow-hidden bg-slate-100">
-						<img alt={product.alt} class="h-full w-full object-cover" src={product.image} />
+						<img
+							alt={product.alt}
+							class="h-full w-full object-cover"
+							src={getVisibleImage(product)}
+						/>
 					</div>
+					{#if product.images.length > 1}
+						<div class="grid grid-cols-5 gap-2 border-b border-slate-100 px-5 py-4">
+							{#each product.images as image, index (`${product.id}-${image}-${index}`)}
+								<button
+									class={`overflow-hidden rounded-2xl border ${index === (productImageIndexes[product.id] ?? 0) ? 'border-brand ring-2 ring-brand/20' : 'border-slate-200'}`}
+									onclick={() => setVisibleImage(product.id, index)}
+									type="button"
+								>
+									<img
+										alt={`${product.name} ${index + 1}`}
+										class="h-14 w-full object-cover"
+										src={image}
+									/>
+								</button>
+							{/each}
+						</div>
+					{/if}
 					<div class="space-y-4 p-5">
 						<div class="space-y-2">
 							<div class="flex items-start justify-between gap-4">
@@ -124,7 +161,9 @@
 							</div>
 							<p class="text-sm leading-6 text-slate-500">{product.description}</p>
 							{#if favoriteFeedback?.scope === 'storefront' && favoriteFeedback.productId === product.id && favoriteFeedback.message}
-								<p class={`text-sm ${favoriteFeedback.success ? 'text-emerald-600' : 'text-red-600'}`}>
+								<p
+									class={`text-sm ${favoriteFeedback.success ? 'text-emerald-600' : 'text-red-600'}`}
+								>
 									{favoriteFeedback.message}
 								</p>
 							{/if}
@@ -148,7 +187,9 @@
 								onclick={() => handleAddToCart(product)}
 								type="button"
 							>
-								{justAddedProductId === product.id ? m.seller_added_to_cart() : m.seller_add_to_cart()}
+								{justAddedProductId === product.id
+									? m.seller_added_to_cart()
+									: m.seller_add_to_cart()}
 							</button>
 
 							{#if canManageFavorites}
@@ -165,7 +206,7 @@
 							{:else if !isAuthenticated}
 								<a
 									class="flex w-full items-center justify-center rounded-custom border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-									href={loginHref}
+									href={`${resolve(LOGIN_PATH)}${loginHrefSuffix}`}
 								>
 									{m.dashboard_client_storefront_save()}
 								</a>

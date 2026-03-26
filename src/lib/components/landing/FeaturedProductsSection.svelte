@@ -9,6 +9,14 @@
 	};
 
 	let { products }: Props = $props();
+
+	const currencyFormatter = $derived.by(
+		() =>
+			new Intl.NumberFormat($currentLocale, {
+				style: 'currency',
+				currency: 'USD'
+			})
+	);
 </script>
 
 <section class="bg-white py-20" id="featured" data-locale={$currentLocale}>
@@ -43,8 +51,8 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-6 lg:grid-cols-4">
-			{#each products as product (product.name)}
-				<article class="group cursor-pointer">
+			{#each products as product (product.id)}
+				<a class="group block" href={product.href}>
 					<div class="mb-4 aspect-3/4 overflow-hidden rounded-[1.25rem] bg-slate-100">
 						<img
 							alt={product.alt}
@@ -54,13 +62,10 @@
 					</div>
 					<h3 class="font-semibold text-slate-900">{product.name}</h3>
 					<div class="mt-1 flex items-center justify-between gap-3">
-						<span class="font-bold text-brand">{product.price}</span>
-						<span
-							class="rounded-custom bg-slate-100 px-2 py-1 text-[10px] font-bold tracking-wide text-slate-500 uppercase"
-							>{product.condition}</span
-						>
+						<span class="font-bold text-brand">{currencyFormatter.format(product.price)}</span>
+						<span class="text-xs font-medium text-slate-500">{product.sellerName}</span>
 					</div>
-				</article>
+				</a>
 			{/each}
 		</div>
 	</div>

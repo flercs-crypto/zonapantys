@@ -5,7 +5,7 @@ import {
 } from '$lib/services/auth-profile.server';
 import { verifyFirebaseToken } from '$lib/firebase/server';
 import * as m from '$lib/paraglide/messages.js';
-import { sendSellerWelcomeEmail } from '$lib/server/transactional-emails';
+import { sendSellerPendingEmail } from '$lib/server/transactional-emails';
 import type { RegistrationRole } from '$lib/types/database.types';
 import { json, type RequestHandler } from '@sveltejs/kit';
 
@@ -110,7 +110,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	if (role === 'seller' && ['created', 'role-added'].includes(profileResult.action)) {
-		await sendSellerWelcomeEmail(profileResult.profile.id);
+		await sendSellerPendingEmail(profileResult.profile.id);
 	}
 
 	return json({

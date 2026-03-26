@@ -46,7 +46,7 @@
 				<ClientSavedItemsGrid items={data.dashboard.savedPreview} />
 			</div>
 		{:else if data.activeSection === 'purchases'}
-			<ClientPurchasesSection ordersPage={data.dashboard.ordersPage} />
+			<ClientPurchasesSection {feedback} ordersPage={data.dashboard.ordersPage} />
 		{:else if data.activeSection === 'favorites'}
 			<ClientFavoritesSection items={data.dashboard.favorites} {feedback} />
 		{:else}

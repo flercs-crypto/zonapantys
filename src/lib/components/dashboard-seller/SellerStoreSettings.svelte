@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { createEventDispatcher, onDestroy } from 'svelte';
+	import ImageUploadField from '$lib/components/forms/ImageUploadField.svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import { AVATAR_IMAGE_COMPRESSION, compressImageFile } from '$lib/utils/image-upload';
 	import type { Profile, Seller } from '$lib/types/database.types';
 
 	type Props = {
@@ -23,10 +25,23 @@
 	let avatarFile = $state<File | null>(null);
 	let avatarPreview = $state('');
 	let avatarObjectUrl = $state<string | null>(null);
+	let avatarFileName = $state('');
 	let isActive = $state(true);
 	let isSaving = $state(false);
+	let isPreparingAvatar = $state(false);
 	let errorMessage = $state<string | null>(null);
 	let successMessage = $state<string | null>(null);
+	const avatarUploadStatus = $derived.by(() => {
+		if (isPreparingAvatar) {
+			return m.common_image_compressing();
+		}
+
+		if (isSaving && avatarFile) {
+			return m.common_image_uploading();
+		}
+
+		return '';
+	});
 
 	const getApiErrorMessage = async (response: Response, fallback: string) => {
 		try {
@@ -63,6 +78,7 @@
 
 		revokeAvatarObjectUrl();
 		avatarFile = file;
+		avatarFileName = file?.name ?? '';
 		if (file) {
 			avatarObjectUrl = URL.createObjectURL(file);
 			avatarPreview = avatarObjectUrl;
@@ -81,10 +97,12 @@
 		try {
 			const payload = new FormData();
 			payload.set('description', description.trim());
-			payload.set('isActive', String(isActive));
 
 			if (avatarFile) {
-				payload.set('avatar', avatarFile);
+				isPreparingAvatar = true;
+				const { file } = await compressImageFile(avatarFile, AVATAR_IMAGE_COMPRESSION);
+				payload.set('avatar', file);
+				isPreparingAvatar = false;
 			}
 
 			const response = await fetch('/api/dashboard/seller/store', {
@@ -98,6 +116,7 @@
 
 			const result = (await response.json()) as { profile: Profile; seller: Seller };
 			avatarFile = null;
+			avatarFileName = '';
 			revokeAvatarObjectUrl();
 			avatarPreview = result.profile.avatar_url ?? result.seller.logo_url ?? '';
 			description = result.seller.description ?? '';
@@ -107,6 +126,7 @@
 		} catch (error) {
 			errorMessage = error instanceof Error ? error.message : m.dashboard_seller_store_save_failed();
 		} finally {
+			isPreparingAvatar = false;
 			isSaving = false;
 		}
 	};
@@ -157,44 +177,35 @@
 			</div>
 
 			<div class="space-y-2">
-				<label class="block text-sm font-medium text-slate-700" for="seller-store-avatar">
-					{m.dashboard_seller_store_avatar_label()}
-				</label>
-				<input
+				<ImageUploadField
 					accept="image/jpeg,image/png,image/webp"
-					class="block w-full rounded-custom border-slate-300 text-sm focus:border-brand focus:ring-brand"
+					busy={isPreparingAvatar || (isSaving && Boolean(avatarFile))}
+					buttonLabel={m.common_select_image()}
+					fileName={avatarFileName}
+					hint={m.dashboard_seller_store_avatar_hint()}
+					icon="camera"
 					id="seller-store-avatar"
+					label={m.dashboard_seller_store_avatar_label()}
 					onchange={handleAvatarChange}
-					type="file"
+					previewAlt={seller.store_name}
+					previewClass="aspect-square w-full rounded-custom object-cover"
+					previewUrl={avatarFileName ? avatarPreview : ''}
+					statusText={avatarUploadStatus}
 				/>
-				<p class="text-xs text-slate-500">{m.dashboard_seller_store_avatar_hint()}</p>
 				<p class="text-xs font-medium text-slate-500">{m.dashboard_seller_store_preview_hint()}</p>
 			</div>
 		</div>
 
 		<div class="space-y-4">
 			<div class="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">
-				<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-					<div>
-						<p class="text-sm font-semibold text-slate-900">
-							{m.dashboard_seller_store_status_label()}
-						</p>
-						<p class="mt-1 text-sm text-slate-500">
-							{isActive
-								? m.dashboard_seller_store_status_active_copy()
-								: m.dashboard_seller_store_status_inactive_copy()}
-						</p>
-					</div>
-					<label class="inline-flex cursor-pointer items-center gap-3">
-						<input bind:checked={isActive} class="peer sr-only" type="checkbox" />
-						<span class="text-sm font-semibold text-slate-700">
-							{isActive ? m.dashboard_seller_store_toggle_on() : m.dashboard_seller_store_toggle_off()}
-						</span>
-						<span class="relative h-7 w-12 rounded-full bg-slate-300 transition peer-checked:bg-emerald-500">
-							<span class="absolute top-1 left-1 h-5 w-5 rounded-full bg-white transition peer-checked:translate-x-5"></span>
-						</span>
-					</label>
-				</div>
+				<p class="text-sm font-semibold text-slate-900">
+					{m.dashboard_seller_store_status_label()}
+				</p>
+				<p class="mt-1 text-sm text-slate-500">
+					{isActive
+						? m.dashboard_seller_store_status_active_copy()
+						: m.dashboard_seller_store_status_inactive_copy()}
+				</p>
 			</div>
 
 			<div class="space-y-2">

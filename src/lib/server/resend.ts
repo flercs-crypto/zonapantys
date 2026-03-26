@@ -28,7 +28,7 @@ export const sendEmail = async ({ to, subject, html, from }: SendEmailOptions) =
 
 		const result = await resend.emails.send({
 			from: from ?? DEFAULT_FROM_EMAIL,
-			to: "velgrab@gmail.com",
+			to,
 			subject,
 			html
 		});

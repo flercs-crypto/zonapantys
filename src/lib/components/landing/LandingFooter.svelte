@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BrandLogoLink from '$lib/components/brand/BrandLogoLink.svelte';
+	import { resolve } from '$app/paths';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { FooterGroup, LandingNavLink } from './data';
@@ -22,12 +23,14 @@
 				</p>
 			</div>
 
-			{#each groups as group}
+			{#each groups as group (group.title)}
 				<div>
 					<h4 class="mb-5 font-bold text-white">{group.title}</h4>
 					<ul class="space-y-3 text-sm text-slate-400">
-						{#each group.links as link}
-							<li><a class="hover:text-brand" href={link.href}>{link.label}</a></li>
+						{#each group.links as link (link.href)}
+							<li>
+								<a class="hover:text-brand" href={resolve(link.href)}>{link.label}</a>
+							</li>
 						{/each}
 					</ul>
 				</div>
@@ -39,7 +42,7 @@
 		>
 			<p>{m.landing_footer_copyright()}</p>
 			<div class="flex gap-6">
-				{#each socialLinks as link}
+				{#each socialLinks as link (link.label)}
 					<a class="hover:text-white" href={link.href}>{link.label}</a>
 				{/each}
 			</div>

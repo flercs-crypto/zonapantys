@@ -8,7 +8,7 @@ import type {
 	CheckoutSessionSummary,
 	CheckoutShippingDetails
 } from '$lib/types/checkout';
-import type { Order, OrderItem, Product, Profile } from '$lib/types/database.types';
+import type { Order, OrderItem, Product, Profile, Seller } from '$lib/types/database.types';
 import type Stripe from 'stripe';
 
 const MAX_NOTE_LENGTH = 500;
@@ -191,7 +191,24 @@ const getProductsByIds = async (productIds: string[]): Promise<Map<string, Produ
 	}
 
 	const products = (result.data ?? []) as Product[];
-	return new Map(products.map((product) => [product.id, product]));
+	const sellerIds = [...new Set(products.map((product) => product.seller_id))];
+	const sellersResult = sellerIds.length
+		? await supabaseAdmin.from('sellers').select('id').in('id', sellerIds).eq('is_active', true)
+		: { data: [], error: null };
+
+	if (sellersResult.error) {
+		throw new Error('products-unavailable');
+	}
+
+	const activeSellerIds = new Set(
+		((sellersResult.data ?? []) as Array<Pick<Seller, 'id'>>).map((seller) => seller.id)
+	);
+
+	return new Map(
+		products
+			.filter((product) => activeSellerIds.has(product.seller_id))
+			.map((product) => [product.id, product])
+	);
 };
 
 const normalizeCheckoutItems = async (cart: CartItem[]): Promise<NormalizedCartItem[]> => {

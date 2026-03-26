@@ -52,6 +52,7 @@ export type ClientPurchaseItem = {
 	quantity: number;
 	unitPrice: number;
 	total: number;
+	reviewStatus: 'unavailable' | 'pending' | 'reviewed';
 };
 
 export type ClientPurchaseOrder = {

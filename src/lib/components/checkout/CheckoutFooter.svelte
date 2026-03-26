@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { FooterLink } from './data';
@@ -15,7 +16,7 @@
 		<p class="mb-4 text-sm text-slate-500">{m.checkout_footer_copyright()}</p>
 		<div class="flex justify-center gap-6 text-xs font-medium text-slate-400">
 			{#each links as link}
-				<a class="hover:text-brand" href={link.href}>{link.label}</a>
+				<a class="hover:text-brand" href={resolve(link.href)}>{link.label}</a>
 			{/each}
 		</div>
 	</div>

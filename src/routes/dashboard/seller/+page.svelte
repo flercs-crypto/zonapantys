@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import BrandLogoLink from '$lib/components/brand/BrandLogoLink.svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
@@ -69,6 +70,29 @@
 			value: String(data.visitSummary.totalVisits)
 		}
 	]);
+	const sellerStatusBanner = $derived.by(() => {
+		if (!seller) {
+			return null;
+		}
+
+		if (seller.verification_status === 'pending') {
+			return {
+				tone: 'amber',
+				message: m.dashboard_seller_verification_pending_banner()
+			};
+		}
+
+		if (seller.verification_status === 'rejected') {
+			return {
+				tone: 'rose',
+				message: m.dashboard_seller_verification_rejected_banner({
+					reason: seller.rejection_reason ?? m.dashboard_seller_verification_rejected_reason_missing()
+				})
+			};
+		}
+
+		return null;
+	});
 
 	const handleStoreSaved = (event: CustomEvent<{ seller: Seller; profile: Profile }>) => {
 		sellerOverride = event.detail.seller;
@@ -84,7 +108,7 @@
 
 		try {
 			await logout();
-			await goto('/');
+			await goto(resolve('/'));
 		} finally {
 			isSigningOut = false;
 		}
@@ -151,6 +175,14 @@
 				</aside>
 
 				<div class="space-y-8">
+					{#if sellerStatusBanner}
+						<div
+							class={`rounded-[1.5rem] border px-5 py-4 text-sm font-medium ${sellerStatusBanner.tone === 'amber' ? 'border-amber-200 bg-amber-50 text-amber-900' : 'border-rose-200 bg-rose-50 text-rose-800'}`}
+						>
+							{sellerStatusBanner.message}
+						</div>
+					{/if}
+
 					<section
 						class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 px-6 py-7 text-slate-900 shadow-card backdrop-blur lg:px-8"
 					>

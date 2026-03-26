@@ -1,5 +1,6 @@
 import { hasAppRole } from '$lib/auth/roles';
 import {
+	approveAdminSellerVerification,
 	deleteAdminProduct,
 	getAdminDashboardProfile,
 	getAdminOrdersSectionData,
@@ -10,6 +11,7 @@ import {
 	getAdminUsersSectionData,
 	markAdminOrderShipped,
 	normalizeAdminSection,
+	rejectAdminSellerVerification,
 	updateAdminOrderStatus,
 	updateAdminProductActiveState,
 	updateAdminSellerActiveState,
@@ -91,7 +93,7 @@ const buildSectionData = async (
 				sellers: await getAdminSellersSectionData({
 					page: url.searchParams.get('sellersPage'),
 					search: url.searchParams.get('sellersSearch'),
-					status: url.searchParams.get('sellersStatus'),
+					verification: url.searchParams.get('sellersVerification'),
 					highlightSellerId: url.searchParams.get('sellerId')
 				})
 			};
@@ -146,6 +148,51 @@ export const actions: Actions = {
 		const section = normalizeAdminSection(readTextField(formData.get('section')));
 
 		try {
+			if (intent === 'approve-seller-verification') {
+				const sellerId = readTextField(formData.get('sellerId'));
+
+				if (!sellerId) {
+					return fail(400, {
+						intent,
+						section,
+						success: false,
+						message: m.dashboard_admin_action_invalid()
+					});
+				}
+
+				await approveAdminSellerVerification(sellerId);
+
+				return {
+					intent,
+					section,
+					success: true,
+					message: m.dashboard_admin_seller_approved()
+				};
+			}
+
+			if (intent === 'reject-seller-verification') {
+				const sellerId = readTextField(formData.get('sellerId'));
+				const rejectionReason = readTextField(formData.get('rejectionReason')).slice(0, 300);
+
+				if (!sellerId || rejectionReason.length < 5) {
+					return fail(400, {
+						intent,
+						section,
+						success: false,
+						message: m.dashboard_admin_rejection_reason_required()
+					});
+				}
+
+				await rejectAdminSellerVerification(sellerId, rejectionReason);
+
+				return {
+					intent,
+					section,
+					success: true,
+					message: m.dashboard_admin_seller_rejected()
+				};
+			}
+
 			if (intent === 'update-user-role') {
 				const profileId = readTextField(formData.get('profileId'));
 				const nextRole = readTextField(formData.get('nextRole')) as AdminMutableRole;

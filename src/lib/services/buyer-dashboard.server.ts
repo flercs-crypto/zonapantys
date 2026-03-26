@@ -1,8 +1,12 @@
 import { getPrimaryAppRole, normalizeAppRoles } from '$lib/auth/roles';
+import {
+	createReviewForBuyer,
+	getBuyerReviewStateMap,
+	REVIEWABLE_ORDER_STATUS
+} from '$lib/services/reviews.server';
 import { supabaseAdmin } from '$lib/supabase/server';
 import type { Favorite, Order, OrderItem, Product, Profile, Seller } from '$lib/types/database.types';
 
-const COMPLETED_ORDER_STATUSES = ['completed', 'confirmed', 'shipped', 'delivered'] as const;
 const PURCHASES_PAGE_SIZE = 10;
 const PRODUCT_PLACEHOLDER_IMAGE =
 	'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80';
@@ -53,6 +57,7 @@ export type BuyerDashboardOrderItem = {
 	quantity: number;
 	unitPrice: number;
 	total: number;
+	reviewStatus: 'unavailable' | 'pending' | 'reviewed';
 };
 
 export type BuyerDashboardOrder = {
@@ -265,8 +270,11 @@ const buildOrdersPage = async (
 	const orderIds = orders.map((order) => order.id);
 	const orderItems = await getOrderItemsByOrderIds(orderIds);
 	const productIds = [...new Set(orderItems.flatMap((item) => (item.product_id ? [item.product_id] : [])))];
-	const products = await getProductsByIds<ProductOrderRecord>(productIds, 'id, name, images');
-	const itemsByOrder = new Map<string, BuyerDashboardOrderItem[]>();
+	const [products, reviewStatesByProductId] = await Promise.all([
+		getProductsByIds<ProductOrderRecord>(productIds, 'id, name, images'),
+		getBuyerReviewStateMap(profileId, productIds)
+	]);
+	const itemsByOrder = new Map<string, Omit<BuyerDashboardOrderItem, 'reviewStatus'>[]>();
 
 	for (const item of orderItems) {
 		const orderList = itemsByOrder.get(item.order_id) ?? [];
@@ -291,7 +299,20 @@ const buildOrdersPage = async (
 			createdAt: order.created_at,
 			total: Number(order.total),
 			status: normalizeBuyerOrderStatus(order.status),
-			products: itemsByOrder.get(order.id) ?? []
+			products: (itemsByOrder.get(order.id) ?? []).map((product) => {
+				const reviewState = product.productId ? reviewStatesByProductId.get(product.productId) : null;
+				const reviewStatus =
+					order.status !== REVIEWABLE_ORDER_STATUS || !product.productId
+						? 'unavailable'
+						: reviewState
+							? 'reviewed'
+							: 'pending';
+
+				return {
+					...product,
+					reviewStatus
+				};
+			})
 		})),
 		page: normalizedPage,
 		pageSize: PURCHASES_PAGE_SIZE,
@@ -439,6 +460,8 @@ export const removeFavoriteProduct = async (firebaseUid: string, productId: stri
 
 	return { success: true as const };
 };
+
+export { createReviewForBuyer };
 
 export const getBuyerDashboardData = async (options: {
 	firebaseUid: string;

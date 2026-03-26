@@ -13,7 +13,6 @@
 		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-10 w-auto" title="" />
 
 		<div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
-			<a class="hover:text-brand" href="/">{m.seller_nav_shop()}</a>
 			<a class="hover:text-brand" href="#catalog">{m.seller_nav_categories()}</a>
 			<a class="hover:text-brand" href="#seller-details">{m.seller_nav_about()}</a>
 		</div>

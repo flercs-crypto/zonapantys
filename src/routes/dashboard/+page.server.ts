@@ -1,5 +1,6 @@
 import { normalizeClientSection } from '$lib/components/dashboard-client/data';
 import {
+	createReviewForBuyer,
 	getBuyerDashboardContext,
 	getBuyerDashboardData,
 	removeFavoriteProduct
@@ -174,6 +175,70 @@ export const actions: Actions = {
 				scope,
 				success: true,
 				message: m.dashboard_client_favorite_removed(),
+				productId
+			};
+		}
+
+		if (intent === 'create-review') {
+			if (!locals.user.roles.includes('buyer')) {
+				return fail(403, {
+					intent,
+					scope,
+					success: false,
+					message: m.dashboard_client_purchase_review_role_required()
+				});
+			}
+
+			const orderId = readTextField(formData.get('orderId'));
+			const productId = readTextField(formData.get('productId'));
+			const rating = Number(readTextField(formData.get('rating')));
+			const comment = readTextField(formData.get('comment')).slice(0, 1200);
+
+			if (!orderId || !productId || !Number.isInteger(rating)) {
+				return fail(400, {
+					intent,
+					scope,
+					success: false,
+					message: m.dashboard_client_purchase_review_invalid(),
+					productId
+				});
+			}
+
+			const result = await createReviewForBuyer(locals.user.uid, {
+				orderId,
+				productId,
+				rating,
+				comment
+			});
+
+			if (!result.success) {
+				const message = (() => {
+					switch (result.code) {
+						case 'review/invalid-rating':
+							return m.dashboard_client_purchase_review_invalid();
+						case 'review/already-exists':
+							return m.dashboard_client_purchase_review_exists();
+						case 'review/order-not-eligible':
+							return m.dashboard_client_purchase_review_not_allowed();
+						default:
+							return m.dashboard_client_purchase_review_failed();
+					}
+				})();
+
+				return fail(result.code === 'review/already-exists' ? 409 : 400, {
+					intent,
+					scope,
+					success: false,
+					message,
+					productId
+				});
+			}
+
+			return {
+				intent,
+				scope,
+				success: true,
+				message: m.dashboard_client_purchase_review_saved(),
 				productId
 			};
 		}

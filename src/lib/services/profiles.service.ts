@@ -18,6 +18,15 @@ type ProfileRegistrationInput = {
 	storeName?: string | null;
 };
 
+type SellerVerificationRegistrationInput = {
+	displayName?: string | null;
+	storeName: string;
+	country: string;
+	phone: string;
+	description: string;
+	selfieFile: File;
+};
+
 export type ProfileRegistrationResult = {
 	profile: Profile;
 	action: ProfileRegistrationAction;
@@ -153,6 +162,57 @@ export const createProfileRegistration = async (
 		throw createDataServiceError(
 			await readResponseMessage(response, m.service_profiles_upsert_failed()),
 			'profiles/upsert-failed'
+		);
+	}
+
+	const payload = (await response.json()) as {
+		profile: Profile;
+		action: ProfileRegistrationAction;
+		hadRoleBefore: boolean;
+	};
+	const profile = normalizeProfile(payload.profile);
+
+	if (!profile) {
+		throw createDataServiceError(m.service_profiles_upsert_failed(), 'profiles/upsert-invalid-role');
+	}
+
+	return {
+		profile,
+		action: payload.action,
+		hadRoleBefore: payload.hadRoleBefore
+	};
+};
+
+export const createSellerVerificationRegistration = async (
+	user: FirebaseUser,
+	input: SellerVerificationRegistrationInput
+): Promise<ProfileRegistrationResult> => {
+	if (!browser) {
+		throw createDataServiceError(
+			m.service_profiles_browser_required(),
+			'profiles/browser-required'
+		);
+	}
+
+	const token = await user.getIdToken(true);
+	const formData = new FormData();
+	formData.set('token', token);
+	formData.set('displayName', input.displayName ?? user.displayName ?? '');
+	formData.set('storeName', input.storeName);
+	formData.set('country', input.country);
+	formData.set('phone', input.phone);
+	formData.set('description', input.description);
+	formData.set('selfie', input.selfieFile);
+
+	const response = await fetch('/auth/profile/seller', {
+		method: 'POST',
+		body: formData
+	});
+
+	if (!response.ok) {
+		throw createDataServiceError(
+			await readResponseMessage(response, m.service_profiles_upsert_failed()),
+			'profiles/seller-registration-failed'
 		);
 	}
 

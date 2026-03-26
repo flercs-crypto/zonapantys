@@ -56,7 +56,6 @@ export const POST: RequestHandler = async ({ locals, request, getClientAddress }
 
 	const formData = await request.formData();
 	const description = readTextField(formData.get('description')).slice(0, 2000);
-	const isActive = readTextField(formData.get('isActive')) !== 'false';
 	const avatarField = formData.get('avatar');
 	let avatarUrl = context.profile.avatar_url;
 
@@ -94,7 +93,7 @@ export const POST: RequestHandler = async ({ locals, request, getClientAddress }
 
 	const { data: updatedSeller, error: sellerError } = await supabaseAdmin
 		.from('sellers')
-		.update({ description: description || null, logo_url: avatarUrl, is_active: isActive })
+		.update({ description: description || null, logo_url: avatarUrl })
 		.eq('id', context.seller.id)
 		.select('*')
 		.single();

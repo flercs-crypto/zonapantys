@@ -1,5 +1,6 @@
 export type AppRole = 'buyer' | 'seller' | 'admin';
 export type RegistrationRole = Exclude<AppRole, 'admin'>;
+export type SellerVerificationStatus = 'pending' | 'approved' | 'rejected';
 
 export type OrderStatus =
 	| 'pending'
@@ -29,9 +30,15 @@ export interface Seller {
 	store_name: string;
 	store_slug: string;
 	description: string | null;
+	phone: string | null;
+	country: string | null;
 	logo_url: string | null;
 	banner_url: string | null;
 	is_active: boolean;
+	verification_status: SellerVerificationStatus;
+	verification_selfie_url: string | null;
+	rejection_reason: string | null;
+	verified_at: string | null;
 	created_at: string;
 	updated_at: string;
 }
@@ -79,6 +86,17 @@ export interface Favorite {
 	created_at: string;
 }
 
+export interface Review {
+	id: string;
+	seller_id: string;
+	buyer_id: string;
+	product_id: string;
+	order_id: string;
+	rating: number;
+	comment: string | null;
+	created_at: string;
+}
+
 export interface StoreVisit {
 	id: string;
 	seller_id: string;
@@ -102,6 +120,9 @@ export type OrderItemUpdate = Partial<Omit<OrderItem, 'id'>>;
 
 export type FavoriteInsert = Omit<Favorite, 'id' | 'created_at'> & { id?: string };
 export type FavoriteUpdate = Partial<Omit<Favorite, 'id' | 'created_at'>>;
+
+export type ReviewInsert = Omit<Review, 'id' | 'created_at'> & { id?: string };
+export type ReviewUpdate = Partial<Omit<Review, 'id' | 'created_at'>>;
 
 export type StoreVisitInsert = Omit<StoreVisit, 'id' | 'visited_at'> & { id?: string };
 export type StoreVisitUpdate = Partial<Omit<StoreVisit, 'id' | 'visited_at'>>;
@@ -145,6 +166,12 @@ export interface Database {
 				Row: Favorite;
 				Insert: FavoriteInsert;
 				Update: FavoriteUpdate;
+				Relationships: [];
+			};
+			reviews: {
+				Row: Review;
+				Insert: ReviewInsert;
+				Update: ReviewUpdate;
 				Relationships: [];
 			};
 			store_visits: {

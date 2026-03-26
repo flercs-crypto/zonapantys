@@ -6,13 +6,42 @@
 	type Props = {
 		sellerSlug: string;
 		seller: SellerProfile;
+		buttonHref?: string;
+		buttonLabel?: string;
 	};
 
-	let { sellerSlug, seller }: Props = $props();
+	let { sellerSlug, seller, buttonHref, buttonLabel }: Props = $props();
+
+	const countFormatter = $derived.by(
+		() =>
+			new Intl.NumberFormat($currentLocale, {
+				maximumFractionDigits: 0
+			})
+	);
+
+	const ratingFormatter = $derived.by(
+		() =>
+			new Intl.NumberFormat($currentLocale, {
+				minimumFractionDigits: 1,
+				maximumFractionDigits: 1
+			})
+	);
+
+	const percentFormatter = $derived.by(
+		() =>
+			new Intl.NumberFormat($currentLocale, {
+				style: 'percent',
+				maximumFractionDigits: 0
+			})
+	);
+
+	const filledStars = $derived(Math.max(0, Math.min(5, Math.round(seller.averageRating))));
+	const resolvedButtonHref = $derived(buttonHref ?? seller.shopHref);
+	const resolvedButtonLabel = $derived(buttonLabel ?? m.seller_view_store());
 </script>
 
 <header
-	class="mb-8 rounded-[1.5rem] border border-slate-100 bg-white p-6 shadow-card md:p-8"
+	class="mb-8 rounded-3xl border border-slate-100 bg-white p-6 shadow-card md:p-8"
 	id="seller-details"
 	data-locale={$currentLocale}
 >
@@ -33,9 +62,9 @@
 			<div class="mb-2 flex flex-col gap-2 md:flex-row md:items-center">
 				<h1 class="text-2xl font-bold text-slate-900">{seller.name}</h1>
 				<div class="flex items-center justify-center gap-1 text-orange-400 md:justify-start">
-					{#each Array(5) as _, index}
+					{#each [0, 1, 2, 3, 4] as index (index)}
 						<svg
-							class={index === 4 ? 'h-5 w-5 fill-current opacity-30' : 'h-5 w-5 fill-current'}
+							class={index < filledStars ? 'h-5 w-5 fill-current' : 'h-5 w-5 fill-current opacity-30'}
 							viewBox="0 0 20 20"
 						>
 							<path
@@ -43,7 +72,9 @@
 							></path>
 						</svg>
 					{/each}
-					<span class="ml-1 text-sm font-semibold text-slate-600">({seller.rating})</span>
+					<span class="ml-1 text-sm font-semibold text-slate-600">
+						({ratingFormatter.format(seller.averageRating)})
+					</span>
 				</div>
 			</div>
 			<p class="mb-6 max-w-2xl leading-7 text-slate-600">{seller.bio}</p>
@@ -53,17 +84,17 @@
 
 			<div class="flex flex-wrap justify-center gap-8 md:justify-start">
 				<div>
-					<span class="block text-2xl font-bold text-slate-900">{seller.itemsSold}</span><span
+					<span class="block text-2xl font-bold text-slate-900">{countFormatter.format(seller.itemsSoldCount)}</span><span
 						class="text-sm tracking-wider text-slate-500 uppercase">{m.seller_items_sold()}</span
 					>
 				</div>
 				<div>
-					<span class="block text-2xl font-bold text-slate-900">{seller.reviews}</span><span
+					<span class="block text-2xl font-bold text-slate-900">{countFormatter.format(seller.reviewCount)}</span><span
 						class="text-sm tracking-wider text-slate-500 uppercase">{m.seller_reviews()}</span
 					>
 				</div>
 				<div>
-					<span class="block text-2xl font-bold text-slate-900">{seller.positive}</span><span
+					<span class="block text-2xl font-bold text-slate-900">{percentFormatter.format(seller.positivePercentage / 100)}</span><span
 						class="text-sm tracking-wider text-slate-500 uppercase">{m.seller_positive()}</span
 					>
 				</div>
@@ -73,9 +104,9 @@
 		<div class="flex w-full flex-col gap-3 md:w-auto">
 			<a
 				class="rounded-custom border border-slate-300 px-8 py-3 text-center font-semibold text-slate-700 hover:bg-slate-50"
-				href={seller.shopHref}
+				href={resolvedButtonHref}
 			>
-				{m.seller_view_store()}
+				{resolvedButtonLabel}
 			</a>
 		</div>
 	</div>

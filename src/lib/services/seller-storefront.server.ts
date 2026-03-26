@@ -6,6 +6,7 @@ import {
 	type SellerProfile,
 	type SellerStoreProduct
 } from '$lib/components/shop-seller/data';
+import { getSellerCompletedSalesCountMap, getSellerReviewStatsMap } from '$lib/services/reviews.server';
 import { supabaseAdmin } from '$lib/supabase/server';
 import type { Product, Seller } from '$lib/types/database.types';
 
@@ -67,16 +68,18 @@ const getSellerRecordBySlug = async (slug: string): Promise<SellerRecordWithProf
 		.from('sellers')
 		.select('*, profiles(display_name, avatar_url)')
 		.eq('store_slug', slug)
+		.eq('is_active', true)
 		.maybeSingle<SellerRecordWithProfile>();
 
 	return data ?? null;
 };
 
-	const getSellerRecordById = async (sellerId: string): Promise<SellerRecordWithProfile | null> => {
+const getSellerRecordById = async (sellerId: string): Promise<SellerRecordWithProfile | null> => {
 	const { data } = await supabaseAdmin
 		.from('sellers')
 		.select('*, profiles(display_name, avatar_url)')
 		.eq('id', sellerId)
+		.eq('is_active', true)
 		.maybeSingle<SellerRecordWithProfile>();
 
 	return data ?? null;
@@ -87,8 +90,18 @@ const buildSellerStorefrontData = async (
 ): Promise<SellerStorefrontData> => {
 	const profile = getSellerProfileRelation(sellerRecord.profiles);
 	const sellerSlug = sellerRecord.store_slug || sellerRecord.id;
-	const seller = buildSellerProfile(sellerRecord, profile?.avatar_url ?? null, sellerSlug);
-	const products = await getSellerProducts(sellerRecord.id);
+	const [products, reviewStatsBySellerId, completedSalesBySellerId] = await Promise.all([
+		getSellerProducts(sellerRecord.id),
+		getSellerReviewStatsMap([sellerRecord.id]),
+		getSellerCompletedSalesCountMap([sellerRecord.id])
+	]);
+	const reviewStats = reviewStatsBySellerId.get(sellerRecord.id);
+	const seller = buildSellerProfile(sellerRecord, profile?.avatar_url ?? null, sellerSlug, {
+		averageRating: reviewStats?.averageRating ?? 0,
+		reviewCount: reviewStats?.reviewCount ?? 0,
+		positivePercentage: reviewStats?.positivePercentage ?? 0,
+		itemsSoldCount: completedSalesBySellerId.get(sellerRecord.id) ?? 0
+	});
 
 	return {
 		seller,

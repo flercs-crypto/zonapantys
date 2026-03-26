@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { SellerFooterSection } from './data';
@@ -28,8 +29,8 @@
 		>
 			<p>{m.seller_footer_copyright()}</p>
 			<div class="flex gap-6">
-				<a class="hover:underline" href="/">{m.common_privacy_policy()}</a>
-				<a class="hover:underline" href="/">{m.common_terms_of_service()}</a>
+				<a class="hover:underline" href={resolve('/privacidad')}>{m.common_privacy_policy()}</a>
+				<a class="hover:underline" href={resolve('/terminos')}>{m.common_terms_of_service()}</a>
 			</div>
 		</div>
 	</div>

@@ -5,7 +5,8 @@ import type {
 	AppRole,
 	Profile,
 	ProfileRegistrationAction,
-	RegistrationRole
+	RegistrationRole,
+	Seller
 } from '$lib/types/database.types';
 
 type FirebaseProfileSnapshot = {
@@ -20,6 +21,9 @@ type EnsureFirebaseProfileOptions = {
 	role?: RegistrationRole;
 	storeName?: string | null;
 	sellerDescription?: string | null;
+	sellerPhone?: string | null;
+	sellerCountry?: string | null;
+	verificationSelfieUrl?: string | null;
 	createIfMissing?: boolean;
 	logContext?: string;
 };
@@ -173,7 +177,7 @@ const ensureSellerProfile = async (
 		.from('sellers')
 		.select('*')
 		.eq('profile_id', profile.id)
-		.maybeSingle();
+		.maybeSingle<Seller>();
 
 	if (existingSellerError) {
 		throw existingSellerError;
@@ -188,8 +192,14 @@ const ensureSellerProfile = async (
 		store_name: storeName,
 		store_slug: buildStoreSlug(storeName, snapshot.uid),
 		description: normalizeText(options.sellerDescription),
+		phone: normalizeText(options.sellerPhone),
+		country: normalizeText(options.sellerCountry),
 		logo_url: profile.avatar_url,
-		is_active: true
+		is_active: false,
+		verification_status: 'pending',
+		verification_selfie_url: normalizeText(options.verificationSelfieUrl),
+		rejection_reason: null,
+		verified_at: null
 	});
 
 	if (sellerError) {

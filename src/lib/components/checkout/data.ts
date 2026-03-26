@@ -29,7 +29,7 @@ export type TrustSignal = {
 
 export type FooterLink = {
 	label: string;
-	href: string;
+	href: '/privacidad' | '/terminos' | '/ayuda';
 };
 
 export const getCheckoutItems = (items: CartItem[]): CheckoutItem[] =>
@@ -59,7 +59,7 @@ export const getTrustSignals = (): TrustSignal[] => [
 ];
 
 export const getCheckoutFooterLinks = (): FooterLink[] => [
-	{ label: m.common_privacy_policy(), href: '#' },
-	{ label: m.common_terms_of_service(), href: '#' },
-	{ label: m.common_help_center(), href: '#' }
+	{ label: m.common_privacy_policy(), href: '/privacidad' },
+	{ label: m.common_terms_of_service(), href: '/terminos' },
+	{ label: m.common_help_center(), href: '/ayuda' }
 ];

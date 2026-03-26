@@ -1,7 +1,18 @@
 import { getPrimaryAppRole, normalizeAppRoles } from '$lib/auth/roles';
-import { sendShippingNotificationEmail } from '$lib/server/transactional-emails';
+import {
+	sendSellerApprovedEmail,
+	sendSellerRejectedEmail,
+	sendShippingNotificationEmail
+} from '$lib/server/transactional-emails';
 import { supabaseAdmin } from '$lib/supabase/server';
-import type { Order, OrderItem, Product, Profile, Seller } from '$lib/types/database.types';
+import type {
+	Order,
+	OrderItem,
+	Product,
+	Profile,
+	Seller,
+	SellerVerificationStatus
+} from '$lib/types/database.types';
 
 export const ADMIN_DASHBOARD_SECTIONS = [
 	'panel',
@@ -15,7 +26,7 @@ export const ADMIN_DASHBOARD_SECTIONS = [
 
 export type AdminDashboardSection = (typeof ADMIN_DASHBOARD_SECTIONS)[number];
 export type AdminRoleFilter = 'all' | 'buyer' | 'seller' | 'admin';
-export type AdminSellerStatusFilter = 'all' | 'active' | 'inactive';
+export type AdminSellerVerificationFilter = SellerVerificationStatus;
 export type AdminProductStatusFilter = 'all' | 'active' | 'inactive' | 'out_of_stock';
 export type AdminOrderStatusFilter =
 	| 'all'
@@ -98,10 +109,18 @@ export type AdminUsersSectionData = {
 
 export type AdminSellersRow = {
 	id: string;
+	profileId: string;
 	logoUrl: string | null;
 	storeName: string;
 	storeSlug: string;
 	isActive: boolean;
+	verificationStatus: SellerVerificationStatus;
+	verificationSelfieUrl: string | null;
+	country: string | null;
+	phone: string | null;
+	description: string | null;
+	rejectionReason: string | null;
+	verifiedAt: string | null;
 	createdAt: string;
 	totalProducts: number;
 	totalSales: number;
@@ -116,7 +135,7 @@ export type AdminSellersSectionData = {
 	totalItems: number;
 	totalPages: number;
 	search: string;
-	statusFilter: AdminSellerStatusFilter;
+	verificationFilter: AdminSellerVerificationFilter;
 	highlightSellerId: string | null;
 };
 
@@ -638,18 +657,22 @@ export const getAdminUsersSectionData = async (options: {
 export const getAdminSellersSectionData = async (options: {
 	page: string | null;
 	search: string | null;
-	status: string | null;
+	verification: string | null;
 	highlightSellerId: string | null;
 }): Promise<AdminSellersSectionData> => {
 	const page = normalizePage(options.page);
 	const search = sanitizeSearch(options.search);
-	const statusFilter: AdminSellerStatusFilter = ['active', 'inactive'].includes(options.status ?? '')
-		? (options.status as AdminSellerStatusFilter)
-		: 'all';
+	const verificationFilter: AdminSellerVerificationFilter = ['pending', 'approved', 'rejected'].includes(
+		options.verification ?? ''
+	)
+		? (options.verification as AdminSellerVerificationFilter)
+		: 'pending';
 	let countQuery = supabaseAdmin.from('sellers').select('id', { count: 'exact', head: true });
 	let dataQuery = supabaseAdmin
 		.from('sellers')
-		.select('id, store_name, store_slug, logo_url, is_active, created_at')
+		.select(
+			'id, profile_id, store_name, store_slug, logo_url, is_active, verification_status, verification_selfie_url, country, phone, description, rejection_reason, verified_at, created_at'
+		)
 		.order('created_at', { ascending: false });
 
 	if (search) {
@@ -657,11 +680,8 @@ export const getAdminSellersSectionData = async (options: {
 		dataQuery = dataQuery.or(`store_name.ilike.%${search}%,store_slug.ilike.%${search}%`);
 	}
 
-	if (statusFilter !== 'all') {
-		const isActive = statusFilter === 'active';
-		countQuery = countQuery.eq('is_active', isActive);
-		dataQuery = dataQuery.eq('is_active', isActive);
-	}
+	countQuery = countQuery.eq('verification_status', verificationFilter);
+	dataQuery = dataQuery.eq('verification_status', verificationFilter);
 
 	const countResult = await countQuery;
 	const pagination = paginateRange(page, countResult.count ?? 0);
@@ -675,13 +695,29 @@ export const getAdminSellersSectionData = async (options: {
 			totalItems: countResult.count ?? 0,
 			totalPages: pagination.totalPages,
 			search,
-			statusFilter,
+			verificationFilter,
 			highlightSellerId: options.highlightSellerId
 		};
 	}
 
 	const sellers = (data ?? []) as Array<
-		Pick<Seller, 'id' | 'store_name' | 'store_slug' | 'logo_url' | 'is_active' | 'created_at'>
+		Pick<
+			Seller,
+			| 'id'
+			| 'profile_id'
+			| 'store_name'
+			| 'store_slug'
+			| 'logo_url'
+			| 'is_active'
+			| 'verification_status'
+			| 'verification_selfie_url'
+			| 'country'
+			| 'phone'
+			| 'description'
+			| 'rejection_reason'
+			| 'verified_at'
+			| 'created_at'
+		>
 	>;
 	const sellerIds = sellers.map((seller) => seller.id);
 	const [productsResult, salesResult] = await Promise.all([
@@ -717,22 +753,30 @@ export const getAdminSellersSectionData = async (options: {
 	return {
 		items: sellers.map((seller) => ({
 			id: seller.id,
+			profileId: seller.profile_id,
 			logoUrl: seller.logo_url,
 			storeName: seller.store_name,
 			storeSlug: seller.store_slug,
 			isActive: seller.is_active,
+			verificationStatus: seller.verification_status,
+			verificationSelfieUrl: seller.verification_selfie_url,
+			country: seller.country,
+			phone: seller.phone,
+			description: seller.description,
+			rejectionReason: seller.rejection_reason,
+			verifiedAt: seller.verified_at,
 			createdAt: seller.created_at,
 			totalProducts: productCountBySeller.get(seller.id) ?? 0,
 			totalSales: totalSalesBySeller.get(seller.id) ?? 0,
 			storeHref: `/vendedoras/${seller.store_slug}/tienda`,
-			highlightHref: `/admin/dashboard?section=sellers&sellerId=${seller.id}`
+			highlightHref: `/admin/dashboard?section=sellers&sellerId=${seller.id}&sellersVerification=${verificationFilter}`
 		})),
 		page: pagination.page,
 		pageSize: pagination.pageSize,
 		totalItems: countResult.count ?? 0,
 		totalPages: pagination.totalPages,
 		search,
-		statusFilter,
+		verificationFilter,
 		highlightSellerId: options.highlightSellerId
 	};
 };
@@ -1094,6 +1138,48 @@ export const updateAdminSellerActiveState = async (sellerId: string, nextActive:
 	if (error) {
 		throw error;
 	}
+};
+
+export const approveAdminSellerVerification = async (sellerId: string) => {
+	const { data, error } = await supabaseAdmin
+		.from('sellers')
+		.update({
+			verification_status: 'approved',
+			is_active: true,
+			verified_at: new Date().toISOString(),
+			rejection_reason: null
+		})
+		.eq('id', sellerId)
+		.select('profile_id')
+		.single();
+
+	if (error || !data?.profile_id) {
+		throw error ?? new Error('admin-seller-not-found');
+	}
+
+	await sendSellerApprovedEmail(data.profile_id);
+	return data.profile_id;
+};
+
+export const rejectAdminSellerVerification = async (sellerId: string, rejectionReason: string) => {
+	const { data, error } = await supabaseAdmin
+		.from('sellers')
+		.update({
+			verification_status: 'rejected',
+			is_active: false,
+			verified_at: null,
+			rejection_reason: rejectionReason
+		})
+		.eq('id', sellerId)
+		.select('profile_id')
+		.single();
+
+	if (error || !data?.profile_id) {
+		throw error ?? new Error('admin-seller-not-found');
+	}
+
+	await sendSellerRejectedEmail(data.profile_id, rejectionReason);
+	return data.profile_id;
 };
 
 export const updateAdminProductActiveState = async (productId: string, nextActive: boolean) => {

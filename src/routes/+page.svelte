@@ -9,16 +9,17 @@
 	import SustainabilitySection from '$lib/components/landing/SustainabilitySection.svelte';
 	import TestimonialsSection from '$lib/components/landing/TestimonialsSection.svelte';
 	import TopSellersSection from '$lib/components/landing/TopSellersSection.svelte';
+	import type { PageData } from './$types';
 	import {
-		getFeaturedProducts,
 		getFooterGroups,
 		getLandingNavLinks,
 		getLandingSteps,
-		getSellerCards,
 		getSocialLinks,
 		getTestimonialCards,
 		getTestimonialLead
 	} from '$lib/components/landing/data';
+
+	let { data }: { data: PageData } = $props();
 
 	const landingNavLinks = $derived.by(() => {
 		$currentLocale;
@@ -30,15 +31,9 @@
 		return getLandingSteps();
 	});
 
-	const featuredProducts = $derived.by(() => {
-		$currentLocale;
-		return getFeaturedProducts();
-	});
+	const featuredProducts = $derived(data.featuredProducts ?? []);
 
-	const sellerCards = $derived.by(() => {
-		$currentLocale;
-		return getSellerCards();
-	});
+	const sellerCards = $derived(data.topSellers ?? []);
 
 	const testimonialCards = $derived.by(() => {
 		$currentLocale;
