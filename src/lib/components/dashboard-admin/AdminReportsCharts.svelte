@@ -37,6 +37,13 @@
 			return;
 		}
 
+		const rootStyles = getComputedStyle(document.documentElement);
+		const readThemeColor = (name: string, fallback: string) =>
+			rootStyles.getPropertyValue(name).trim() || fallback;
+		const brandColor = readThemeColor('--color-brand', '#8b1a4a');
+		const accentColor = readThemeColor('--color-accent', '#c9956a');
+		const gridColor = readThemeColor('--color-bg-border', 'rgba(201, 149, 106, 0.2)');
+
 		const labels = revenueByMonth.map((point) =>
 			monthFormatter.format(new Date(`${point.month}-01T00:00:00Z`))
 		);
@@ -52,7 +59,7 @@
 					{
 						label: m.dashboard_admin_reports_revenue_chart_title(),
 						data: revenueByMonth.map((point) => point.value),
-						backgroundColor: '#0f172a',
+						backgroundColor: brandColor,
 						borderRadius: 12,
 						maxBarThickness: 34
 					}
@@ -83,7 +90,7 @@
 					y: {
 						beginAtZero: true,
 						grid: {
-							color: 'rgba(148, 163, 184, 0.18)'
+							color: gridColor
 						},
 						border: {
 							display: false
@@ -104,8 +111,8 @@
 					{
 						label: m.dashboard_admin_reports_users_chart_title(),
 						data: newUsersByMonth.map((point) => point.value),
-						borderColor: '#2563eb',
-						backgroundColor: 'rgba(37, 99, 235, 0.14)',
+						borderColor: accentColor,
+						backgroundColor: 'rgba(201, 149, 106, 0.16)',
 						tension: 0.35,
 						fill: true,
 						pointRadius: 3,
@@ -133,7 +140,7 @@
 					y: {
 						beginAtZero: true,
 						grid: {
-							color: 'rgba(148, 163, 184, 0.18)'
+							color: gridColor
 						},
 						border: {
 							display: false

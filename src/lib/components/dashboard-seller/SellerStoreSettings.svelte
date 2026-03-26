@@ -252,12 +252,12 @@
 
 <style>
 	.is-active {
-		background: rgb(209 250 229);
-		color: rgb(6 95 70);
+		background: color-mix(in srgb, var(--color-success) 18%, white);
+		color: var(--color-success);
 	}
 
 	.is-inactive {
-		background: rgb(254 226 226);
-		color: rgb(153 27 27);
+		background: color-mix(in srgb, var(--color-error) 14%, white);
+		color: var(--color-error);
 	}
 </style>

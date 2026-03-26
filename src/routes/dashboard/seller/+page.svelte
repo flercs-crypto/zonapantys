@@ -120,7 +120,7 @@
 </svelte:head>
 
 <div
-	class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(251,191,36,0.18),_transparent_28%),linear-gradient(180deg,_#fff8ef_0%,_#f8fafc_45%,_#eef2ff_100%)]"
+	class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(139,26,74,0.18),_transparent_28%),radial-gradient(circle_at_85%_10%,_rgba(201,149,106,0.12),_transparent_24%),linear-gradient(180deg,_#fbf4ec_0%,_#f7efe4_45%,_#f1e5da_100%)]"
 	data-locale={$currentLocale}
 >
 	<main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -131,7 +131,7 @@
 						class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-card backdrop-blur"
 					>
 						<BrandLogoLink
-							rootClass="inline-flex items-center rounded-[1.25rem] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2"
+							rootClass="inline-flex items-center rounded-[1.25rem] transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30 focus-visible:ring-offset-2"
 							imageClass="h-14 w-auto"
 							title=""
 						/>
@@ -144,7 +144,7 @@
 						<nav class="mt-6 space-y-3">
 							{#each navigationItems as item (item.id)}
 								<a
-									class="block rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-4 transition hover:border-amber-300 hover:bg-amber-50"
+									class="block rounded-[1.25rem] border border-slate-200 bg-slate-50 px-4 py-4 transition hover:border-brand/20 hover:bg-brand/5"
 									href={`#${item.id}`}
 								>
 									<p class="text-sm font-semibold text-slate-900">{item.label}</p>
@@ -188,7 +188,7 @@
 					>
 						<div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
 							<div>
-								<p class="text-xs font-semibold tracking-[0.28em] text-amber-600 uppercase">
+								<p class="text-xs font-semibold tracking-[0.28em] text-accent uppercase">
 									{m.dashboard_seller_hero_badge()}
 								</p>
 								<h2 class="mt-3 max-w-3xl text-3xl leading-tight font-bold sm:text-4xl">

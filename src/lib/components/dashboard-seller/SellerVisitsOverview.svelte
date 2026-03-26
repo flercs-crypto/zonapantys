@@ -75,7 +75,7 @@
 			{#each visitSummary.points as point (point.date)}
 				<div class="flex h-full items-end">
 					<div
-						class="w-full rounded-t-2xl bg-[linear-gradient(180deg,_#0f172a_0%,_#38bdf8_100%)]"
+						class="w-full rounded-t-2xl bg-[linear-gradient(180deg,var(--color-accent)_0%,var(--color-brand)_100%)]"
 						style:height={`${Math.max((point.visits / maxVisits) * 100, point.visits > 0 ? 8 : 0)}%`}
 						title={`${point.date}: ${point.visits}`}
 					></div>

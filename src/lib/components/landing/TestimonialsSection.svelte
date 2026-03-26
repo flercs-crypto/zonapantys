@@ -15,7 +15,7 @@
 
 	const quoteClass = (card: TestimonialCard) =>
 		card.highlight
-			? 'text-sm leading-7 text-brand font-semibold italic'
+			? 'text-sm leading-7 text-brand font-semibold italic text-white'
 			: 'text-sm leading-7 text-slate-600';
 </script>
 

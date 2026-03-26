@@ -172,7 +172,7 @@
 	const roleBadgeClass = (role: string) => {
 		switch (role) {
 			case 'admin':
-				return 'bg-slate-900 text-white';
+				return 'bg-bg-surface text-text-brand';
 			case 'seller':
 				return 'bg-blue-100 text-blue-700';
 			default:
@@ -309,7 +309,7 @@
 
 	const verificationTabClass = (tab: 'pending' | 'approved' | 'rejected') =>
 		currentSellerVerificationFilter === tab
-			? 'bg-slate-900 text-white'
+			? 'bg-brand text-text-brand'
 			: 'bg-slate-100 text-slate-700 hover:bg-slate-200';
 
 	const openVerificationDialog = async (sellerId: string) => {
@@ -415,7 +415,7 @@
 									<option selected={data.users.roleFilter === 'seller'} value="seller">seller</option>
 									<option selected={data.users.roleFilter === 'admin'} value="admin">admin</option>
 								</select>
-								<button class="rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_apply_filters()}</button>
+								<button class="rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_apply_filters()}</button>
 							</form>
 						</div>
 
@@ -502,7 +502,7 @@
 								<input name="section" type="hidden" value="sellers" />
 								<input name="sellersVerification" type="hidden" value={currentSellerVerificationFilter} />
 								<input class="rounded-custom border border-slate-200 px-4 py-2 text-sm text-slate-700" name="sellersSearch" placeholder={m.dashboard_admin_search_store_or_slug()} value={data.sellers.search} />
-								<button class="rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_apply_filters()}</button>
+								<button class="rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_apply_filters()}</button>
 							</form>
 						</div>
 
@@ -606,7 +606,7 @@
 									<option selected={data.products.statusFilter === 'inactive'} value="inactive">{m.dashboard_admin_product_status_inactive()}</option>
 									<option selected={data.products.statusFilter === 'out_of_stock'} value="out_of_stock">{m.dashboard_admin_product_status_out_of_stock()}</option>
 								</select>
-								<button class="rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_apply_filters()}</button>
+								<button class="rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_apply_filters()}</button>
 							</form>
 						</div>
 
@@ -653,7 +653,7 @@
 														<input name="intent" type="hidden" value="delete-product" />
 														<input name="section" type="hidden" value="products" />
 														<input name="productId" type="hidden" value={product.id} />
-														<button class="rounded-custom bg-slate-900 px-3 py-2 text-xs font-semibold text-white" type="submit">{m.dashboard_admin_delete_product()}</button>
+														<button class="rounded-custom bg-rose-700 px-3 py-2 text-xs font-semibold text-white transition hover:bg-rose-800" type="submit">{m.dashboard_admin_delete_product()}</button>
 													</form>
 												</div>
 											</td>
@@ -689,7 +689,7 @@
 									<option selected={data.orders.statusFilter === 'completed'} value="completed">{m.dashboard_admin_status_completed()}</option>
 									<option selected={data.orders.statusFilter === 'cancelled'} value="cancelled">{m.dashboard_admin_status_cancelled()}</option>
 								</select>
-								<button class="rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_apply_filters()}</button>
+								<button class="rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_apply_filters()}</button>
 							</form>
 						</div>
 
@@ -754,14 +754,14 @@
 														<option selected={order.status === 'completed'} value="completed">{m.dashboard_admin_status_completed()}</option>
 														<option selected={order.status === 'cancelled'} value="cancelled">{m.dashboard_admin_status_cancelled()}</option>
 													</select>
-													<button class="mt-4 rounded-custom bg-slate-900 px-4 py-2 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_save_order_status()}</button>
+													<button class="mt-4 rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_save_order_status()}</button>
 												</form>
 
 												{#if order.status === 'pending' || order.status === 'processing'}
 													<div class="rounded-[1rem] border border-dashed border-violet-200 bg-white p-4">
 														<p class="text-sm font-semibold text-slate-900">{m.dashboard_admin_shipping_modal_title()}</p>
 														<p class="mt-1 text-sm text-slate-500">{m.dashboard_admin_shipping_modal_copy()}</p>
-														<button class="mt-4 rounded-custom bg-violet-600 px-4 py-2 text-sm font-semibold text-white" onclick={() => openShippingDialog(order)} type="button">{m.dashboard_admin_mark_as_shipped()}</button>
+														<button class="mt-4 rounded-custom bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark" onclick={() => openShippingDialog(order)} type="button">{m.dashboard_admin_mark_as_shipped()}</button>
 													</div>
 												{/if}
 											</div>
@@ -867,7 +867,7 @@
 										<input class="rounded-custom border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-500" readonly type="email" value={data.adminProfile.email} />
 									</label>
 
-									<button class="mt-2 w-fit rounded-custom bg-slate-900 px-4 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300" disabled={isSavingAdminProfile} type="submit">{m.dashboard_admin_save_profile()}</button>
+									<button class="mt-2 w-fit rounded-custom bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-300" disabled={isSavingAdminProfile} type="submit">{m.dashboard_admin_save_profile()}</button>
 								</div>
 							</div>
 						</form>
@@ -944,7 +944,7 @@
 						<input name="orderId" type="hidden" value={selectedShippingOrder.id} />
 						<div class="flex items-start justify-between gap-4">
 							<div>
-								<p class="text-xs font-semibold tracking-[0.18em] text-violet-600 uppercase">{m.dashboard_admin_shipping_modal_title()}</p>
+								<p class="text-xs font-semibold tracking-[0.18em] text-accent uppercase">{m.dashboard_admin_shipping_modal_title()}</p>
 								<h3 class="mt-2 text-xl font-semibold text-slate-900">{selectedShippingOrder.orderNumber}</h3>
 								<p class="mt-2 text-sm text-slate-500">{m.dashboard_admin_shipping_modal_copy()}</p>
 							</div>
@@ -972,7 +972,7 @@
 
 						<div class="mt-6 flex items-center justify-end gap-3">
 							<button class="rounded-custom bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700" onclick={closeShippingDialog} type="button">{m.common_cancel()}</button>
-							<button class="rounded-custom bg-violet-600 px-4 py-3 text-sm font-semibold text-white" type="submit">{m.dashboard_admin_confirm_shipping()}</button>
+							<button class="rounded-custom bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark" type="submit">{m.dashboard_admin_confirm_shipping()}</button>
 						</div>
 					</form>
 				{/if}

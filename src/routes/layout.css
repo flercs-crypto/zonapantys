@@ -5,19 +5,91 @@
 
 @theme {
 	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-	--color-brand: #e65e19;
-	--color-brand-light: #fdeee6;
-	--color-brand-dark: #b54913;
-	--color-brand-soft: #fff7f2;
+	--color-brand: #8b1a4a;
+	--color-brand-dark: #6d1239;
+	--color-brand-light: #b02260;
+	--color-brand-soft: #f3dfe8;
+	--color-accent: #c9956a;
+	--color-accent-dark: #a87a52;
+	--color-text-brand: #f5e6d0;
+	--color-bg-hero: #0d0d1a;
+	--color-bg-surface: #13132a;
+	--color-bg-border: rgba(201, 149, 106, 0.2);
+	--color-success: #2d6a4f;
+	--color-error: #7d1e2e;
+	--color-warning: #8a6d3b;
+	--color-info: #1e3a5f;
+	--color-nude: #f5e6d0;
+	--color-white: #f5e6d0;
+	--color-black: #0d0d1a;
+	--color-slate-50: #fbf4ec;
+	--color-slate-100: #f5e6d0;
+	--color-slate-200: #e6cfbb;
+	--color-slate-300: #d0b29f;
+	--color-slate-400: #b49083;
+	--color-slate-500: #8d6b69;
+	--color-slate-600: #6d4d56;
+	--color-slate-700: #523742;
+	--color-slate-800: #362430;
+	--color-slate-900: #231722;
+	--color-slate-950: #0d0d1a;
+	--color-amber-50: #f5eee4;
+	--color-amber-100: #ead8bc;
+	--color-amber-200: #dbc09a;
+	--color-amber-400: #c9956a;
+	--color-amber-500: #b98a61;
+	--color-amber-600: #a87a52;
+	--color-amber-700: #8a6d3b;
+	--color-amber-800: #70572d;
+	--color-amber-900: #4f3d1d;
+	--color-blue-50: #edf3f8;
+	--color-blue-100: #d6e3ef;
+	--color-blue-200: #b8cfe1;
+	--color-blue-600: #1e3a5f;
+	--color-blue-700: #18314f;
+	--color-blue-800: #13283f;
+	--color-blue-900: #0d1d2f;
+	--color-blue-950: #08131f;
+	--color-violet-50: #f4e8ef;
+	--color-violet-100: #e8cad8;
+	--color-violet-200: #d5a6bc;
+	--color-violet-600: #8b1a4a;
+	--color-violet-700: #6d1239;
+	--color-violet-800: #56102d;
+	--color-violet-900: #3b0c20;
+	--color-violet-950: #220612;
+	--color-emerald-50: #ebf4ef;
+	--color-emerald-100: #d2e5da;
+	--color-emerald-200: #b4d2c1;
+	--color-emerald-600: #2d6a4f;
+	--color-emerald-700: #245640;
+	--color-emerald-800: #1a4231;
+	--color-emerald-900: #102b20;
+	--color-red-50: #f8eaee;
+	--color-red-100: #edc9d3;
+	--color-red-200: #ddb0bd;
+	--color-red-600: #973045;
+	--color-red-700: #7d1e2e;
+	--color-red-800: #641724;
+	--color-red-900: #471019;
+	--color-rose-50: #f8eaee;
+	--color-rose-100: #edc9d3;
+	--color-rose-200: #ddb0bd;
+	--color-rose-600: #973045;
+	--color-rose-700: #7d1e2e;
+	--color-rose-800: #641724;
+	--color-rose-900: #471019;
 	--radius-custom: 0.75rem;
-	--shadow-card: 0 18px 45px -28px rgb(15 23 42 / 0.35);
+	--shadow-card: 0 24px 60px -36px rgb(13 13 26 / 0.42);
 }
 
 @layer base {
 	body {
 		font-family: var(--font-sans);
-		background-color: rgb(248 250 252);
-		color: rgb(15 23 42);
+		background:
+			radial-gradient(circle at top, rgb(201 149 106 / 0.14), transparent 28%),
+			linear-gradient(180deg, #fbf4ec 0%, #f6ecdf 45%, #f0e4d9 100%);
+		color: var(--color-slate-950);
 	}
 
 	a {
@@ -35,6 +107,6 @@
 	}
 
 	::selection {
-		background-color: rgb(230 94 25 / 0.18);
+		background-color: rgb(139 26 74 / 0.24);
 	}
 }

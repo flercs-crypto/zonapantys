@@ -47,7 +47,7 @@
 <LandingNavbar links={landingNavLinks} />
 
 <main class="relative overflow-hidden pb-20" data-locale={$currentLocale}>
-	<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(230,94,25,0.22),transparent_42%),radial-gradient(circle_at_80%_20%,rgba(15,23,42,0.16),transparent_35%),linear-gradient(180deg,#fff7f2_0%,rgba(255,255,255,0)_100%)]"></div>
+	<div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(139,26,74,0.24),transparent_42%),radial-gradient(circle_at_80%_20%,rgba(201,149,106,0.18),transparent_35%),linear-gradient(180deg,var(--color-text-brand)_0%,rgba(245,230,208,0)_100%)]"></div>
 
 	<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
 		<div class="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] lg:items-center">

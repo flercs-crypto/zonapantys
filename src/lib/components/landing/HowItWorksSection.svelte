@@ -21,7 +21,7 @@
 			{#each steps as item}
 				<article class="rounded-[1.25rem] bg-white p-8 text-center shadow-card">
 					<div
-						class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-light text-2xl font-bold text-brand"
+						class="mx-auto text-white flex h-16 w-16 items-center justify-center rounded-full bg-brand-light text-2xl font-bold text-brand"
 					>
 						{item.step}
 					</div>

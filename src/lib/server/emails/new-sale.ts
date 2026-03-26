@@ -25,9 +25,9 @@ export const buildNewSaleEmail = ({
 }: NewSaleEmailData) => {
 	const orderNumber = buildOrderNumber(orderId);
 	const body = `
-		<p style="margin: 24px 0 0; color: #0f172a; font-size: 16px; line-height: 1.8;">Hola ${escapeHtml(storeName)}, acabas de recibir una nueva venta en tu tienda.</p>
+		<p style="margin: 24px 0 0; color: #231722; font-size: 16px; line-height: 1.8;">Hola ${escapeHtml(storeName)}, acabas de recibir una nueva venta en tu tienda.</p>
 		${renderOrderItemsTable(items)}
-		<div style="margin-top: 18px; text-align: right; color: #0f172a; font-size: 18px; font-weight: 800;">Monto recibido: ${formatCurrency(total)}</div>
+		<div style="margin-top: 18px; text-align: right; color: #231722; font-size: 18px; font-weight: 800;">Monto recibido: ${formatCurrency(total)}</div>
 		${renderInfoCard('Siguiente paso', 'Prepara el pedido cuanto antes para mantener una buena experiencia de compra. Cuando el admin registre el envío, el comprador recibirá el tracking automáticamente.')}`;
 
 	return {

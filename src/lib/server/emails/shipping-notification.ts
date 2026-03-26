@@ -22,7 +22,7 @@ export const buildShippingNotificationEmail = ({
 }: ShippingNotificationEmailData) => {
 	const orderNumber = buildOrderNumber(orderId);
 	const body = `
-		<p style="margin: 24px 0 0; color: #0f172a; font-size: 16px; line-height: 1.8;">Hola ${escapeHtml(buyerName)}, tu pedido ${escapeHtml(orderNumber)} ya fue despachado y está en camino.</p>
+		<p style="margin: 24px 0 0; color: #231722; font-size: 16px; line-height: 1.8;">Hola ${escapeHtml(buyerName)}, tu pedido ${escapeHtml(orderNumber)} ya fue despachado y está en camino.</p>
 		${renderInfoCard(
 			'Tracking',
 			`<p style="margin: 0 0 6px;"><strong>Proveedor:</strong> ${escapeHtml(shippingProvider)}</p><p style="margin: 0;"><strong>Número de tracking:</strong> ${escapeHtml(trackingNumber)}</p>`

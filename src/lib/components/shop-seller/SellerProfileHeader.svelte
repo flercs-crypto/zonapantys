@@ -53,7 +53,7 @@
 				src={seller.avatar}
 			/>
 			<div
-				class="absolute right-1 bottom-1 h-5 w-5 rounded-full border-2 border-white bg-green-500"
+				class="absolute right-1 bottom-1 h-5 w-5 rounded-full border-2 border-white bg-emerald-600"
 				title={m.seller_online_now()}
 			></div>
 		</div>
@@ -61,7 +61,7 @@
 		<div class="flex-1 text-center md:text-left">
 			<div class="mb-2 flex flex-col gap-2 md:flex-row md:items-center">
 				<h1 class="text-2xl font-bold text-slate-900">{seller.name}</h1>
-				<div class="flex items-center justify-center gap-1 text-orange-400 md:justify-start">
+				<div class="flex items-center justify-center gap-1 text-accent md:justify-start">
 					{#each [0, 1, 2, 3, 4] as index (index)}
 						<svg
 							class={index < filledStars ? 'h-5 w-5 fill-current' : 'h-5 w-5 fill-current opacity-30'}

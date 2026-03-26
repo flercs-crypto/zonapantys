@@ -73,7 +73,7 @@
 <LandingNavbar links={landingNavLinks} />
 
 <main class="relative overflow-hidden pb-20" data-locale={$currentLocale}>
-	<div class="absolute inset-x-0 top-0 -z-10 h-128 bg-[radial-gradient(circle_at_top_left,rgba(230,94,25,0.22),transparent_46%),radial-gradient(circle_at_top_right,rgba(15,23,42,0.1),transparent_38%),linear-gradient(180deg,#fff7f2_0%,rgba(255,255,255,0)_100%)]"></div>
+	<div class="absolute inset-x-0 top-0 -z-10 h-128 bg-[radial-gradient(circle_at_top_left,rgba(139,26,74,0.26),transparent_46%),radial-gradient(circle_at_top_right,rgba(201,149,106,0.14),transparent_38%),linear-gradient(180deg,var(--color-text-brand)_0%,rgba(245,230,208,0)_100%)]"></div>
 
 	<section class="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8 lg:pt-20">
 		<div class="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.7fr)] lg:items-start">
@@ -166,7 +166,7 @@
 	{/if}
 
 	<section class="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
-		<div class="rounded-[2rem] bg-[linear-gradient(135deg,#111827_0%,#1f2937_45%,#e65e19_160%)] px-7 py-10 text-white shadow-[0_28px_90px_-42px_rgba(15,23,42,0.7)] sm:px-10 sm:py-12">
+		<div class="rounded-[2rem] bg-[linear-gradient(135deg,var(--color-bg-hero)_0%,var(--color-bg-surface)_48%,var(--color-brand)_150%)] px-7 py-10 text-white shadow-[0_28px_90px_-42px_rgba(13,13,26,0.76)] sm:px-10 sm:py-12">
 			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
 				<div class="max-w-2xl">
 					<p class="text-xs font-semibold tracking-[0.24em] text-brand-light uppercase">

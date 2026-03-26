@@ -41,7 +41,7 @@
 <LandingNavbar links={landingNavLinks} />
 
 <main class="relative overflow-hidden pb-20" data-locale={$currentLocale}>
-	<div class="absolute inset-x-0 top-0 -z-10 h-112 bg-[radial-gradient(circle_at_top_left,rgba(230,94,25,0.22),transparent_48%),linear-gradient(180deg,#fff7f2_0%,rgba(255,255,255,0)_100%)]"></div>
+	<div class="absolute inset-x-0 top-0 -z-10 h-112 bg-[radial-gradient(circle_at_top_left,rgba(139,26,74,0.24),transparent_48%),radial-gradient(circle_at_88%_12%,rgba(201,149,106,0.14),transparent_26%),linear-gradient(180deg,var(--color-text-brand)_0%,rgba(245,230,208,0)_100%)]"></div>
 
 	<section class="mx-auto max-w-7xl px-4 pt-16 sm:px-6 lg:px-8 lg:pt-20">
 		<div class="max-w-3xl">
@@ -86,7 +86,7 @@
 						</a>
 
 						<div class="flex flex-1 flex-col space-y-4 p-6">
-							<p class="inline-flex rounded-full bg-brand-light px-3 py-1 text-[11px] font-semibold tracking-[0.2em] text-brand uppercase">
+							<p class="inline-flex rounded-full text-white bg-brand-light px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase w-56">
 								{m.seller_directory_card_badge()}
 							</p>
 							<div class="flex-1">
@@ -100,7 +100,7 @@
 							</div>
 
 							<a
-								class="mt-auto inline-flex w-full items-center justify-center gap-3 rounded-custom bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand"
+								class="mt-auto inline-flex w-full items-center justify-center gap-3 rounded-custom bg-brand px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-dark"
 								href={resolve('/vendedoras/[slug]/tienda', { slug: seller.slug })}
 							>
 								{m.seller_view_store()}

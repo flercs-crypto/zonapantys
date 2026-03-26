@@ -150,8 +150,8 @@
 
 <style>
 	.active-page {
-		border-color: rgb(15 23 42);
-		background: rgb(15 23 42);
-		color: white;
+		border-color: var(--color-brand);
+		background: var(--color-brand);
+		color: var(--color-text-brand);
 	}
 </style>
