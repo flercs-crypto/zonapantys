@@ -10,7 +10,14 @@ const config = {
 		csp: {
 			directives: {
 				'default-src': ['self'],
-				'script-src': ['self', 'https://js.stripe.com', 'https://apis.google.com'],
+				'script-src': [
+					'self',
+					'unsafe-hashes',
+					'sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I=',
+					'https://js.stripe.com',
+					'https://apis.google.com',
+					'https://accounts.google.com'
+				],
 				'style-src': ['self', 'unsafe-inline'],
 				'img-src': [
 					'self',
@@ -26,11 +33,17 @@ const config = {
 					'self',
 					'https://*.supabase.co',
 					'https://*.googleapis.com',
-					'https://securetoken.google.com',
+					'https://securetoken.googleapis.com',
 					'https://identitytoolkit.googleapis.com',
+					'https://accounts.google.com',
+					'https://www.googleapis.com',
 					'https://api.stripe.com'
 				],
-				'frame-src': ['https://js.stripe.com', 'https://*.firebaseapp.com'],
+				'frame-src': [
+					'https://js.stripe.com',
+					'https://*.firebaseapp.com',
+					'https://accounts.google.com'
+				],
 				'object-src': ['none'],
 				'base-uri': ['self'],
 				'form-action': ['self'],
