@@ -1,7 +1,7 @@
 import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
 
-const DEFAULT_FROM_EMAIL = 'ZonaPantys <onboarding@resend.dev>';
+const DEFAULT_FROM_EMAIL = 'ZonaPantys <no-reply@zonapantys.com>';
 
 const RESEND_API_KEY = env.RESEND_API_KEY;
 
