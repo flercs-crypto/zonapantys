@@ -68,8 +68,8 @@
 			>
 				<img
 					alt={m.landing_hero_image_alt()}
-					class="h-full w-full object-cover"
-					src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtzcGkW683tFUX55q1k1jkz2NW6r265kOhU3O7vxHCuFKAym-dLq8oaHt7NxxciT5nmXdF4Pk1kY-216PYY6Wn57MdgOL675cpCwdOoET5Qlhmb29Np1S4_t4rx-cLhEZqCEpLJBpbAJ6nxMnP6j6Q6o8ZNDVQrmBxvkUPfq1XK473XQ-ZwrtrVyL1_mNukGY6RdO_qHwjHY_ZgKToOD2Cenq4tA0kQFQlEwooQAf9_98pe98dClkvKIQXsOFA89zYeRuzPcSjMF4"
+					class="h-132 w-full object-cover"
+					src="/images/hero.webp"
 				/>
 			</div>
 		</div>
