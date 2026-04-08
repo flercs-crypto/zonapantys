@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { onDestroy } from 'svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import ImageUploadField from '$lib/components/forms/ImageUploadField.svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
@@ -20,6 +21,7 @@
 		type AdminDashboardFeedback,
 		type AdminStat
 	} from '$lib/components/dashboard-admin/data';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 	import { resetPassword } from '$lib/services/auth.service';
 	import { AVATAR_IMAGE_COMPRESSION, compressImageFile } from '$lib/utils/image-upload';
 	import type { ActionData, PageData } from './$types';
@@ -362,11 +364,18 @@
 		rejectionReason = '';
 		selectedVerificationSellerId = null;
 	};
+
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.dashboard_admin_page_title(),
+			description: m.dashboard_admin_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.dashboard_admin_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <div class="flex min-h-screen flex-col overflow-hidden bg-slate-50" data-locale={$currentLocale}>
 	<div class="flex min-h-screen flex-col md:flex-row">

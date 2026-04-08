@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import FeaturedProductsSection from '$lib/components/landing/FeaturedProductsSection.svelte';
 	import HeroSection from '$lib/components/landing/HeroSection.svelte';
 	import HowItWorksSection from '$lib/components/landing/HowItWorksSection.svelte';
@@ -18,6 +19,7 @@
 		getTestimonialCards,
 		getTestimonialLead
 	} from '$lib/components/landing/data';
+	import { buildAbsoluteUrl, type SeoMetadata } from '$lib/seo';
 
 	let { data }: { data: PageData } = $props();
 
@@ -54,12 +56,28 @@
 		$currentLocale;
 		return getSocialLinks();
 	});
+
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+
+		return {
+			title: m.landing_home_title(),
+			description: m.landing_home_description(),
+			keywords: m.landing_home_keywords(),
+			schema: {
+				'@context': 'https://schema.org',
+				'@type': 'Organization',
+				name: 'ZonaPantys',
+				url: buildAbsoluteUrl('/'),
+				logo: buildAbsoluteUrl('/images/logo_zonapantys.png'),
+				description: m.seo_organization_description(),
+				sameAs: []
+			}
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.landing_home_title()}</title>
-	<meta name="description" content={m.landing_home_description()} />
-</svelte:head>
+<SeoHead {seo} />
 
 <LandingNavbar links={landingNavLinks} />
 

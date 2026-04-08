@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { resolve } from '$app/paths';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import { cartStore } from '$lib/stores/cart.store';
 	import type { CheckoutSessionSummary } from '$lib/types/checkout';
 	import { formatPrice } from '$lib/components/shop-seller/data';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
+	import { trackPurchaseOnce } from '$lib/utils/analytics';
 
 	let { data }: { data: { summary: CheckoutSessionSummary } } = $props();
 	const isPaid = $derived(data.summary.paymentStatus === 'paid');
@@ -17,17 +21,24 @@
 			}).format(new Date(data.summary.createdAt))
 			: null
 	);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.checkout_success_page_title(),
+			description: m.checkout_success_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 
 	onMount(() => {
 		if (data.summary.paymentStatus === 'paid') {
 			cartStore.clear();
+			trackPurchaseOnce(data.summary);
 		}
 	});
 </script>
 
-<svelte:head>
-	<title>{m.checkout_success_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <main class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8" data-locale={$currentLocale}>
 	<section class="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-card">
@@ -95,10 +106,10 @@
 				</div>
 
 				<div class="mt-6 flex flex-col gap-3">
-					<a class="inline-flex items-center justify-center rounded-custom bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-brand-dark" href="/dashboard">
+					<a class="inline-flex items-center justify-center rounded-custom bg-brand px-4 py-3 text-sm font-semibold text-white hover:bg-brand-dark" href={resolve('/dashboard')}>
 						{m.checkout_success_go_dashboard()}
 					</a>
-					<a class="inline-flex items-center justify-center rounded-custom border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white" href="/">
+					<a class="inline-flex items-center justify-center rounded-custom border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white" href={resolve('/')}>
 						{m.checkout_success_continue_shopping()}
 					</a>
 				</div>

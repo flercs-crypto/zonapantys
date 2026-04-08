@@ -37,7 +37,7 @@
 
 	<aside class="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white md:flex">
 	<div class="p-6">
-		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-12 w-auto" title="" />
+		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-20 w-auto" title="" />
 	</div>
 
 	<nav class="mt-4 flex-1 space-y-1 px-4">

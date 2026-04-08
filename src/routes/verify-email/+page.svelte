@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { resolveRoleHome } from '$lib/auth/roles';
 	import AuthBrandHeader from '$lib/components/auth/AuthBrandHeader.svelte';
 	import AuthSupportText from '$lib/components/auth/AuthSupportText.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import { getAuthSupportLinks } from '$lib/components/auth/data';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
@@ -13,6 +15,7 @@
 	} from '$lib/services/auth.service';
 	import { getCurrentSessionProfile } from '$lib/services/profiles.service';
 	import { authStore } from '$lib/stores/auth.store';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -31,6 +34,14 @@
 	const isLoading = $derived(activeAction !== null);
 	const sessionEmail = $derived(data.session?.email ?? authStore.currentUser?.email ?? null);
 	const hasVerifiedSession = $derived(data.session?.emailVerified ?? authStore.currentUser?.emailVerified ?? false);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.auth_verify_email_page_title(),
+			description: m.auth_verify_email_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 
 	const handleResend = async () => {
 		errorMessage = null;
@@ -58,12 +69,12 @@
 		try {
 			if (hasVerifiedSession) {
 				const profile = await getCurrentSessionProfile();
-				await goto(resolveRoleHome(profile?.roles, profile?.role) ?? '/register');
+				await goto(resolve(resolveRoleHome(profile?.roles, profile?.role) ?? '/register'));
 				return;
 			}
 
 			await logout().catch(() => undefined);
-			await goto('/login');
+			await goto(resolve('/login'));
 		} catch (error) {
 			errorMessage =
 				error instanceof AuthServiceError
@@ -74,10 +85,7 @@
 		}
 	};
 </script>
-
-<svelte:head>
-	<title>{m.auth_verify_email_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <main class="flex min-h-screen items-center justify-center px-4 py-10" data-locale={$currentLocale}>
 	<div class="w-full max-w-md space-y-8">

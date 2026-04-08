@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import SellerCatalogSection from '$lib/components/shop-seller/SellerCatalogSection.svelte';
 	import SellerFooter from '$lib/components/shop-seller/SellerFooter.svelte';
 	import SellerNavigation from '$lib/components/shop-seller/SellerNavigation.svelte';
@@ -10,6 +11,7 @@
 		type SellerProfile,
 		type SellerStoreProduct
 	} from '$lib/components/shop-seller/data';
+	import { truncateSeoText, type SeoMetadata } from '$lib/seo';
 
 	type SellerPageData = {
 		sellerSlug: string;
@@ -20,11 +22,18 @@
 	let { data }: { data: SellerPageData } = $props();
 	const seller = $derived(data.seller ?? getFallbackSellerProfile(data.sellerSlug));
 	const products = $derived(data.products ?? []);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.seller_page_title({ sellerName: seller.name }),
+			description: truncateSeoText(m.seller_page_description({ sellerName: seller.name })),
+			image: seller.avatar,
+			imageAlt: seller.name
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.seller_page_title({ sellerName: seller.name })}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <SellerNavigation />
 

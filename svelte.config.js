@@ -15,6 +15,7 @@ const config = {
 					'unsafe-hashes',
 					'sha256-7dQwUgLau1NFCCGjfn9FsYptB6ZtWxJin6VohGIu20I=',
 					'https://js.stripe.com',
+						'https://www.googletagmanager.com',
 					'https://apis.google.com',
 					'https://accounts.google.com'
 				],
@@ -23,6 +24,7 @@ const config = {
 					'self',
 					'data:',
 					'blob:',
+						'https://www.google-analytics.com',
 					'https://*.supabase.co',
 					'https://images.unsplash.com',
 					'https://*.googleusercontent.com',
@@ -31,6 +33,8 @@ const config = {
 				'font-src': ['self'],
 				'connect-src': [
 					'self',
+						'https://www.google-analytics.com',
+						'https://analytics.google.com',
 					'https://*.supabase.co',
 					'https://*.googleapis.com',
 					'https://securetoken.googleapis.com',

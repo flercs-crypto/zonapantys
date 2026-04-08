@@ -3,6 +3,7 @@
 	import { currentLocale } from '$lib/i18n';
 	import LandingFooter from '$lib/components/landing/LandingFooter.svelte';
 	import LandingNavbar from '$lib/components/landing/LandingNavbar.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import {
 		getFooterGroups,
 		getLandingNavLinks,
@@ -10,6 +11,7 @@
 	} from '$lib/components/landing/data';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { SellerDirectoryEntry } from '$lib/components/shop-seller/data';
+	import type { SeoMetadata } from '$lib/seo';
 
 	type SellerDirectoryPageData = {
 		sellers: SellerDirectoryEntry[];
@@ -31,12 +33,17 @@
 		$currentLocale;
 		return getSocialLinks();
 	});
+
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.seller_directory_page_title(),
+			description: m.seller_directory_page_description()
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.seller_directory_page_title()}</title>
-	<meta name="description" content={m.seller_directory_page_description()} />
-</svelte:head>
+<SeoHead {seo} />
 
 <LandingNavbar links={landingNavLinks} />
 

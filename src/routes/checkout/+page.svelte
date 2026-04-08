@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
+	import { resolve } from '$app/paths';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import CheckoutActionButton from '$lib/components/checkout/CheckoutActionButton.svelte';
 	import CheckoutFooter from '$lib/components/checkout/CheckoutFooter.svelte';
 	import CheckoutHeader from '$lib/components/checkout/CheckoutHeader.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import OrderSummary from '$lib/components/checkout/OrderSummary.svelte';
 	import PaymentForm from '$lib/components/checkout/PaymentForm.svelte';
 	import ShippingForm from '$lib/components/checkout/ShippingForm.svelte';
@@ -16,6 +18,7 @@
 	} from '$lib/components/checkout/data';
 	import { authStore } from '$lib/stores/auth.store';
 	import { cartStore } from '$lib/stores/cart.store';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 	import type { CheckoutCreateRequest, CheckoutCreateResponse, CheckoutShippingDetails } from '$lib/types/checkout';
 
 	let shipping = $state<CheckoutShippingDetails>({
@@ -51,6 +54,14 @@
 	});
 
 	const canCheckout = $derived(!cartStore.isEmpty && !isSubmitting);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.checkout_page_title(),
+			description: m.checkout_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 
 	const updateShipping = (nextShipping: CheckoutShippingDetails) => {
 		shipping = nextShipping;
@@ -118,10 +129,7 @@
 		}
 	};
 </script>
-
-<svelte:head>
-	<title>{m.checkout_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <CheckoutHeader />
 
@@ -132,7 +140,7 @@
 			<p class="mt-3 text-sm text-slate-500">{m.checkout_empty_copy()}</p>
 			<a
 				class="mt-6 inline-flex rounded-custom bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-dark"
-				href="/carrito"
+				href={resolve('/carrito')}
 			>
 				{m.checkout_back_to_cart()}
 			</a>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import ClientFavoritesSection from '$lib/components/dashboard-client/ClientFavoritesSection.svelte';
 	import ClientProfileSummary from '$lib/components/dashboard-client/ClientProfileSummary.svelte';
 	import ClientPurchasesSection from '$lib/components/dashboard-client/ClientPurchasesSection.svelte';
@@ -9,6 +10,7 @@
 	import ClientSettingsSection from '$lib/components/dashboard-client/ClientSettingsSection.svelte';
 	import ClientSidebar from '$lib/components/dashboard-client/ClientSidebar.svelte';
 	import { getClientNavItems, type ClientDashboardFeedback } from '$lib/components/dashboard-client/data';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 	import type { ActionData, PageData } from './$types';
 
 	type Props = {
@@ -24,11 +26,17 @@
 	});
 
 	const feedback = $derived((form ?? null) as ClientDashboardFeedback | null);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.dashboard_client_page_title(),
+			description: m.dashboard_client_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.dashboard_client_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <div class="flex min-h-screen flex-col md:flex-row" data-locale={$currentLocale}>
 	<ClientSidebar items={clientNavItems} />

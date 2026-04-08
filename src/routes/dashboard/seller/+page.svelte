@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import BrandLogoLink from '$lib/components/brand/BrandLogoLink.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import { formatPrice } from '$lib/components/shop-seller/data';
@@ -12,6 +13,7 @@
 	import SellerStoreSettings from '$lib/components/dashboard-seller/SellerStoreSettings.svelte';
 	import SellerVisitsOverview from '$lib/components/dashboard-seller/SellerVisitsOverview.svelte';
 	import type { Profile, Seller } from '$lib/types/database.types';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -113,11 +115,18 @@
 			isSigningOut = false;
 		}
 	};
+
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.dashboard_seller_page_title(),
+			description: m.dashboard_seller_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{m.dashboard_seller_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <div
 	class="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(139,26,74,0.18),_transparent_28%),radial-gradient(circle_at_85%_10%,_rgba(201,149,106,0.12),_transparent_24%),linear-gradient(180deg,_#fbf4ec_0%,_#f7efe4_45%,_#f1e5da_100%)]"

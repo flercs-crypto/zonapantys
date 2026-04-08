@@ -3,12 +3,14 @@
 	import { currentLocale } from '$lib/i18n';
 	import LandingFooter from '$lib/components/landing/LandingFooter.svelte';
 	import LandingNavbar from '$lib/components/landing/LandingNavbar.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import {
 		getFooterGroups,
 		getLandingNavLinks,
 		getSocialLinks
 	} from '$lib/components/landing/data';
 	import type { PublicPageContent } from '$lib/components/landing/public-pages';
+	import type { SeoMetadata } from '$lib/seo';
 
 	type Props = {
 		page: PublicPageContent;
@@ -63,12 +65,17 @@
 		variant === 'secondary'
 			? 'inline-flex items-center justify-center rounded-custom border border-white/15 bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition duration-200 hover:border-white hover:bg-slate-100'
 			: 'inline-flex items-center justify-center rounded-custom border border-transparent bg-brand px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-brand-dark';
+
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: page.metaTitle,
+			description: page.metaDescription
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{page.metaTitle}</title>
-	<meta name="description" content={page.metaDescription} />
-</svelte:head>
+<SeoHead {seo} />
 
 <LandingNavbar links={landingNavLinks} />
 

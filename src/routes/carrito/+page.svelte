@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { buildLoginHref, CART_REDIRECT_PATH } from '$lib/auth/login-redirect';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
 	import CheckoutFooter from '$lib/components/checkout/CheckoutFooter.svelte';
 	import CheckoutHeader from '$lib/components/checkout/CheckoutHeader.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import { getCheckoutFooterLinks } from '$lib/components/checkout/data';
 	import { formatPrice } from '$lib/components/shop-seller/data';
 	import { authStore } from '$lib/stores/auth.store';
 	import { cartStore } from '$lib/stores/cart.store';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 
 	const checkoutFooterLinks = $derived.by(() => {
 		$currentLocale;
@@ -18,6 +21,14 @@
 	const groupedItems = $derived(cartStore.groupedItems);
 	const subtotalLabel = $derived.by(() => formatPrice(cartStore.subtotal));
 	const canCheckout = $derived(!cartStore.isEmpty && !authStore.isLoading);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.cart_page_title(),
+			description: m.cart_page_description(),
+			robots: NOINDEX_FOLLOW
+		};
+	});
 
 	const handleCheckout = async () => {
 		if (!canCheckout) {
@@ -29,13 +40,10 @@
 			return;
 		}
 
-		await goto('/checkout');
+		await goto(resolve('/checkout'));
 	};
 </script>
-
-<svelte:head>
-	<title>{m.cart_page_title()}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <CheckoutHeader />
 
@@ -63,7 +71,7 @@
 			<p class="mt-3 text-sm text-slate-500">{m.cart_empty_copy()}</p>
 			<a
 				class="mt-6 inline-flex rounded-custom bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-dark"
-				href="/"
+				href={resolve('/')}
 			>
 				{m.cart_continue_shopping()}
 			</a>
@@ -80,7 +88,10 @@
 								</p>
 								<h2 class="mt-2 text-xl font-semibold text-slate-900">{group.sellerName}</h2>
 							</div>
-							<a class="text-sm font-semibold text-brand hover:text-brand-dark" href={`/vendedoras/${group.sellerSlug}/tienda`}>
+							<a
+								class="text-sm font-semibold text-brand hover:text-brand-dark"
+								href={resolve('/vendedoras/[slug]/tienda', { slug: group.sellerSlug })}
+							>
 								{m.cart_back_to_store()}
 							</a>
 						</div>

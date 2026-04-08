@@ -3,6 +3,11 @@
 import type { AppRole } from '$lib/types/database.types';
 
 declare global {
+	interface Window {
+		dataLayer: unknown[][];
+		gtag?: (...args: unknown[]) => void;
+	}
+
 	namespace App {
 		// interface Error {}
 		interface Locals {

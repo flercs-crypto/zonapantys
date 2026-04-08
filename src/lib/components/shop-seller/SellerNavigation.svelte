@@ -10,7 +10,7 @@
 	data-locale={$currentLocale}
 >
 	<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-10 w-auto" title="" />
+		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-20 w-auto" title="" />
 
 		<div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
 			<a class="hover:text-brand" href="#catalog">{m.seller_nav_categories()}</a>

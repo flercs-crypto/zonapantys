@@ -1,3 +1,22 @@
-# allow crawling everything by default
 User-agent: *
-Disallow:
+Allow: /
+Allow: /vendedoras
+Allow: /compradores
+Allow: /autenticidad
+Allow: /privacidad
+Allow: /terminos
+Allow: /ayuda
+Allow: /pagos-seguros
+Allow: /envios-discretos
+Allow: /envios-internacionales
+
+Disallow: /dashboard
+Disallow: /dashboard/seller
+Disallow: /admin
+Disallow: /carrito
+Disallow: /checkout
+Disallow: /login
+Disallow: /register
+Disallow: /api/
+
+Sitemap: https://zonapantys.vercel.app/sitemap.xml

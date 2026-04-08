@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { currentLocale } from '$lib/i18n';
 	import * as m from '$lib/paraglide/messages.js';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import SellerCatalogSection from '$lib/components/shop-seller/SellerCatalogSection.svelte';
 	import SellerFooter from '$lib/components/shop-seller/SellerFooter.svelte';
 	import SellerNavigation from '$lib/components/shop-seller/SellerNavigation.svelte';
@@ -11,6 +13,8 @@
 		type SellerProfile,
 		type SellerStoreProduct
 	} from '$lib/components/shop-seller/data';
+	import { truncateSeoText, type SeoMetadata } from '$lib/seo';
+	import { trackSellerStoreView } from '$lib/utils/analytics';
 	import type { ActionData } from './$types';
 
 	type SellerStorePageData = {
@@ -32,11 +36,30 @@
 	const products = $derived(data.products ?? []);
 	const favoriteProductIds = $derived(data.favoriteProductIds ?? []);
 	const favoriteFeedback = $derived((form ?? null) as ClientDashboardFeedback | null);
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: m.seller_store_page_title({ sellerName: seller.name }),
+			description: truncateSeoText(
+				m.seller_store_page_description({
+					sellerDescription: seller.bio || m.landing_seller_description_fallback()
+				})
+			),
+			image: seller.avatar,
+			imageAlt: seller.name
+		};
+	});
+
+	onMount(() => {
+		trackSellerStoreView({
+			id: seller.id,
+			name: seller.name,
+			slug: seller.slug
+		});
+	});
 </script>
 
-<svelte:head>
-	<title>{m.seller_store_page_title({ sellerName: seller.name })}</title>
-</svelte:head>
+<SeoHead {seo} />
 
 <SellerNavigation />
 

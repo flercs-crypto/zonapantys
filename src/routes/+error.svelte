@@ -3,12 +3,14 @@
 	import { currentLocale } from '$lib/i18n';
 	import LandingFooter from '$lib/components/landing/LandingFooter.svelte';
 	import LandingNavbar from '$lib/components/landing/LandingNavbar.svelte';
+	import SeoHead from '$lib/components/seo/SeoHead.svelte';
 	import {
 		getFooterGroups,
 		getLandingNavLinks,
 		getSocialLinks
 	} from '$lib/components/landing/data';
 	import * as m from '$lib/paraglide/messages.js';
+	import { NOINDEX_FOLLOW, type SeoMetadata } from '$lib/seo';
 
 	type Props = {
 		error?: (App.Error & { message?: string }) | null;
@@ -34,15 +36,17 @@
 
 	const isNotFound = $derived(status === 404);
 	const errorMessage = $derived(error?.message?.trim() || m.error_generic_copy());
+	const seo = $derived.by<SeoMetadata>(() => {
+		$currentLocale;
+		return {
+			title: isNotFound ? m.error_not_found_title() : m.error_generic_title(),
+			description: isNotFound ? m.error_not_found_copy() : errorMessage,
+			robots: NOINDEX_FOLLOW
+		};
+	});
 </script>
 
-<svelte:head>
-	<title>{isNotFound ? m.error_not_found_title() : m.error_generic_title()}</title>
-	<meta
-		name="description"
-		content={isNotFound ? m.error_not_found_copy() : errorMessage}
-	/>
-</svelte:head>
+<SeoHead {seo} />
 
 <LandingNavbar links={landingNavLinks} />
 

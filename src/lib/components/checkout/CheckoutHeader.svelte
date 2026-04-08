@@ -7,7 +7,7 @@
 
 <header class="mb-8 border-b border-slate-200 bg-white py-4" data-locale={$currentLocale}>
 	<div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-11 w-auto" title="" />
+		<BrandLogoLink rootClass="inline-flex items-center" imageClass="h-20 w-auto" title="" />
 		<div class="flex items-center gap-4">
 			<div class="flex items-center gap-2 text-sm text-slate-500">
 				<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

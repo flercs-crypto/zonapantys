@@ -26,7 +26,7 @@
 	}: Props = $props();
 
 	let imageFailed = $state(false);
-	const logoSrc = `${base}/images/logo_zonapantys.png`;
+	const logoSrc = `${base}/images/logo_zonapantys_1.png`;
 	const fallbackTitle = $derived(title || 'Zonapantys');
 </script>
 

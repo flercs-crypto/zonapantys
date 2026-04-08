@@ -8,6 +8,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { AuthServiceError, completeRegistration, register } from '$lib/services/auth.service';
 	import { authStore } from '$lib/stores/auth.store';
+	import { trackSignUp } from '$lib/utils/analytics';
 	import { VERIFICATION_SELFIE_COMPRESSION, compressImageFile } from '$lib/utils/image-upload';
 	import type { RegistrationRole } from '$lib/types/database.types';
 
@@ -209,15 +210,21 @@
 			}
 			: { storeName };
 
+		const reportSignUp = () => {
+			trackSignUp(isGoogleMode ? 'google' : 'email', role);
+		};
+
 		try {
 			if (isGoogleMode) {
 				const result = await completeRegistration(role, displayName, registrationDetails);
 
 				if (result.status === 'role-added-existing') {
+					reportSignUp();
 					await goto(result.redirectTo);
 					return;
 				}
 
+				reportSignUp();
 				await goto(result.redirectTo);
 				return;
 			}
@@ -225,6 +232,7 @@
 			const result = await register(email, password, displayName, role, registrationDetails);
 
 			if (result.status === 'role-added-existing') {
+				reportSignUp();
 				await goto(result.redirectTo);
 				return;
 			}
@@ -232,6 +240,7 @@
 			form.reset();
 			resetSellerFields();
 			successMessage = m.auth_register_success();
+			reportSignUp();
 			await goto(result.redirectTo);
 		} catch (error) {
 			if (error instanceof AuthServiceError) {
